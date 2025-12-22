@@ -1,0 +1,52 @@
+---
+import ArrowDown from './icons/ArrowDown.astro';
+
+interface Props {
+  name?: string;
+  title?: string;
+  tagline?: string;
+}
+
+const {
+  name = 'Matt Boraske',
+  title = 'Data Scientist | AI/ML Engineer | Data Engineer',
+  tagline = 'Building intelligent systems at the intersection of healthcare and machine learning',
+} = Astro.props;
+---
+
+<section id="hero" class="min-h-screen flex flex-col items-center justify-center px-6 text-center relative">
+  <div class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-5xl md:text-7xl font-bold text-[var(--color-text)] tracking-tight">
+      {name}
+    </h1>
+    <p class="text-xl md:text-2xl text-[var(--color-text-secondary)] font-medium">
+      {title}
+    </p>
+    <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+      {tagline}
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+      <a
+        href="#projects"
+        class="px-8 py-3 bg-[var(--color-accent)] text-white font-medium rounded-full hover:bg-[var(--color-accent-hover)] transition-colors"
+      >
+        View My Work
+      </a>
+      <a
+        href="#contact"
+        class="px-8 py-3 border border-[var(--color-border)] text-[var(--color-text)] font-medium rounded-full hover:bg-[var(--color-bg-secondary)] transition-colors"
+      >
+        Get in Touch
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <a
+    href="#about"
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors animate-bounce"
+    aria-label="Scroll down"
+  >
+    <ArrowDown class="w-6 h-6" />
+  </a>
+</section>
