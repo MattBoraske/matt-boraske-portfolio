@@ -1,0 +1,60 @@
+---
+import ArticleCard from './ArticleCard.astro';
+import ExternalLink from './icons/ExternalLink.astro';
+import { fetchMediumArticles } from '../lib/rss';
+
+interface Props {
+  mediumUsername?: string;
+}
+
+const { mediumUsername = 'your-medium-username' } = Astro.props;
+
+// Fetch articles at build time
+let articles = await fetchMediumArticles(mediumUsername, 4);
+
+// Fallback placeholder articles if fetch fails
+if (articles.length === 0) {
+  articles = [
+    {
+      title: 'Getting Started with Machine Learning in Production',
+      link: '#',
+      pubDate: 'December 2024',
+      description: 'A comprehensive guide to deploying machine learning models in production environments...',
+    },
+    {
+      title: 'Building Scalable Data Pipelines with Apache Spark',
+      link: '#',
+      pubDate: 'November 2024',
+      description: 'Learn how to design and implement data pipelines that scale with your business needs...',
+    },
+    {
+      title: 'The Future of Healthcare AI',
+      link: '#',
+      pubDate: 'October 2024',
+      description: 'Exploring the intersection of artificial intelligence and healthcare innovation...',
+    },
+  ];
+}
+---
+
+<section id="writing" class="py-24 px-6">
+  <div class="max-w-content mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-12">Writing</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      {articles.map((article) => (
+        <ArticleCard {...article} />
+      ))}
+    </div>
+
+    <a
+      href={`https://medium.com/@${mediumUsername}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 text-accent hover:text-accent-hover transition-colors"
+    >
+      Read more on Medium
+      <ExternalLink class="w-4 h-4" />
+    </a>
+  </div>
+</section>
