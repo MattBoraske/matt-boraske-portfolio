@@ -15,24 +15,6 @@ let articles = await fetchMediumArticles(mediumUsername, 4);
 // Fallback placeholder articles if fetch fails
 if (articles.length === 0) {
   articles = [
-    {
-      title: 'Getting Started with Machine Learning in Production',
-      link: '#',
-      pubDate: 'December 2024',
-      description: 'A comprehensive guide to deploying machine learning models in production environments...',
-    },
-    {
-      title: 'Building Scalable Data Pipelines with Apache Spark',
-      link: '#',
-      pubDate: 'November 2024',
-      description: 'Learn how to design and implement data pipelines that scale with your business needs...',
-    },
-    {
-      title: 'The Future of Healthcare AI',
-      link: '#',
-      pubDate: 'October 2024',
-      description: 'Exploring the intersection of artificial intelligence and healthcare innovation...',
-    },
   ];
 }
 ---

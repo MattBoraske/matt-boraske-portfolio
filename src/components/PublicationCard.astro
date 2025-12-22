@@ -1,5 +1,7 @@
 ---
 import ExternalLink from './icons/ExternalLink.astro';
+import GitHub from './icons/GitHub.astro';
+import HuggingFace from './icons/HuggingFace.astro';
 
 interface Props {
   title: string;
@@ -8,17 +10,19 @@ interface Props {
   summary: string;
   authors?: string;
   tags?: string[];
-  url?: string;
+  pdfUrl?: string;
+  githubUrl?: string;
+  huggingfaceUrl?: string;
 }
 
-const { title, venue, year, summary, authors, tags = [], url } = Astro.props;
+const { title, venue, year, summary, authors, tags = [], pdfUrl, githubUrl, huggingfaceUrl } = Astro.props;
 ---
 
 <article class="p-6 bg-bg rounded-2xl border border-border hover:border-accent/50 hover:shadow-lg transition-all duration-300">
   <div class="flex items-start justify-between gap-4 mb-3">
-    <h3 class="text-xl font-semibold text-text leading-tight">
-      {url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
+    <h3 class="text-xl font-semibold text-text leading-tight flex-1">
+      {pdfUrl ? (
+        <a href={pdfUrl} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
           {title}
           <ExternalLink class="inline-block ml-2 w-4 h-4" />
         </a>
@@ -26,7 +30,19 @@ const { title, venue, year, summary, authors, tags = [], url } = Astro.props;
         title
       )}
     </h3>
-    <span class="text-sm text-text-secondary whitespace-nowrap">{year}</span>
+    <div class="flex items-center gap-3">
+      {githubUrl && (
+        <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent transition-colors" title="View GitHub Repository">
+          <GitHub class="w-5 h-5" />
+        </a>
+      )}
+      {huggingfaceUrl && (
+        <a href={huggingfaceUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent transition-colors" title="View HuggingFace Dataset">
+          <HuggingFace class="w-5 h-5" />
+        </a>
+      )}
+      <span class="text-sm text-text-secondary whitespace-nowrap">{year}</span>
+    </div>
   </div>
 
   <p class="text-sm text-accent font-medium mb-3">{venue}</p>
