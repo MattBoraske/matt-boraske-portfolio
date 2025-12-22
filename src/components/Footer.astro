@@ -1,0 +1,35 @@
+---
+import GitHub from './icons/GitHub.astro';
+import LinkedIn from './icons/LinkedIn.astro';
+import Medium from './icons/Medium.astro';
+
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  { href: 'https://github.com/', icon: GitHub, label: 'GitHub' },
+  { href: 'https://linkedin.com/in/', icon: LinkedIn, label: 'LinkedIn' },
+  { href: 'https://medium.com/@', icon: Medium, label: 'Medium' },
+];
+---
+
+<footer class="py-8 px-6 border-t border-border">
+  <div class="max-w-content mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm text-text-secondary">
+      © {currentYear} Matt Boraske. All rights reserved.
+    </p>
+
+    <div class="flex items-center gap-4">
+      {socialLinks.map(({ href, icon: Icon, label }) => (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={label}
+          class="text-text-secondary hover:text-text transition-colors"
+        >
+          <Icon class="w-5 h-5" />
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>
