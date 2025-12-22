@@ -10,24 +10,36 @@ interface Props {
 
 const { categories = [
   {
-    name: 'Languages',
-    skills: ['Python', 'SQL', 'R', 'TypeScript', 'Bash'],
+    name: 'Programming Languages',
+    skills: ['Python', 'SQL', 'Java', 'C++', 'C'],
   },
   {
-    name: 'ML/AI',
-    skills: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Hugging Face', 'MLflow'],
+    name: 'ML/AI & Data Science',
+    skills: ['PyTorch', 'TensorFlow', 'Scikit-learn', 'Hugging Face', 'Langchain', 'MLflow', 'OpenCV', 'Pandas'],
+  },
+  {
+    name: 'Specialized AI',
+    skills: ['NLP', 'LLMs', 'Fine-tuning', 'Deep Learning', 'Reinforcement Learning', 'MLOps', 'RAG'],
   },
   {
     name: 'Data Engineering',
-    skills: ['Apache Spark', 'Airflow', 'dbt', 'Kafka', 'Delta Lake'],
+    skills: ['Apache Spark', 'Databricks'],
+  },
+  {
+    name: 'Web & APIs',
+    skills: ['Flask', 'FastAPI', 'Django', 'Streamlit', 'React.js'],
   },
   {
     name: 'Cloud & Infrastructure',
-    skills: ['AWS', 'GCP', 'Docker', 'Kubernetes', 'Terraform'],
+    skills: ['AWS (S3, EC2, ECS, Redshift, Bedrock, Sagemaker, Lambda)', 'Microsoft Azure', 'Docker', 'Kubernetes'],
   },
   {
-    name: 'Databases',
-    skills: ['PostgreSQL', 'Snowflake', 'MongoDB', 'Redis', 'Elasticsearch'],
+    name: 'Tools & Platforms',
+    skills: ['Git', 'GitLab', 'Linux'],
+  },
+  {
+    name: 'Certifications',
+    skills: ['Databricks ML Associate', 'AWS Cloud Practitioner'],
   },
 ]} = Astro.props;
 ---
