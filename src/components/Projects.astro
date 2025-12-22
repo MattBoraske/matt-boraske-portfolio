@@ -1,0 +1,75 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import ProjectFilter from './ProjectFilter.astro';
+
+interface Project {
+  title: string;
+  description: string;
+  image?: string;
+  technologies: string[];
+  category: string;
+  githubUrl?: string;
+  demoUrl?: string;
+  featured?: boolean;
+}
+
+interface Props {
+  projects?: Project[];
+}
+
+const { projects = [
+  {
+    title: 'ML Pipeline Framework',
+    description: 'An end-to-end machine learning pipeline framework for automated model training, evaluation, and deployment.',
+    technologies: ['Python', 'PyTorch', 'MLflow', 'Docker'],
+    category: 'ML/AI',
+    githubUrl: '#',
+    demoUrl: '#',
+    featured: true,
+  },
+  {
+    title: 'Data Lake Architecture',
+    description: 'Scalable data lake implementation with real-time ingestion and processing capabilities.',
+    technologies: ['Spark', 'Delta Lake', 'Airflow', 'AWS'],
+    category: 'Data Engineering',
+    githubUrl: '#',
+  },
+  {
+    title: 'NLP Text Classifier',
+    description: 'Deep learning model for multi-label text classification with attention mechanisms.',
+    technologies: ['Python', 'Transformers', 'FastAPI'],
+    category: 'ML/AI',
+    githubUrl: '#',
+    demoUrl: '#',
+  },
+  {
+    title: 'Analytics Dashboard',
+    description: 'Interactive data visualization dashboard for business intelligence and reporting.',
+    technologies: ['React', 'D3.js', 'Node.js'],
+    category: 'Web',
+    githubUrl: '#',
+    demoUrl: '#',
+  },
+  {
+    title: 'ETL Orchestration Tool',
+    description: 'Custom ETL orchestration tool for managing complex data transformation workflows.',
+    technologies: ['Python', 'PostgreSQL', 'Redis'],
+    category: 'Data Engineering',
+    githubUrl: '#',
+  },
+]} = Astro.props;
+---
+
+<section id="projects" class="py-24 px-6 bg-bg-secondary">
+  <div class="max-w-content mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-8">Projects</h2>
+
+    <ProjectFilter />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <ProjectCard {...project} />
+      ))}
+    </div>
+  </div>
+</section>

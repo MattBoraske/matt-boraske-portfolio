@@ -1,0 +1,65 @@
+---
+interface Props {
+  categories?: string[];
+}
+
+const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-2 mb-8" id="project-filters">
+  {categories.map((category, index) => (
+    <button
+      class={`filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+        index === 0
+          ? 'bg-accent text-white'
+          : 'bg-bg-secondary text-text-secondary hover:text-text'
+      }`}
+      data-filter={category === 'All' ? 'all' : category}
+    >
+      {category}
+    </button>
+  ))}
+</div>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      // Update button styles
+      filterBtns.forEach((b) => {
+        b.classList.remove('bg-accent', 'text-white');
+        b.classList.add('bg-bg-secondary', 'text-text-secondary');
+      });
+      btn.classList.remove('bg-bg-secondary', 'text-text-secondary');
+      btn.classList.add('bg-accent', 'text-white');
+
+      // Filter projects
+      projectCards.forEach((card) => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          (card as HTMLElement).style.display = 'block';
+          (card as HTMLElement).style.animation = 'fadeIn 0.3s ease';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

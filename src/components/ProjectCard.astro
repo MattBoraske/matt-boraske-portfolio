@@ -1,0 +1,86 @@
+---
+import GitHub from './icons/GitHub.astro';
+import ExternalLink from './icons/ExternalLink.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  technologies: string[];
+  category: string;
+  githubUrl?: string;
+  demoUrl?: string;
+  featured?: boolean;
+}
+
+const { title, description, image, technologies, category, githubUrl, demoUrl, featured = false } = Astro.props;
+---
+
+<article
+  class="project-card group bg-bg rounded-2xl border border-border overflow-hidden hover:border-accent/50 hover:shadow-lg transition-all duration-300"
+  data-category={category}
+>
+  {image && (
+    <div class="aspect-video bg-bg-secondary overflow-hidden">
+      <img
+        src={image}
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      />
+    </div>
+  )}
+
+  {!image && (
+    <div class="aspect-video bg-bg-secondary flex items-center justify-center">
+      <span class="text-4xl">🚀</span>
+    </div>
+  )}
+
+  <div class="p-6">
+    <div class="flex items-start justify-between gap-4 mb-2">
+      <h3 class="text-xl font-semibold text-text">{title}</h3>
+      {featured && (
+        <span class="px-2 py-0.5 bg-accent/10 text-accent text-xs font-medium rounded-full whitespace-nowrap">
+          Featured
+        </span>
+      )}
+    </div>
+
+    <p class="text-text-secondary mb-4 line-clamp-2">
+      {description}
+    </p>
+
+    <div class="flex flex-wrap gap-2 mb-4">
+      {technologies.map((tech) => (
+        <span class="px-2 py-1 bg-bg-secondary text-text-secondary text-xs rounded-full">
+          {tech}
+        </span>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-4">
+      {githubUrl && (
+        <a
+          href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 text-sm text-text-secondary hover:text-text transition-colors"
+        >
+          <GitHub class="w-4 h-4" />
+          Code
+        </a>
+      )}
+      {demoUrl && (
+        <a
+          href={demoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 text-sm text-text-secondary hover:text-text transition-colors"
+        >
+          <ExternalLink class="w-4 h-4" />
+          Demo
+        </a>
+      )}
+    </div>
+  </div>
+</article>
