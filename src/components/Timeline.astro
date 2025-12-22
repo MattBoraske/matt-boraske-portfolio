@@ -1,0 +1,53 @@
+---
+import TimelineItem from './TimelineItem.astro';
+
+interface Experience {
+  company: string;
+  role: string;
+  dateRange: string;
+  description: string;
+  technologies?: string[];
+  isCurrent?: boolean;
+}
+
+interface Props {
+  experiences?: Experience[];
+}
+
+const { experiences = [
+  {
+    company: 'CSL Behring',
+    role: 'Data Scientist',
+    dateRange: '2023 - Present',
+    description: 'Developing machine learning solutions for pharmaceutical manufacturing and supply chain optimization. Building production ML systems and data pipelines.',
+    technologies: ['Python', 'PyTorch', 'Spark', 'AWS', 'Airflow'],
+    isCurrent: true,
+  },
+  {
+    company: 'Previous Company',
+    role: 'Data Engineer',
+    dateRange: '2021 - 2023',
+    description: 'Built and maintained data infrastructure supporting analytics and machine learning workloads. Designed ETL pipelines processing millions of records daily.',
+    technologies: ['Python', 'SQL', 'dbt', 'Snowflake', 'Docker'],
+  },
+  {
+    company: 'University Research Lab',
+    role: 'Research Assistant',
+    dateRange: '2019 - 2021',
+    description: 'Conducted research in machine learning and data science. Published papers on novel approaches to predictive modeling.',
+    technologies: ['Python', 'TensorFlow', 'R', 'MATLAB'],
+  },
+]} = Astro.props;
+---
+
+<section id="experience" class="py-24 px-6 bg-[var(--color-bg-secondary)]">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-[var(--color-text)] mb-12">Experience</h2>
+
+    <div class="max-w-2xl">
+      {experiences.map((exp) => (
+        <TimelineItem {...exp} />
+      ))}
+    </div>
+  </div>
+</section>
