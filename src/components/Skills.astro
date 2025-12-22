@@ -1,0 +1,54 @@
+---
+interface SkillCategory {
+  name: string;
+  skills: string[];
+}
+
+interface Props {
+  categories?: SkillCategory[];
+}
+
+const { categories = [
+  {
+    name: 'Languages',
+    skills: ['Python', 'SQL', 'R', 'TypeScript', 'Bash'],
+  },
+  {
+    name: 'ML/AI',
+    skills: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Hugging Face', 'MLflow'],
+  },
+  {
+    name: 'Data Engineering',
+    skills: ['Apache Spark', 'Airflow', 'dbt', 'Kafka', 'Delta Lake'],
+  },
+  {
+    name: 'Cloud & Infrastructure',
+    skills: ['AWS', 'GCP', 'Docker', 'Kubernetes', 'Terraform'],
+  },
+  {
+    name: 'Databases',
+    skills: ['PostgreSQL', 'Snowflake', 'MongoDB', 'Redis', 'Elasticsearch'],
+  },
+]} = Astro.props;
+---
+
+<section id="skills" class="py-24 px-6 bg-bg-secondary">
+  <div class="max-w-content mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-12">Skills</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {categories.map(({ name, skills }) => (
+        <div>
+          <h3 class="text-lg font-semibold text-text mb-4">{name}</h3>
+          <div class="flex flex-wrap gap-2">
+            {skills.map((skill) => (
+              <span class="px-3 py-1.5 bg-bg text-text-secondary text-sm rounded-full border border-border hover:border-accent/50 transition-colors">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
