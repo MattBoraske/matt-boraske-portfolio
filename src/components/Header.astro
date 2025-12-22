@@ -1,0 +1,122 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import GitHub from './icons/GitHub.astro';
+import LinkedIn from './icons/LinkedIn.astro';
+import Medium from './icons/Medium.astro';
+import Mail from './icons/Mail.astro';
+
+interface Props {
+  name?: string;
+}
+
+const { name = 'Matt Boraske' } = Astro.props;
+
+const navLinks = [
+  { href: '#about', label: 'About' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#research', label: 'Research' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#writing', label: 'Writing' },
+  { href: '#contact', label: 'Contact' },
+];
+
+const socialLinks = [
+  { href: 'https://github.com/', icon: GitHub, label: 'GitHub' },
+  { href: 'https://linkedin.com/in/', icon: LinkedIn, label: 'LinkedIn' },
+  { href: 'https://medium.com/@', icon: Medium, label: 'Medium' },
+  { href: 'mailto:email@example.com', icon: Mail, label: 'Email' },
+];
+---
+
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/80 backdrop-blur-lg border-b border-[var(--color-border)]/50">
+  <nav class="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+    <!-- Logo/Name -->
+    <a href="#" class="text-lg font-semibold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">
+      {name}
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center gap-8">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Social Icons & Theme Toggle -->
+    <div class="flex items-center gap-4">
+      <div class="hidden sm:flex items-center gap-3">
+        {socialLinks.map(({ href, icon: Icon, label }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            class="text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+          >
+            <Icon class="w-5 h-5" />
+          </a>
+        ))}
+      </div>
+      <ThemeToggle />
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)]"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-[var(--color-bg)] border-b border-[var(--color-border)]">
+    <div class="px-6 py-4 space-y-4">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="block text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+        >
+          {label}
+        </a>
+      ))}
+      <div class="flex items-center gap-4 pt-4 border-t border-[var(--color-border)]">
+        {socialLinks.map(({ href, icon: Icon, label }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            class="text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+          >
+            <Icon class="w-5 h-5" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Close mobile menu when clicking a link
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+</script>

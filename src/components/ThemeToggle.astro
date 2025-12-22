@@ -1,0 +1,59 @@
+---
+import Sun from './icons/Sun.astro';
+import Moon from './icons/Moon.astro';
+---
+
+<button
+  id="theme-toggle"
+  aria-label="Toggle dark mode"
+  class="p-2 rounded-full hover:bg-[var(--color-bg-secondary)] transition-colors duration-200"
+>
+  <Sun class="w-5 h-5 sun-icon" />
+  <Moon class="w-5 h-5 moon-icon hidden" />
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+  const sunIcon = toggle?.querySelector('.sun-icon');
+  const moonIcon = toggle?.querySelector('.moon-icon');
+
+  // Check for saved preference or system preference
+  const getThemePreference = (): string => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const updateIcons = (theme: string) => {
+    if (theme === 'dark') {
+      sunIcon?.classList.remove('hidden');
+      moonIcon?.classList.add('hidden');
+    } else {
+      sunIcon?.classList.add('hidden');
+      moonIcon?.classList.remove('hidden');
+    }
+  };
+
+  const setTheme = (theme: string) => {
+    if (theme === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      html.classList.add('dark');
+    } else {
+      html.removeAttribute('data-theme');
+      html.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+    updateIcons(theme);
+  };
+
+  // Set initial theme
+  setTheme(getThemePreference());
+
+  // Toggle theme on click
+  toggle?.addEventListener('click', () => {
+    const currentTheme = html.getAttribute('data-theme');
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
+</script>
