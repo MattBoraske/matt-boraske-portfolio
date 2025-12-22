@@ -1,0 +1,53 @@
+---
+import HighlightCard from './HighlightCard.astro';
+
+interface Props {
+  company?: string;
+  role?: string;
+  description?: string[];
+  highlights?: { title: string; icon: string }[];
+}
+
+const {
+  company = 'CSL Behring',
+  role = 'Data Scientist',
+  description = [
+    'At CSL Behring, I develop machine learning solutions that drive decision-making in pharmaceutical manufacturing and supply chain optimization. My work spans the full ML lifecycle—from exploratory analysis and model development to production deployment.',
+    'I collaborate with cross-functional teams to translate complex business problems into data-driven solutions, leveraging advanced analytics and ML techniques to improve operational efficiency and product quality.',
+    'My focus areas include predictive modeling, time series forecasting, and building scalable data pipelines that enable real-time insights across the organization.',
+  ],
+  highlights = [
+    { title: 'Machine Learning Pipelines', icon: '🤖' },
+    { title: 'Production ML Systems', icon: '⚙️' },
+    { title: 'Healthcare Analytics', icon: '🏥' },
+    { title: 'Data Engineering', icon: '🔧' },
+  ],
+} = Astro.props;
+---
+
+<section id="about" class="py-24 px-6">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-[var(--color-text)] mb-4">What I Do</h2>
+
+    <div class="flex items-center gap-3 mb-8">
+      <span class="text-[var(--color-text-secondary)]">{role} at</span>
+      <span class="px-3 py-1 bg-[var(--color-bg-secondary)] rounded-full text-sm font-medium text-[var(--color-text)]">
+        {company}
+      </span>
+    </div>
+
+    <div class="max-w-3xl space-y-4 mb-12">
+      {description.map((paragraph) => (
+        <p class="text-[var(--color-text-secondary)] leading-relaxed">
+          {paragraph}
+        </p>
+      ))}
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {highlights.map(({ title, icon }) => (
+        <HighlightCard title={title} icon={icon} />
+      ))}
+    </div>
+  </div>
+</section>
