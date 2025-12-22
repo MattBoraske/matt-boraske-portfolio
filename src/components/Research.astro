@@ -1,0 +1,50 @@
+---
+import PublicationCard from './PublicationCard.astro';
+
+interface Publication {
+  title: string;
+  venue: string;
+  year: string;
+  summary: string;
+  authors?: string;
+  tags?: string[];
+  url?: string;
+}
+
+interface Props {
+  publications?: Publication[];
+}
+
+const { publications = [
+  {
+    title: 'Publication Title One',
+    venue: 'Conference/Journal Name',
+    year: '2021',
+    summary: 'A brief summary of the research paper describing the problem addressed, methodology used, and key findings or contributions to the field.',
+    authors: 'Boraske, M., Coauthor, A., Coauthor, B.',
+    tags: ['Machine Learning', 'NLP', 'Deep Learning'],
+    url: '#',
+  },
+  {
+    title: 'Publication Title Two',
+    venue: 'Conference/Journal Name',
+    year: '2020',
+    summary: 'Another brief summary describing the research contributions, novel approaches, and impact of this work on the field.',
+    authors: 'Boraske, M., Advisor, X.',
+    tags: ['Data Science', 'Computer Vision'],
+    url: '#',
+  },
+]} = Astro.props;
+---
+
+<section id="research" class="py-24 px-6">
+  <div class="max-w-content mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-12">Research</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {publications.map((pub) => (
+        <PublicationCard {...pub} />
+      ))}
+    </div>
+  </div>
+</section>
