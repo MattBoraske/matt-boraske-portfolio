@@ -28,10 +28,10 @@ const socialLinks = [
 ];
 ---
 
-<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg)]/80 backdrop-blur-lg border-b border-[var(--color-border)]/50">
-  <nav class="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+<header id="header" class="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-lg border-b border-border/50">
+  <nav class="max-w-content mx-auto px-6 h-16 flex items-center justify-between">
     <!-- Logo/Name -->
-    <a href="#" class="text-lg font-semibold text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">
+    <a href="#" class="text-lg font-semibold text-text hover:text-accent transition-colors">
       {name}
     </a>
 
@@ -40,7 +40,7 @@ const socialLinks = [
       {navLinks.map(({ href, label }) => (
         <a
           href={href}
-          class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+          class="text-sm text-text-secondary hover:text-text transition-colors"
         >
           {label}
         </a>
@@ -56,7 +56,7 @@ const socialLinks = [
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            class="text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+            class="text-text-secondary hover:text-text transition-colors"
           >
             <Icon class="w-5 h-5" />
           </a>
@@ -67,7 +67,7 @@ const socialLinks = [
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text)]"
+        class="md:hidden p-2 text-text-secondary hover:text-text"
         aria-label="Toggle menu"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,24 +78,24 @@ const socialLinks = [
   </nav>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-[var(--color-bg)] border-b border-[var(--color-border)]">
+  <div id="mobile-menu" class="hidden md:hidden bg-bg border-b border-border">
     <div class="px-6 py-4 space-y-4">
       {navLinks.map(({ href, label }) => (
         <a
           href={href}
-          class="block text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+          class="block text-text-secondary hover:text-text transition-colors"
         >
           {label}
         </a>
       ))}
-      <div class="flex items-center gap-4 pt-4 border-t border-[var(--color-border)]">
+      <div class="flex items-center gap-4 pt-4 border-t border-border">
         {socialLinks.map(({ href, icon: Icon, label }) => (
           <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            class="text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+            class="text-text-secondary hover:text-text transition-colors"
           >
             <Icon class="w-5 h-5" />
           </a>

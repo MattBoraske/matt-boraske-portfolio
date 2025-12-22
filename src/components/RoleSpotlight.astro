@@ -26,19 +26,19 @@ const {
 ---
 
 <section id="about" class="py-24 px-6">
-  <div class="max-w-[1200px] mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-[var(--color-text)] mb-4">What I Do</h2>
+  <div class="max-w-content mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-text mb-4">What I Do</h2>
 
     <div class="flex items-center gap-3 mb-8">
-      <span class="text-[var(--color-text-secondary)]">{role} at</span>
-      <span class="px-3 py-1 bg-[var(--color-bg-secondary)] rounded-full text-sm font-medium text-[var(--color-text)]">
+      <span class="text-text-secondary">{role} at</span>
+      <span class="px-3 py-1 bg-bg-secondary rounded-full text-sm font-medium text-text">
         {company}
       </span>
     </div>
 
     <div class="max-w-3xl space-y-4 mb-12">
       {description.map((paragraph) => (
-        <p class="text-[var(--color-text-secondary)] leading-relaxed">
+        <p class="text-text-secondary leading-relaxed">
           {paragraph}
         </p>
       ))}
