@@ -1,0 +1,9 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = 'w-5 h-5' } = Astro.props;
+import hfLogo from './hf-logo.svg';
+---
+
+<img src={hfLogo.src} alt="HuggingFace" class={className} />
