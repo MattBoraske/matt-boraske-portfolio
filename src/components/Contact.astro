@@ -8,14 +8,15 @@ import Mail from './icons/Mail.astro';
 interface Props {
   email?: string;
   location?: string;
+  formspreeId?: string;
 }
 
-const { email = 'mattboraske@gmail.com', location = 'Philadelphia, PA' } = Astro.props;
+const { email = 'mattboraske@gmail.com', location = 'Philadelphia, PA', formspreeId } = Astro.props;
 
 const socialLinks = [
   { href: 'https://github.com/MattBoraske', icon: GitHub, label: 'GitHub' },
-  { href: 'https://linkedin.com/in/matt-boraske', icon: LinkedIn, label: 'LinkedIn' },
-  { href: 'https://medium.com/@', icon: Medium, label: 'Medium' },
+  { href: 'https://www.linkedin.com/in/matt-boraske/', icon: LinkedIn, label: 'LinkedIn' },
+  { href: 'https://medium.com/@mattboraske', icon: Medium, label: 'Medium' },
 ];
 ---
 
@@ -29,7 +30,7 @@ const socialLinks = [
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       <!-- Contact Form -->
       <div>
-        <ContactForm />
+        <ContactForm formspreeId={formspreeId} />
       </div>
 
       <!-- Contact Info -->

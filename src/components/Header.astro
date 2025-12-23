@@ -9,7 +9,7 @@ interface Props {
   name?: string;
 }
 
-const { name = 'Matt Boraske' } = Astro.props;
+const { name = 'Matthew Boraske' } = Astro.props;
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -22,9 +22,9 @@ const navLinks = [
 
 const socialLinks = [
   { href: 'https://github.com/MattBoraske', icon: GitHub, label: 'GitHub' },
-  { href: 'https://linkedin.com/in/matt-boraske', icon: LinkedIn, label: 'LinkedIn' },
-  { href: 'https://medium.com/@', icon: Medium, label: 'Medium' },
-  { href: 'mailto:mattboraske@gmail.com', icon: Mail, label: 'Email' },
+  { href: 'https://www.linkedin.com/in/matt-boraske/', icon: LinkedIn, label: 'LinkedIn' },
+  { href: 'https://medium.com/@mattboraske', icon: Medium, label: 'Medium' },
+  { href: '#contact', icon: Mail, label: 'Email' },
 ];
 ---
 
@@ -53,8 +53,8 @@ const socialLinks = [
         {socialLinks.map(({ href, icon: Icon, label }) => (
           <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={href.startsWith('#') ? undefined : '_blank'}
+            rel={href.startsWith('#') ? undefined : 'noopener noreferrer'}
             aria-label={label}
             class="text-text-secondary hover:text-text transition-colors"
           >
@@ -92,8 +92,8 @@ const socialLinks = [
         {socialLinks.map(({ href, icon: Icon, label }) => (
           <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={href.startsWith('#') ? undefined : '_blank'}
+            rel={href.startsWith('#') ? undefined : 'noopener noreferrer'}
             aria-label={label}
             class="text-text-secondary hover:text-text transition-colors"
           >

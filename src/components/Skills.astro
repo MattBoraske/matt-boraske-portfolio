@@ -4,9 +4,33 @@ interface SkillCategory {
   skills: string[];
 }
 
+interface CertificationInfo {
+  url: string;
+  issueDate: string;
+  expirationDate: string;
+}
+
 interface Props {
   categories?: SkillCategory[];
 }
+
+const certifications: Record<string, CertificationInfo> = {
+  'AWS Certified Cloud Practitioner': {
+    url: 'https://www.credly.com/badges/46e41619-24db-44ac-a934-179ee232f007',
+    issueDate: 'September 2025',
+    expirationDate: 'September 2028',
+  },
+  'AWS Certified Solutions Architect – Associate': {
+    url: 'https://www.credly.com/badges/bb1da288-2923-4797-8560-4d26a12f6033/linked_in_profile',
+    issueDate: 'September 2025',
+    expirationDate: 'September 2028',
+  },
+  'Databricks Certified Machine Learning Associate': {
+    url: 'https://credentials.databricks.com/c07a1146-9cc1-48b4-b9e2-d25c94c699c1',
+    issueDate: 'September 2024',
+    expirationDate: 'September 2026',
+  },
+};
 
 const { categories = [
   {
@@ -53,11 +77,32 @@ const { categories = [
         <div>
           <h3 class="text-lg font-semibold text-text mb-4">{name}</h3>
           <div class="flex flex-wrap gap-2">
-            {skills.map((skill) => (
-              <span class="px-3 py-1.5 bg-bg text-text-secondary text-sm rounded-full border border-border hover:border-accent/50 transition-colors">
-                {skill}
-              </span>
-            ))}
+            {skills.map((skill) => {
+              const certInfo = certifications[skill];
+              return certInfo ? (
+                <a
+                  href={certInfo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group relative px-3 py-1.5 bg-bg text-text-secondary text-sm rounded-full border border-border hover:border-accent/50 transition-colors cursor-pointer"
+                >
+                  {skill}
+                  <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-bg-secondary border border-border rounded-lg text-xs text-text whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 shadow-lg">
+                    <div class="flex flex-col gap-1">
+                      <div><strong>Issued:</strong> {certInfo.issueDate}</div>
+                      <div><strong>Expires:</strong> {certInfo.expirationDate}</div>
+                      <div class="text-accent">Click to view credential</div>
+                    </div>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-border"></div>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-bg-secondary"></div>
+                  </span>
+                </a>
+              ) : (
+                <span class="px-3 py-1.5 bg-bg text-text-secondary text-sm rounded-full border border-border hover:border-accent/50 transition-colors">
+                  {skill}
+                </span>
+              );
+            })}
           </div>
         </div>
       ))}
