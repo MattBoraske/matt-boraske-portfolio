@@ -11,6 +11,7 @@ interface Publication {
   pdfUrl?: string;
   githubUrl?: string;
   huggingfaceUrl?: string;
+  id?: string;
 }
 
 interface Props {
@@ -39,6 +40,7 @@ const { publications = [
     pdfUrl: 'https://digitalcommons.wcupa.edu/cgi/viewcontent.cgi?article=1461&context=all_theses',
     githubUrl: 'https://github.com/MattBoraske/Reddit-AITA-Conflict-Resolution-LLM-FT-Efficacy',
     huggingfaceUrl: 'https://huggingface.co/collections/MattBoraske/reddit-aita-finetuning-v1',
+    id: 'thesis',
   },
 ]} = Astro.props;
 ---
