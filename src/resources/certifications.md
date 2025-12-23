@@ -1,3 +1,5 @@
+# Certifications
+
 | Certification | Credential URL | Issue Date | Expiration Date |
 |---------------|----------------|------------|-----------------|
 | AWS Certified Cloud Practitioner | https://www.credly.com/badges/46e41619-24db-44ac-a934-179ee232f007 | September 2025 | September 2028 |
