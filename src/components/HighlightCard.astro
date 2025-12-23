@@ -7,7 +7,7 @@ interface Props {
 const { title, icon = '🔹' } = Astro.props;
 ---
 
-<div class="px-6 py-4 bg-bg-secondary rounded-xl border border-border hover:border-accent/50 transition-colors">
-  <span class="text-2xl mr-3">{icon}</span>
-  <span class="text-text font-medium">{title}</span>
+<div class="px-6 py-4 bg-bg-secondary rounded-xl border border-border hover:border-accent/50 transition-colors text-center">
+  <span class="text-md mr-1">{icon}</span>
+  <span class="text-text font-large">{title}</span>
 </div>
