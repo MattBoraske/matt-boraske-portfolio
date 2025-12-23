@@ -1,17 +1,11 @@
 ---
-interface SkillCategory {
-  name: string;
-  skills: string[];
-}
+import { parseSkillsMarkdown } from '../utils/parseSkills';
+import { resolve } from 'path';
 
 interface CertificationInfo {
   url: string;
   issueDate: string;
   expirationDate: string;
-}
-
-interface Props {
-  categories?: SkillCategory[];
 }
 
 const certifications: Record<string, CertificationInfo> = {
@@ -32,40 +26,9 @@ const certifications: Record<string, CertificationInfo> = {
   },
 };
 
-const { categories = [
-  {
-    name: 'Programming Languages',
-    skills: ['Python', 'SQL', 'Java', 'C++', 'C'],
-  },
-  {
-    name: 'ML/AI & Data Science',
-    skills: ['PyTorch', 'TensorFlow', 'Scikit-learn', 'Hugging Face', 'Langchain', 'MLflow', 'OpenCV', 'Pandas'],
-  },
-  {
-    name: 'Specialized AI',
-    skills: ['NLP', 'LLMs', 'Fine-tuning', 'Deep Learning', 'Reinforcement Learning', 'MLOps', 'RAG'],
-  },
-  {
-    name: 'Data Engineering',
-    skills: ['Apache Spark', 'Databricks'],
-  },
-  {
-    name: 'Web & APIs',
-    skills: ['Flask', 'FastAPI', 'Django', 'Streamlit', 'React.js'],
-  },
-  {
-    name: 'Cloud & Infrastructure',
-    skills: ['AWS (S3, EC2, ECS, Redshift, Bedrock, Sagemaker, Lambda)', 'Microsoft Azure', 'Docker', 'Kubernetes'],
-  },
-  {
-    name: 'Tools & Platforms',
-    skills: ['Git', 'GitLab', 'Linux'],
-  },
-  {
-    name: 'Certifications',
-    skills: ['AWS Certified Cloud Practitioner', 'AWS Certified Solutions Architect – Associate', 'Databricks Certified Machine Learning Associate'],
-  },
-]} = Astro.props;
+// Parse skills.md at build time
+const skillsPath = resolve('./src/resources/skills.md');
+const categories = parseSkillsMarkdown(skillsPath);
 ---
 
 <section id="skills" class="py-24 px-6 bg-bg-secondary">
@@ -73,39 +36,211 @@ const { categories = [
     <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 animate-on-scroll">Skills</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {categories.map(({ name, skills }) => (
-        <div>
-          <h3 class="text-lg font-semibold text-text mb-4">{name}</h3>
-          <div class="flex flex-wrap gap-2">
-            {skills.map((skill) => {
-              const certInfo = certifications[skill];
-              return certInfo ? (
-                <a
-                  href={certInfo.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group relative px-3 py-1.5 bg-bg text-text-secondary text-sm rounded-full border border-border hover:border-accent/50 transition-colors cursor-pointer"
-                >
-                  {skill}
-                  <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-bg-secondary border border-border rounded-lg text-xs text-text whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 shadow-lg">
-                    <div class="flex flex-col gap-1">
-                      <div><strong>Issued:</strong> {certInfo.issueDate}</div>
-                      <div><strong>Expires:</strong> {certInfo.expirationDate}</div>
-                      <div class="text-accent">Click to view credential</div>
-                    </div>
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-border"></div>
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-bg-secondary"></div>
-                  </span>
-                </a>
-              ) : (
-                <span class="px-3 py-1.5 bg-bg text-text-secondary text-sm rounded-full border border-border hover:border-accent/50 transition-colors">
-                  {skill}
-                </span>
-              );
-            })}
+      {categories.filter(({ name }) => name !== 'Certifications').map(({ name, icon, subsections }) => (
+        <div
+          class="skill-card-wrapper"
+          role="button"
+          tabindex="0"
+          aria-expanded="false"
+          aria-label={`${name} skills category`}
+        >
+          <!-- Category card with dropdown -->
+          <div class="skill-card group bg-bg rounded-xl border border-border hover:border-accent/50 transition-all duration-300 cursor-pointer h-full">
+            <!-- Card header -->
+            <div class="p-6 flex flex-col items-center gap-3">
+              <i data-lucide={icon} class="w-10 h-10 text-accent"></i>
+              <h3 class="text-lg font-semibold text-text text-center">{name}</h3>
+              <p class="text-xs text-text-secondary opacity-70">Hover to see details</p>
+            </div>
+
+            <!-- Dropdown panel -->
+            {subsections.length > 0 && (
+              <div class="skill-panel absolute top-full left-0 right-0 mt-2 p-4 bg-bg rounded-xl border border-border shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20">
+                <ul class="space-y-2 max-h-80 overflow-y-auto">
+                  {subsections.map(({ name }) => (
+                    <li class="text-sm text-text-secondary flex items-start gap-2">
+                      <span class="text-accent mt-0.5">•</span>
+                      <span>{name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest" is:inline></script>
+<script is:inline>
+  lucide.createIcons();
+</script>
+
+<!-- Mobile touch support -->
+<script>
+  // Progressive enhancement for mobile touch devices
+  if ('ontouchstart' in window) {
+    const cards = document.querySelectorAll('.skill-card-wrapper');
+
+    cards.forEach(wrapper => {
+      const card = wrapper.querySelector('.skill-card');
+      if (!card) return;
+
+      let isOpen = false;
+
+      wrapper.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Close other cards
+        cards.forEach(otherWrapper => {
+          if (otherWrapper !== wrapper) {
+            otherWrapper.setAttribute('aria-expanded', 'false');
+            const otherCard = otherWrapper.querySelector('.skill-card');
+            otherCard?.classList.remove('is-active');
+          }
+        });
+
+        // Toggle current card
+        isOpen = !isOpen;
+        wrapper.setAttribute('aria-expanded', String(isOpen));
+        card.classList.toggle('is-active', isOpen);
+      });
+    });
+
+    // Close all on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.skill-card-wrapper')) {
+        cards.forEach(wrapper => {
+          wrapper.setAttribute('aria-expanded', 'false');
+          const card = wrapper.querySelector('.skill-card');
+          card?.classList.remove('is-active');
+        });
+      }
+    });
+  }
+</script>
+
+<!-- Keyboard navigation support -->
+<script>
+  const wrappers = document.querySelectorAll('.skill-card-wrapper');
+
+  wrappers.forEach(wrapper => {
+    const card = wrapper.querySelector('.skill-card');
+    if (!card) return;
+
+    wrapper.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const isExpanded = wrapper.getAttribute('aria-expanded') === 'true';
+
+        // Close all other cards first
+        wrappers.forEach(otherWrapper => {
+          if (otherWrapper !== wrapper) {
+            otherWrapper.setAttribute('aria-expanded', 'false');
+            const otherCard = otherWrapper.querySelector('.skill-card');
+            otherCard?.classList.remove('is-active');
+          }
+        });
+
+        // Toggle current card
+        wrapper.setAttribute('aria-expanded', String(!isExpanded));
+        card.classList.toggle('is-active', !isExpanded);
+      }
+
+      if (e.key === 'Escape') {
+        wrapper.setAttribute('aria-expanded', 'false');
+        card.classList.remove('is-active');
+      }
+    });
+  });
+</script>
+
+<style>
+  .skill-card-wrapper {
+    position: relative;
+  }
+
+  .skill-card {
+    position: relative;
+    min-height: 180px;
+  }
+
+  .skill-panel {
+    max-height: 300px;
+  }
+
+  /* Desktop: hover shows panel */
+  @media (hover: hover) {
+    .skill-card:hover {
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+  }
+
+  /* Mobile: click toggles .is-active class */
+  @media (hover: none) {
+    .skill-panel {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .skill-card.is-active .skill-panel {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  }
+
+  /* Focus states for accessibility */
+  .skill-card-wrapper:focus-within {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 0.75rem;
+  }
+
+  /* Ensure hovered/active cards appear above others */
+  .skill-card-wrapper:hover,
+  .skill-card-wrapper:focus-within,
+  .skill-card-wrapper:has(.is-active) {
+    z-index: 30;
+  }
+
+  /* Custom scrollbar for dropdown panels */
+  .skill-panel {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .skill-panel::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .skill-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .skill-panel::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .skill-panel::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-accent);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .skill-panel,
+    .skill-card {
+      transition: none;
+    }
+  }
+
+  /* Hide data-lucide elements until Lucide initializes them */
+  [data-lucide]:not(.lucide) {
+    opacity: 0.3;
+  }
+</style>
