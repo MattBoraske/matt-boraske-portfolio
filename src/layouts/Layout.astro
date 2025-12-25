@@ -7,7 +7,13 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Data Scientist | AI/ML Engineer | Data Engineer' } = Astro.props;
+const {
+  title,
+  description = 'Data Scientist specializing in AI/ML, NLP, and Generative AI. Building production ML systems and fine-tuning LLMs for domain-specific tasks.'
+} = Astro.props;
+
+const siteUrl = 'https://www.mattboraske.com';
+const ogImage = `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
@@ -15,7 +21,29 @@ const { title, description = 'Data Scientist | AI/ML Engineer | Data Engineer' }
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <meta name="author" content="Matthew Boraske" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={siteUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImage} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={siteUrl} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
