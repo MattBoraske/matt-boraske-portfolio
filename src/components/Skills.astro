@@ -83,6 +83,14 @@ const categories = parseSkillsMarkdown(skillsPath);
   /* Ensure dropdowns don't get clipped and can overflow into next section */
   .skills-section {
     overflow: visible;
+    position: relative;
+    z-index: 10; /* Above Contact section (z-1) */
+  }
+
+  /* Increase z-index when any card is hovered */
+  .skills-section:has(.skill-card-wrapper:hover),
+  .skills-section:has(.skill-card.is-active) {
+    z-index: 9999; /* Bring entire section above everything when dropdown is active */
   }
 
   .skills-grid {
