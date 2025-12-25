@@ -1,0 +1,63 @@
+---
+interface Props {
+  type: 'person' | 'website';
+}
+
+const { type } = Astro.props;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Matthew Boraske",
+  "jobTitle": "Data Scientist",
+  "description": "Data Scientist specializing in AI/ML, NLP, and Generative AI",
+  "url": "https://www.mattboraske.com",
+  "image": "https://www.mattboraske.com/og-image.png",
+  "sameAs": [
+    "https://github.com/MattBoraske",
+    "https://www.linkedin.com/in/matt-boraske/",
+    "https://medium.com/@mattboraske"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "CSL Behring"
+  },
+  "alumniOf": [
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "West Chester University of Pennsylvania",
+      "sameAs": "https://www.wcupa.edu/"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "The Ohio State University",
+      "sameAs": "https://www.osu.edu/"
+    }
+  ],
+  "knowsAbout": [
+    "Machine Learning",
+    "Natural Language Processing",
+    "Generative AI",
+    "Large Language Models",
+    "Data Science",
+    "Python",
+    "Retrieval Augmented Generation"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Matt Boraske - Data Scientist Portfolio",
+  "url": "https://www.mattboraske.com",
+  "description": "Portfolio showcasing AI/ML research, projects in generative AI and NLP, and technical writing",
+  "author": {
+    "@type": "Person",
+    "name": "Matthew Boraske"
+  }
+};
+
+const schema = type === 'person' ? personSchema : websiteSchema;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
