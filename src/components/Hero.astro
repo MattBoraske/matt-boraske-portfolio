@@ -172,10 +172,18 @@
     opacity: 0;
     transform: translateX(-50px);
     animation: slideInGlow 1s ease forwards;
-    text-shadow:
-      0 0 20px var(--color-glow),
-      0 0 40px var(--color-glow),
-      0 0 60px var(--color-glow);
+    /* Subtle shadow for depth - theme-aware */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Light theme: use darker shadow for contrast */
+  :global(:root:not([data-theme="dark"])) .title-line {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Dark theme: subtle glow for depth */
+  :global([data-theme="dark"]) .title-line {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
 
   .title-line:nth-child(1) {
@@ -195,6 +203,44 @@
     to {
       opacity: 1;
       transform: translateX(0);
+    }
+  }
+
+  /* Accessibility: Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .title-line {
+      animation: none;
+      opacity: 1;
+      transform: translateX(0);
+      text-shadow: none; /* Remove all visual effects for users who prefer reduced motion */
+    }
+
+    .title-line-offset {
+      animation: none;
+    }
+
+    .hero-label,
+    .hero-description,
+    .hero-metrics,
+    .hero-cta,
+    .data-particles {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .hero-grid {
+      animation: none;
+    }
+
+    .hero-scanlines {
+      animation: none;
+      display: none; /* Remove scanlines effect */
+    }
+
+    .label-cursor {
+      animation: none;
+      opacity: 1;
     }
   }
 
