@@ -11,48 +11,62 @@ interface Props {
   githubUrl?: string;
   demoUrl?: string;
   featured?: boolean;
+  isPlaceholder?: boolean;
 }
 
-const { title, description, image, technologies, category, githubUrl, demoUrl, featured = false } = Astro.props;
+const { title, description, image, technologies, category, githubUrl, demoUrl, featured = false, isPlaceholder = false } = Astro.props;
 ---
 
 <article
-  class="project-card group bg-bg rounded-2xl border border-border overflow-hidden hover:border-accent/50 hover:shadow-lg transition-all duration-300"
+  class="project-card terminal-card group overflow-hidden"
   data-category={category}
 >
   {image && (
-    <div class="aspect-video bg-bg-secondary overflow-hidden">
+    <div class="aspect-video bg-bg-secondary overflow-hidden relative">
       <img
         src={image}
         alt={title}
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
       />
+      <div class="image-overlay"></div>
     </div>
   )}
 
   {!image && (
-    <div class="aspect-video bg-bg-secondary flex items-center justify-center">
-      <span class="text-4xl">🚀</span>
+    <div class="aspect-video bg-bg-secondary flex items-center justify-center placeholder-container">
+      <span class="text-6xl placeholder-icon">⚡</span>
     </div>
   )}
 
   <div class="p-6">
-    <div class="flex items-start justify-between gap-4 mb-2">
-      <h3 class="text-xl font-semibold text-text">{title}</h3>
-      {featured && (
-        <span class="px-2 py-0.5 bg-accent/10 text-accent text-xs font-medium rounded-full whitespace-nowrap">
-          Featured
-        </span>
-      )}
+    <div class="flex items-start justify-between gap-4 mb-3">
+      <h3 class="text-xl font-semibold text-text font-display card-title">{title}</h3>
+      <div class="flex flex-col gap-2 items-end">
+        {featured && (
+          <span class="featured-badge">
+            <span class="badge-bracket">[</span>
+            Featured
+            <span class="badge-bracket">]</span>
+          </span>
+        )}
+        {isPlaceholder && (
+          <span class="placeholder-badge">
+            <span class="badge-bracket">[</span>
+            Demo Project
+            <span class="badge-bracket">]</span>
+          </span>
+        )}
+      </div>
     </div>
 
-    <p class="text-text-secondary mb-4 line-clamp-2">
+    <p class="text-text-secondary mb-4 line-clamp-3 font-mono text-sm leading-relaxed">
       {description}
     </p>
 
     <div class="flex flex-wrap gap-2 mb-4">
       {technologies.map((tech) => (
-        <span class="px-2 py-1 bg-bg-secondary text-text-secondary text-xs rounded-full">
+        <span class="tech-tag">
+          <span class="tag-chevron">&gt;</span>
           {tech}
         </span>
       ))}
@@ -64,10 +78,11 @@ const { title, description, image, technologies, category, githubUrl, demoUrl, f
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-2 text-sm text-text-secondary hover:text-text transition-colors"
+          class="project-link"
         >
           <GitHub class="w-4 h-4" />
-          Code
+          <span>Code</span>
+          <span class="link-arrow">→</span>
         </a>
       )}
       {demoUrl && (
@@ -75,12 +90,166 @@ const { title, description, image, technologies, category, githubUrl, demoUrl, f
           href={demoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-2 text-sm text-text-secondary hover:text-text transition-colors"
+          class="project-link"
         >
           <ExternalLink class="w-4 h-4" />
-          Demo
+          <span>Demo</span>
+          <span class="link-arrow">→</span>
         </a>
       )}
     </div>
   </div>
 </article>
+
+<style>
+  .project-card {
+    position: relative;
+  }
+
+  .image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 255, 255, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .placeholder-container {
+    position: relative;
+    background: radial-gradient(
+      circle at center,
+      rgba(0, 255, 255, 0.1),
+      transparent 70%
+    );
+  }
+
+  .placeholder-icon {
+    filter: grayscale(1) brightness(0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+  }
+
+  .card-title {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+  }
+
+  .project-card:hover .card-title {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px var(--color-glow);
+  }
+
+  .featured-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    background: rgba(0, 255, 255, 0.05);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  }
+
+  .placeholder-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .badge-bracket {
+    color: var(--color-accent-hover);
+    font-weight: 900;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.375rem 0.75rem;
+    background: rgba(0, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .tag-chevron {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .tech-tag:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .link-arrow {
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+    color: var(--color-accent);
+  }
+
+  .project-link:hover {
+    color: var(--color-accent);
+  }
+
+  .project-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .project-link:hover {
+    filter: drop-shadow(0 0 8px var(--color-glow));
+  }
+</style>
