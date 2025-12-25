@@ -21,7 +21,11 @@ if (articles.length === 0) {
 
 <section id="writing" class="py-24 px-6">
   <div class="max-w-content mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 animate-on-scroll">Writing</h2>
+    <div class="section-header animate-on-scroll">
+      <span class="header-bracket">[</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text">Writing</h2>
+      <span class="header-bracket">]</span>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       {articles.map((article) => (
@@ -40,3 +44,20 @@ if (articles.length === 0) {
     </a>
   </div>
 </section>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .header-bracket {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+</style>
