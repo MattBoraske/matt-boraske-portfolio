@@ -1,7 +1,7 @@
 ---
-import ExternalLink from './icons/ExternalLink.astro';
 import GitHub from './icons/GitHub.astro';
 import HuggingFace from './icons/HuggingFace.astro';
+import ExternalLink from './icons/ExternalLink.astro';
 
 interface Props {
   title: string;
@@ -19,50 +19,238 @@ interface Props {
 const { title, venue, year, summary, authors, tags = [], pdfUrl, githubUrl, huggingfaceUrl, id } = Astro.props;
 ---
 
-<article id={id} class="p-6 bg-bg rounded-2xl border border-border hover:border-accent/50 hover:shadow-lg transition-all duration-300 scroll-mt-24">
-  <div class="flex items-start justify-between gap-4 mb-3">
-    <h3 class="text-xl font-semibold text-text leading-tight flex-1">
-      {pdfUrl ? (
-        <a href={pdfUrl} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
-          {title}
-          <ExternalLink class="inline-block ml-2 w-4 h-4" />
+<article class="publication-card terminal-card group" id={id}>
+  <div class="p-6">
+    <!-- Title with terminal styling -->
+    <h3 class="publication-title">{title}</h3>
+
+    <!-- Venue and year badge -->
+    <div class="publication-meta">
+      <span class="venue-badge">
+        <span class="badge-bracket">[</span>
+        {venue}
+        <span class="badge-bracket">]</span>
+      </span>
+      <span class="year-badge">{year}</span>
+    </div>
+
+    <!-- Authors -->
+    {authors && (
+      <p class="authors-text">
+        <span class="author-icon">&gt;</span>
+        {authors}
+      </p>
+    )}
+
+    <!-- Summary -->
+    <p class="summary-text">{summary}</p>
+
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <div class="tags-container">
+        {tags.map((tag) => (
+          <span class="pub-tag">
+            <span class="tag-chevron">&gt;</span>
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Links -->
+    <div class="links-container">
+      {pdfUrl && (
+        <a
+          href={pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pub-link"
+        >
+          <ExternalLink class="w-4 h-4" />
+          <span>PDF</span>
+          <span class="link-arrow">→</span>
         </a>
-      ) : (
-        title
       )}
-    </h3>
-    <div class="flex items-center gap-3">
       {githubUrl && (
-        <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent transition-colors" title="View GitHub Repository">
-          <GitHub class="w-5 h-5" />
+        <a
+          href={githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pub-link"
+        >
+          <GitHub class="w-4 h-4" />
+          <span>Code</span>
+          <span class="link-arrow">→</span>
         </a>
       )}
       {huggingfaceUrl && (
-        <a href={huggingfaceUrl} target="_blank" rel="noopener noreferrer" class="text-text-secondary hover:text-accent transition-colors" title="View HuggingFace Dataset">
-          <HuggingFace class="w-5 h-5" />
+        <a
+          href={huggingfaceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pub-link"
+        >
+          <HuggingFace class="w-4 h-4" />
+          <span>Dataset</span>
+          <span class="link-arrow">→</span>
         </a>
       )}
-      <span class="text-sm text-text-secondary whitespace-nowrap">{year}</span>
     </div>
   </div>
-
-  <p class="text-sm text-accent font-medium mb-3">{venue}</p>
-
-  {authors && (
-    <p class="text-sm text-text-secondary mb-3">{authors}</p>
-  )}
-
-  <p class="text-text-secondary leading-relaxed mb-4">
-    {summary}
-  </p>
-
-  {tags.length > 0 && (
-    <div class="flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span class="px-3 py-1 bg-bg-secondary text-text-secondary text-sm rounded-full">
-          {tag}
-        </span>
-      ))}
-    </div>
-  )}
 </article>
+
+<style>
+  .publication-card {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .publication-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+  }
+
+  .publication-card:hover .publication-title {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px var(--color-glow);
+  }
+
+  .publication-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .venue-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge-bracket {
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+
+  .year-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--color-accent);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  .authors-text {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .author-icon {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .summary-text {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1rem;
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pub-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.625rem;
+    background: rgba(0, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .tag-chevron {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .pub-tag:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .links-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .pub-link {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .link-arrow {
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+    color: var(--color-accent);
+  }
+
+  .pub-link:hover {
+    color: var(--color-accent);
+  }
+
+  .pub-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .pub-link:hover {
+    filter: drop-shadow(0 0 8px var(--color-glow));
+  }
+</style>
