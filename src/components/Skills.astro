@@ -31,7 +31,7 @@ const skillsPath = resolve('./src/resources/skills.md');
 const categories = parseSkillsMarkdown(skillsPath);
 ---
 
-<section id="skills" class="py-24 px-6 bg-bg-secondary">
+<section id="skills" class="skills-section py-24 px-6 bg-bg-secondary">
   <div class="max-w-content mx-auto">
     <div class="section-header animate-on-scroll">
       <span class="header-bracket">[</span>
@@ -39,7 +39,7 @@ const categories = parseSkillsMarkdown(skillsPath);
       <span class="header-bracket">]</span>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="skills-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {categories.filter(({ name }) => name !== 'Certifications').map(({ name, icon, subsections }) => (
         <div
           class="skill-card-wrapper"
@@ -61,7 +61,7 @@ const categories = parseSkillsMarkdown(skillsPath);
 
             <!-- Dropdown panel -->
             {subsections.length > 0 && (
-              <div class="skill-panel absolute top-full left-0 right-0 mt-2 p-4 bg-bg-secondary rounded border border-accent/30 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20 backdrop-blur-lg">
+              <div class="skill-panel absolute top-full left-0 right-0 mt-2 p-4 bg-bg-secondary rounded border border-accent/30 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-lg">
                 <ul class="space-y-2 max-h-80 overflow-y-auto">
                   {subsections.map(({ name }) => (
                     <li class="text-sm text-text-secondary flex items-start gap-2 font-mono panel-item">
@@ -80,6 +80,16 @@ const categories = parseSkillsMarkdown(skillsPath);
 </section>
 
 <style>
+  /* Ensure dropdowns don't get clipped */
+  .skills-section {
+    overflow: visible;
+    padding-bottom: 24rem; /* Extra padding for dropdown panels */
+  }
+
+  .skills-grid {
+    overflow: visible;
+  }
+
   .section-header {
     display: flex;
     align-items: center;
