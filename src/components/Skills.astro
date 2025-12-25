@@ -62,7 +62,7 @@ const categories = parseSkillsMarkdown(skillsPath);
             <!-- Dropdown panel -->
             {subsections.length > 0 && (
               <div class="skill-panel absolute top-full left-0 right-0 mt-2 p-4 bg-bg-secondary rounded border border-accent/30 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-lg">
-                <ul class="space-y-2 max-h-80 overflow-y-auto">
+                <ul class="space-y-2 overflow-y-auto">
                   {subsections.map(({ name }) => (
                     <li class="text-sm text-text-secondary flex items-start gap-2 font-mono panel-item">
                       <span class="text-accent-hover mt-0.5">&gt;</span>
@@ -83,11 +83,16 @@ const categories = parseSkillsMarkdown(skillsPath);
   /* Ensure dropdowns don't get clipped */
   .skills-section {
     overflow: visible;
-    padding-bottom: 8rem; /* Padding for dropdown panels on bottom row */
+    padding-bottom: 12rem; /* Padding for dropdown panels */
   }
 
   .skills-grid {
     overflow: visible;
+  }
+
+  /* Limit dropdown height to prevent excessive spacing */
+  .skill-panel {
+    max-height: 16rem !important; /* Reduce from 20rem to fit better */
   }
 
   .section-header {
