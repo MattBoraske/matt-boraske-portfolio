@@ -18,21 +18,116 @@ const {
 
 <section id="about" class="py-24 px-6">
   <div class="max-w-content mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-text mb-4 animate-on-scroll">What I Do</h2>
+    <div class="section-header animate-on-scroll">
+      <span class="header-bracket">[</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text">What I Do</h2>
+      <span class="header-bracket">]</span>
+    </div>
 
-    <div class="flex items-center gap-3 mb-8">
-      <span class="text-text-secondary">{role} at</span>
-      <span class="px-3 py-1 bg-bg-secondary rounded-full text-sm font-medium text-text">
+    <div class="role-container">
+      <span class="role-label">
+        <span class="terminal-prompt">&gt;</span>
+        {role} at
+      </span>
+      <span class="company-badge">
+        <span class="badge-bracket">[</span>
         {company}
+        <span class="badge-bracket">]</span>
       </span>
     </div>
 
-    <div class="max-w-3xl space-y-4">
+    <div class="max-w-3xl description-container">
       {description.map((paragraph) => (
-        <p class="text-text-secondary leading-relaxed">
+        <p class="description-paragraph">
           {paragraph}
         </p>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .header-bracket {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+
+  .role-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .role-label {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-prompt {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .company-badge {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .company-badge:hover {
+    background: rgba(0, 255, 255, 0.15);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+  }
+
+  .badge-bracket {
+    color: var(--color-accent-hover);
+    font-weight: 900;
+  }
+
+  .description-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .description-paragraph {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.75);
+    padding-left: 1rem;
+    border-left: 2px solid rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .description-paragraph:hover {
+    border-left-color: var(--color-accent);
+    transform: translateX(4px);
+  }
+</style>
