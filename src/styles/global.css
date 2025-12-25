@@ -62,6 +62,11 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  position: relative;
+  overflow: visible;
+}
+
 /* Global grid background */
 body::before {
   content: '';
