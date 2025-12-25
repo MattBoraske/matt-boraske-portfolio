@@ -9,51 +9,83 @@ export function parseTimeline(filePath: string): Experience[] {
     const sections = content.split(/^## /gm).filter(Boolean).slice(1);
 
     return sections.map(section => {
-      const lines = section.split('\n').filter(l => l.trim());
-      const role = lines[0].trim();
+      const lines = section.split('\n');
 
+      // Parse company and role from first line (format: "Company - Role")
+      const firstLine = lines[0].trim();
+      const [company, role] = firstLine.split(' - ').map(s => s.trim());
+
+      // Get field value from **Field:** format
       const getField = (field: string): string => {
-        const line = lines.find(l => l.trim().startsWith(`- **${field}:**`));
+        const line = lines.find(l => l.trim().startsWith(`**${field}:**`));
         if (!line) return '';
         const parts = line.split(':**');
         return parts.length > 1 ? parts[1].trim() : '';
       };
 
+      // Get description from ### Description section
+      const getDescription = (): string => {
+        const descStart = lines.findIndex(l => l.trim() === '### Description');
+        if (descStart === -1) return '';
+
+        let description = '';
+        for (let i = descStart + 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.startsWith('###') || line.startsWith('---')) break;
+          if (line) description += (description ? ' ' : '') + line;
+        }
+        return description;
+      };
+
+      // Get bullets from ### Highlights section
       const getBullets = (): string[] => {
-        const bulletStart = lines.findIndex(l => l.trim().startsWith('- **Bullets:**'));
-        if (bulletStart === -1) return [];
+        const highlightsStart = lines.findIndex(l => l.trim() === '### Highlights');
+        if (highlightsStart === -1) return [];
 
         const bullets: string[] = [];
-        for (let i = bulletStart + 1; i < lines.length; i++) {
+        for (let i = highlightsStart + 1; i < lines.length; i++) {
           const line = lines[i].trim();
-          if (line.startsWith('  - ')) {
-            bullets.push(line.substring(4));
-          } else if (line.startsWith('- **')) {
-            break;
+          if (line.startsWith('###') || line.startsWith('---')) break;
+          if (line.startsWith('- ')) {
+            bullets.push(line.substring(2));
           }
         }
         return bullets;
       };
 
-      const technologies = getField('Technologies')
-        .split(',')
-        .map(t => t.trim())
-        .filter(Boolean);
+      // Get technologies from ### Technologies section
+      const getTechnologies = (): string[] => {
+        const techStart = lines.findIndex(l => l.trim() === '### Technologies');
+        if (techStart === -1) return [];
 
+        const technologies: string[] = [];
+        for (let i = techStart + 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.startsWith('###') || line.startsWith('---')) break;
+          if (line.startsWith('- ')) {
+            technologies.push(line.substring(2));
+          }
+        }
+        return technologies;
+      };
+
+      const description = getDescription();
       const bullets = getBullets();
-      const dateRange = getField('DateRange');
+      const technologies = getTechnologies();
+      const dateRange = getField('Date Range');
+      const type = getField('Type').toLowerCase();
 
       return {
-        company: getField('Company'),
+        company,
         role,
         dateRange,
-        description: bullets.length === 0 ? getField('Description') : undefined,
+        description: bullets.length === 0 && description ? description : undefined,
         bullets: bullets.length > 0 ? bullets : undefined,
         technologies,
-        isCurrent: dateRange.toLowerCase().includes('present'),
-        type: (getField('Type') as 'work' | 'education') || 'work',
-        logo: getField('Logo') || undefined,
-        logoSize: getField('LogoSize') || 'w-8 h-8'
+        isCurrent: dateRange.toLowerCase().includes('present') || getField('Current').toLowerCase() === 'yes',
+        type: (type === 'education' ? 'education' : 'work') as 'work' | 'education',
+        logo: undefined, // Will be mapped in Timeline component
+        logoSize: type === 'education' ? 'w-14 h-14' : 'w-8 h-8'
       };
     });
   } catch (error) {

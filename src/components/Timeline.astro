@@ -1,93 +1,29 @@
 ---
 import TimelineItem from './TimelineItem.astro';
+import { parseTimeline } from '../utils/parseTimeline';
 import osuLogo from './icons/osu.svg';
 import wcuLogo from './icons/wcu.svg';
 import cslLogo from './icons/csl.svg';
 import epicLogo from './icons/epic.svg';
 import hondaLogo from './icons/honda.png';
 
-interface Experience {
-  company: string;
-  role: string;
-  dateRange: string;
-  description?: string;
-  bullets?: string[];
-  technologies?: string[];
-  isCurrent?: boolean;
-  type?: 'work' | 'education';
-  logo?: string;
-  logoSize?: string;
-}
+// Logo mapping for companies
+const logoMap: Record<string, string> = {
+  'CSL Behring': cslLogo.src,
+  'Epic Systems': epicLogo.src,
+  'Honda of America Manufacturing, Inc.': hondaLogo.src,
+  'West Chester University of Pennsylvania': wcuLogo.src,
+  'The Ohio State University': osuLogo.src
+};
 
-interface Props {
-  experiences?: Experience[];
-}
+// Parse timeline from markdown file
+let experiences = parseTimeline('./src/resources/timeline.md');
 
-const { experiences = [
-  {
-    company: 'CSL Behring',
-    role: 'Data Scientist',
-    dateRange: 'August 2023 - Present',
-    description: 'Serving as a functional expert in natural language processing, machine learning, and generative AI. Creating AI data retrieval tools using retrieval augmented generation with fine-tuned embedding models. Led the development of a conversational AI tool leveraging plasma donor reviews to provide insights for donation center managers, driving approximately a 15% improvement in average review scores. Deployed an internal chatbot to facilitate private and secure conversations with GPT and Llama 3 models.',
-    technologies: ['Python', 'NLP', 'RAG', 'LLMs', 'Fine-tuning', 'GPT', 'Llama 3'],
-    isCurrent: true,
-    type: 'work',
-    logo: cslLogo.src,
-  },
-  {
-    company: 'West Chester University of Pennsylvania',
-    role: 'M.S. Computer Science',
-    dateRange: 'January 2023 - May 2024',
-    bullets: [
-      'Graduated Summa Cum Laude with a 4.0 GPA.',
-      'Completed thesis <a href="#thesis" class="text-accent hover:underline">"The Efficacy of Finetuning Large Language Models for Interpersonal Conflict Resolution"</a> under the advisement of Dr. Richard Burns.',
-      'As a Graduate Researcher, worked with Dr. Ashik Ahmed Bhuiyan to design a reinforcement learning environment for a counter-service, real-time restaurant, then trained PPO and A2C agents to allocate human labor that minimized wait times.'
-    ],
-    technologies: ['Software Engineering', 'Algorithm Analysis', 'Compiler Design', 'Functional Programming', 'Databases', 'Reinforcement Learning', 'PPO', 'A2C'],
-    type: 'education',
-    logo: wcuLogo.src,
-    logoSize: 'w-14 h-14',
-  },
-  {
-    company: 'CSL Behring',
-    role: 'Data Scientist Intern',
-    dateRange: 'June 2023 - August 2023',
-    description: 'Developed a generative AI application that addressed technical barriers to data-driven decision-making by translating English queries into SQL code for execution on connected databases. This was achieved by fine-tuning Flan-T5-XL for English-to-SQL translation using a mixture of SQL instruction and preference data.',
-    technologies: ['Python', 'Fine-tuning', 'Flan-T5', 'SQL', 'Generative AI'],
-    type: 'work',
-    logo: cslLogo.src,
-  },
-  {
-    company: 'Epic Systems',
-    role: 'Technical Solutions Engineer',
-    dateRange: 'June 2021 - October 2022',
-    description: 'Provided expert support on MyChart patient portal integration for U.S. healthcare systems using Epic EMR by troubleshooting critical issues, optimizing system compatibility, and improving end-user performance. Led the MyChart Mobile expert support group in building CI/CD pipelines to automate updates, saving up to five hours per week, and redesigning the login workflow to include single sign-on authentication.',
-    technologies: ['CI/CD', 'Healthcare IT', 'EMR', 'SSO', 'MyChart'],
-    type: 'work',
-    logo: epicLogo.src,
-  },
-  {
-    company: 'The Ohio State University',
-    role: 'B.S. Industrial and Systems Engineering',
-    dateRange: 'August 2017 - May 2021',
-    bullets: [
-      'Graduated Cum Laude with a 3.53 GPA and a minor in computer science.',
-      'Worked as an Undergraduate Teaching Assistant for Fundamentals of Engineering Honors course series, mentoring students through labs that taught fundamentals for various engineering disciplines, coding projects in C/C++, and a semester-long robotics competition.'
-    ],
-    technologies: ['Machine Learning', 'Stochastic Modeling', 'Nonlinear Optimization', 'Project Engineering', 'Product Design'],
-    type: 'education',
-    logo: osuLogo.src,
-  },
-  {
-    company: 'Honda of America Manufacturing, Inc.',
-    role: 'Machine Learning Engineering Co-Op',
-    dateRange: 'May 2020 - August 2020',
-    description: 'Trained a deep neural network that predicted optimal times for preventative maintenance of production plant assets with 88% accuracy, thereby improving equipment longevity and reducing disruptive downtimes.',
-    technologies: ['Python', 'Deep Learning', 'Predictive Maintenance', 'Neural Networks'],
-    type: 'work',
-    logo: hondaLogo.src,
-  },
-]} = Astro.props;
+// Map logo references to actual imports
+experiences = experiences.map(exp => ({
+  ...exp,
+  logo: logoMap[exp.company] || exp.logo
+}));
 ---
 
 <section id="experience" class="py-24 px-6 bg-bg-secondary">

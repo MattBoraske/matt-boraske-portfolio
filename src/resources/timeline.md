@@ -25,7 +25,7 @@ Serving as a functional expert in natural language processing, machine learning,
 
 ### Highlights
 - Graduated Summa Cum Laude with a 4.0 GPA.
-- Completed thesis "The Efficacy of Finetuning Large Language Models for Interpersonal Conflict Resolution" under the advisement of Dr. Richard Burns.
+- Completed thesis <a href="#thesis" class="text-accent hover:underline">"The Efficacy of Finetuning Large Language Models for Interpersonal Conflict Resolution"</a> under the advisement of Dr. Richard Burns.
 - As a Graduate Researcher, worked with Dr. Ashik Ahmed Bhuiyan to design a reinforcement learning environment for a counter-service, real-time restaurant, then trained PPO and A2C agents to allocate human labor that minimized wait times.
 
 ### Technologies
