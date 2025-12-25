@@ -12,24 +12,160 @@ const socialLinks = [
 ];
 ---
 
-<footer class="py-8 px-6 border-t border-border">
-  <div class="max-w-content mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-    <p class="text-sm text-text-secondary">
-      © {currentYear} Matthew Boraske. All rights reserved.
-    </p>
+<footer class="footer-terminal">
+  <div class="max-w-content mx-auto px-6 py-8">
+    <!-- Decorative top border -->
+    <div class="border-line"></div>
 
-    <div class="flex items-center gap-4">
-      {socialLinks.map(({ href, icon: Icon, label }) => (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={label}
-          class="text-text-secondary hover:text-text transition-colors"
-        >
-          <Icon class="w-5 h-5" />
-        </a>
-      ))}
+    <div class="footer-content">
+      <!-- Terminal-style copyright -->
+      <div class="copyright-section">
+        <span class="terminal-prompt">~$</span>
+        <span class="copyright-text">© {currentYear} Matthew Boraske</span>
+        <span class="cursor-blink">_</span>
+      </div>
+
+      <!-- Social links with terminal styling -->
+      <div class="social-section">
+        {socialLinks.map(({ href, icon: Icon, label }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            class="social-link"
+          >
+            <Icon class="w-5 h-5" />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Terminal footer message -->
+    <div class="footer-message">
+      <span class="message-bracket">[</span>
+      <span class="message-text">Built with Astro • Deployed on the edge</span>
+      <span class="message-bracket">]</span>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-terminal {
+    position: relative;
+    background: rgba(10, 14, 39, 0.95);
+    border-top: 1px solid rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    margin-top: 4rem;
+  }
+
+  .border-line {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-accent) 50%,
+      transparent
+    );
+    margin-bottom: 2rem;
+    box-shadow: 0 0 10px var(--color-glow);
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .footer-content {
+      flex-direction: row;
+    }
+  }
+
+  .copyright-section {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .terminal-prompt {
+    color: var(--color-accent-hover);
+    font-weight: 700;
+  }
+
+  .copyright-text {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .cursor-blink {
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    background: var(--color-accent);
+    animation: blink 1s step-end infinite;
+  }
+
+  .social-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .social-link {
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .social-link::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .social-link:hover {
+    color: var(--color-accent);
+    transform: translateY(-3px) scale(1.1);
+    filter: drop-shadow(0 0 12px var(--color-glow));
+  }
+
+  .social-link:hover::before {
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  }
+
+  .footer-message {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 255, 255, 0.1);
+  }
+
+  .message-bracket {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .message-text {
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+</style>

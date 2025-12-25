@@ -6,20 +6,89 @@ interface Props {
 const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = Astro.props;
 ---
 
-<div class="flex flex-wrap gap-2 mb-8" id="project-filters">
+<div class="filter-container" id="project-filters">
   {categories.map((category, index) => (
     <button
-      class={`filter-btn px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-        index === 0
-          ? 'bg-accent text-white'
-          : 'bg-bg-secondary text-text-secondary hover:text-text'
-      }`}
+      class={`filter-btn ${index === 0 ? 'active' : ''}`}
       data-filter={category === 'All' ? 'all' : category}
     >
-      {category}
+      <span class="filter-bracket">[</span>
+      <span class="filter-text">{category}</span>
+      <span class="filter-bracket">]</span>
     </button>
   ))}
 </div>
+
+<style>
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.75rem 1.5rem;
+    background: rgba(15, 20, 53, 0.6);
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .filter-bracket {
+    font-weight: 900;
+    color: rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .filter-text {
+    transition: all 0.3s ease;
+  }
+
+  .filter-btn:hover {
+    background: rgba(15, 20, 53, 0.8);
+    border-color: var(--color-accent);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+  }
+
+  .filter-btn:hover .filter-bracket {
+    color: var(--color-accent);
+  }
+
+  .filter-btn.active {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: var(--color-bg);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  }
+
+  .filter-btn.active .filter-bracket {
+    color: var(--color-bg);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
 
 <script>
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -31,11 +100,9 @@ const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = As
 
       // Update button styles
       filterBtns.forEach((b) => {
-        b.classList.remove('bg-accent', 'text-white');
-        b.classList.add('bg-bg-secondary', 'text-text-secondary');
+        b.classList.remove('active');
       });
-      btn.classList.remove('bg-bg-secondary', 'text-text-secondary');
-      btn.classList.add('bg-accent', 'text-white');
+      btn.classList.add('active');
 
       // Filter projects
       projectCards.forEach((card) => {
@@ -50,16 +117,3 @@ const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = As
     });
   });
 </script>
-
-<style>
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

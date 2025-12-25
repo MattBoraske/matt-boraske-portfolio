@@ -4,10 +4,66 @@ interface Props {
   icon?: string;
 }
 
-const { title, icon = '🔹' } = Astro.props;
+const { title, icon = '⚡' } = Astro.props;
 ---
 
-<div class="px-6 py-4 bg-bg-secondary rounded-xl border border-border hover:border-accent/50 transition-colors text-center">
-  <span class="text-md mr-1">{icon}</span>
-  <span class="text-text font-large">{title}</span>
+<div class="highlight-card terminal-card">
+  <span class="highlight-icon">{icon}</span>
+  <span class="highlight-text">
+    <span class="text-bracket">&gt;</span>
+    {title}
+  </span>
 </div>
+
+<style>
+  .highlight-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    cursor: default;
+  }
+
+  .highlight-icon {
+    font-size: 1.25rem;
+    filter: grayscale(1) brightness(0.7);
+    transition: all 0.3s ease;
+  }
+
+  .highlight-card:hover .highlight-icon {
+    filter: grayscale(0) brightness(1);
+    transform: scale(1.2);
+  }
+
+  .highlight-text {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .text-bracket {
+    color: var(--color-accent);
+    font-weight: 900;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+
+  .highlight-card:hover .text-bracket {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .highlight-card:hover .highlight-text {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,49 +1,509 @@
 ---
-import ArrowDown from './icons/ArrowDown.astro';
-
-interface Props {
-  name?: string;
-  title?: string;
-  tagline?: string;
-}
-
-const {
-  name = 'Matthew Boraske',
-  title = 'Data Scientist & AI/ML Engineer',
-  tagline = 'Developing traditional and agentic AI solutions for biotechnology and healthcare.',
-} = Astro.props;
+// Hero component with retro-futuristic data aesthetic
 ---
 
-<section id="hero" class="min-h-screen flex flex-col items-center justify-center px-6 text-center relative">
-  <div class="max-w-3xl mx-auto space-y-6">
-    <h1 class="text-5xl md:text-7xl font-bold text-text tracking-tight">
-      {name}
+<section class="hero-section">
+  <div class="hero-grid"></div>
+  <div class="hero-scanlines"></div>
+
+  <div class="hero-content">
+    <div class="hero-label">
+      <span class="label-bracket">[</span>
+      <span class="label-text">DATA_SCIENTIST</span>
+      <span class="label-bracket">]</span>
+      <span class="label-cursor">_</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="title-line">Matt</span>
+      <span class="title-line title-line-offset">Boraske</span>
     </h1>
-    <p class="text-xl md:text-2xl text-text-secondary font-medium">
-      {title}
-    </p>
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
-      <a
-        href="#projects"
-        class="px-8 py-3 bg-accent text-white font-medium rounded-full hover:bg-accent-hover transition-colors"
-      >
-        View My Work
+
+    <div class="hero-description">
+      <p class="description-text">
+        Building intelligent systems at the intersection of
+        <span class="highlight">machine learning</span>,
+        <span class="highlight">data engineering</span>, and
+        <span class="highlight">biotechnology</span>.
+      </p>
+    </div>
+
+    <div class="hero-metrics">
+      <div class="metric">
+        <div class="metric-value" data-value="5">0</div>
+        <div class="metric-label">Years Experience</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-value="50">0</div>
+        <div class="metric-label">Projects Delivered</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-value="3">0</div>
+        <div class="metric-label">AWS Certifications</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#projects" class="cta-primary">
+        <span class="cta-text">View Projects</span>
+        <span class="cta-arrow">→</span>
       </a>
-      <a
-        href="#contact"
-        class="px-8 py-3 border border-border text-text font-medium rounded-full hover:bg-bg-secondary transition-colors"
-      >
-        Get in Touch
+      <a href="#contact" class="cta-secondary">
+        <span class="cta-text">Get in Touch</span>
       </a>
     </div>
   </div>
 
-  <!-- Scroll indicator -->
-  <a
-    href="#about"
-    class="absolute bottom-8 left-1/2 -translate-x-1/2 text-text-secondary hover:text-text transition-colors animate-bounce"
-    aria-label="Scroll down"
-  >
-    <ArrowDown class="w-6 h-6" />
-  </a>
+  <!-- Floating data particles -->
+  <div class="data-particles">
+    <div class="particle" style="--delay: 0s; --duration: 8s; --x: 10%; --y: 20%;">01</div>
+    <div class="particle" style="--delay: 1s; --duration: 10s; --x: 80%; --y: 15%;">λ</div>
+    <div class="particle" style="--delay: 2s; --duration: 12s; --x: 15%; --y: 70%;">∑</div>
+    <div class="particle" style="--delay: 0.5s; --duration: 9s; --x: 85%; --y: 60%;">π</div>
+    <div class="particle" style="--delay: 1.5s; --duration: 11s; --x: 50%; --y: 40%;">Δ</div>
+    <div class="particle" style="--delay: 2.5s; --duration: 13s; --x: 30%; --y: 80%;">∞</div>
+  </div>
 </section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@400;500;700;900&display=swap');
+
+  .hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0e27;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  /* Animated grid background */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+    opacity: 0.4;
+  }
+
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+
+  /* CRT scanlines effect */
+  .hero-scanlines {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      transparent 50%,
+      rgba(0, 255, 255, 0.02) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scanlines 8s linear infinite;
+  }
+
+  @keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(4px); }
+  }
+
+  /* Main content */
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  /* Label with cursor */
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    color: #00ff88;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  .label-bracket {
+    color: #00ffff;
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+
+  .label-cursor {
+    display: inline-block;
+    width: 0.7em;
+    height: 1em;
+    background: #00ff88;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Title */
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 12vw, 8rem);
+    line-height: 0.9;
+    margin: 0 0 3rem 0;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .title-line {
+    display: block;
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: slideInGlow 1s ease forwards;
+    text-shadow:
+      0 0 20px rgba(0, 255, 255, 0.5),
+      0 0 40px rgba(0, 255, 255, 0.3),
+      0 0 60px rgba(0, 255, 255, 0.2);
+  }
+
+  .title-line:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  .title-line-offset {
+    margin-left: 10%;
+    animation-delay: 0.4s;
+    background: linear-gradient(135deg, #00ffff, #00ff88, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @keyframes slideInGlow {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Description */
+  .hero-description {
+    max-width: 700px;
+    margin-bottom: 4rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.6s forwards;
+  }
+
+  .description-text {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+  }
+
+  .highlight {
+    position: relative;
+    color: #00ffff;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00ffff, #00ff88);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underlineGrow 0.6s ease forwards;
+    animation-delay: calc(var(--index, 0) * 0.1s + 1s);
+  }
+
+  .highlight:nth-of-type(1) { --index: 0; }
+  .highlight:nth-of-type(2) { --index: 1; }
+  .highlight:nth-of-type(3) { --index: 2; }
+
+  @keyframes underlineGrow {
+    to { transform: scaleX(1); }
+  }
+
+  /* Metrics */
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.8s forwards;
+  }
+
+  .metric {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(0, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .metric:hover {
+    border-color: rgba(0, 255, 255, 0.6);
+    background: rgba(0, 255, 255, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+  }
+
+  .metric-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00ffff;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+  }
+
+  .metric-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* CTA Buttons */
+  .hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 1s forwards;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1.25rem 2.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-primary {
+    background: linear-gradient(135deg, #00ffff, #00ff88);
+    color: #0a0e27;
+    border: 2px solid transparent;
+  }
+
+  .cta-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #00ff88, #00ffff);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .cta-primary:hover::before {
+    opacity: 1;
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+  }
+
+  .cta-secondary {
+    background: transparent;
+    color: #00ffff;
+    border: 2px solid #00ffff;
+  }
+
+  .cta-secondary:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: #00ff88;
+    color: #00ff88;
+    transform: translateY(-2px);
+  }
+
+  .cta-text,
+  .cta-arrow {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-arrow {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  .cta-primary:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Floating data particles */
+  .data-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .particle {
+    position: absolute;
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem;
+    color: rgba(0, 255, 255, 0.3);
+    animation: float var(--duration, 10s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+    left: var(--x, 50%);
+    top: var(--y, 50%);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.3;
+    }
+    50% {
+      transform: translate(20px, -100px) rotate(180deg);
+      opacity: 0.6;
+    }
+    90% {
+      opacity: 0.3;
+    }
+  }
+
+  /* Fade in animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 1rem;
+    }
+
+    .hero-label {
+      font-size: 0.75rem;
+    }
+
+    .title-line-offset {
+      margin-left: 5%;
+    }
+
+    .hero-metrics {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .particle {
+      font-size: 1rem;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-grid,
+    .hero-scanlines,
+    .label-cursor,
+    .particle {
+      animation: none;
+    }
+
+    .title-line,
+    .hero-label,
+    .hero-description,
+    .hero-metrics,
+    .hero-cta {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Animated counter for metrics
+  function animateCounter(element: HTMLElement) {
+    const target = parseInt(element.dataset.value || '0');
+    const duration = 2000;
+    const step = target / (duration / 16);
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        element.textContent = target.toString();
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(current).toString();
+      }
+    }, 16);
+  }
+
+  // Trigger counter animation when in viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const metrics = document.querySelectorAll('.metric-value');
+        metrics.forEach((metric) => {
+          animateCounter(metric as HTMLElement);
+        });
+        observer.disconnect();
+      }
+    });
+  });
+
+  const metricsSection = document.querySelector('.hero-metrics');
+  if (metricsSection) {
+    observer.observe(metricsSection);
+  }
+</script>

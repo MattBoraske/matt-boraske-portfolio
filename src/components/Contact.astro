@@ -20,49 +20,74 @@ const socialLinks = [
 ];
 ---
 
-<section id="contact" class="py-24 px-6">
-  <div class="max-w-content mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-text mb-4 animate-on-scroll">Get in Touch</h2>
-    <p class="text-text-secondary mb-12 max-w-2xl">
-      Interested in collaborating or have a question? Feel free to reach out.
+<section id="contact" class="contact-section">
+  <div class="max-w-content mx-auto px-6 py-24">
+    <!-- Section Header -->
+    <div class="section-header animate-on-scroll">
+      <span class="header-bracket">[</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text">Get in Touch</h2>
+      <span class="header-bracket">]</span>
+    </div>
+
+    <p class="intro-text animate-on-scroll animate-delay-100">
+      <span class="terminal-prompt">&gt;</span> Interested in collaborating or have a question? Let's connect.
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       <!-- Contact Form -->
-      <div>
+      <div class="contact-form-container animate-on-scroll animate-delay-200">
         <ContactForm formspreeId={formspreeId} />
       </div>
 
       <!-- Contact Info -->
-      <div class="space-y-8">
-        <div>
-          <h3 class="text-lg font-semibold text-text mb-4">Direct Contact</h3>
+      <div class="contact-info-container space-y-8 animate-on-scroll animate-delay-300">
+        <!-- Email -->
+        <div class="info-card terminal-card">
+          <h3 class="info-title">
+            <span class="title-bracket">[</span>
+            Direct Contact
+            <span class="title-bracket">]</span>
+          </h3>
           <a
             href={`mailto:${email}`}
-            class="flex items-center gap-3 text-text-secondary hover:text-accent transition-colors"
+            class="contact-link"
           >
             <Mail class="w-5 h-5" />
-            {email}
+            <span class="link-text">{email}</span>
+            <span class="link-arrow">→</span>
           </a>
         </div>
 
+        <!-- Location -->
         {location && (
-          <div>
-            <h3 class="text-lg font-semibold text-text mb-4">Location</h3>
-            <p class="text-text-secondary">{location}</p>
+          <div class="info-card terminal-card">
+            <h3 class="info-title">
+              <span class="title-bracket">[</span>
+              Location
+              <span class="title-bracket">]</span>
+            </h3>
+            <p class="location-text">
+              <span class="location-icon">📍</span>
+              {location}
+            </p>
           </div>
         )}
 
-        <div>
-          <h3 class="text-lg font-semibold text-text mb-4">Connect</h3>
-          <div class="flex items-center gap-4">
+        <!-- Social Links -->
+        <div class="info-card terminal-card">
+          <h3 class="info-title">
+            <span class="title-bracket">[</span>
+            Connect
+            <span class="title-bracket">]</span>
+          </h3>
+          <div class="social-links">
             {socialLinks.map(({ href, icon: Icon, label }) => (
               <a
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                class="p-3 bg-bg-secondary rounded-full text-text-secondary hover:text-text hover:bg-border transition-colors"
+                class="social-link neon-border"
               >
                 <Icon class="w-5 h-5" />
               </a>
@@ -70,20 +95,202 @@ const socialLinks = [
           </div>
         </div>
 
-        <div>
-          <h3 class="text-lg font-semibold text-text mb-4">Resume</h3>
+        <!-- Resume Download -->
+        <div class="info-card terminal-card">
+          <h3 class="info-title">
+            <span class="title-bracket">[</span>
+            Resume
+            <span class="title-bracket">]</span>
+          </h3>
           <a
             href="/resume.pdf"
             download
-            class="inline-flex items-center gap-2 px-6 py-3 bg-bg-secondary text-text font-medium rounded-lg hover:bg-border transition-colors"
+            class="btn-download"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            Download Resume
+            <span>Download Resume</span>
           </a>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .contact-section {
+    position: relative;
+    background: var(--color-bg);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .header-bracket {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+
+  .intro-text {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .terminal-prompt {
+    color: var(--color-accent-hover);
+    font-weight: 700;
+  }
+
+  .contact-form-container {
+    position: relative;
+  }
+
+  .contact-info-container {
+    position: relative;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+  }
+
+  .info-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title-bracket {
+    color: var(--color-accent);
+    font-size: 1.25rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+  }
+
+  .contact-link:hover {
+    color: var(--color-accent);
+    padding-left: 0.5rem;
+  }
+
+  .link-text {
+    flex: 1;
+  }
+
+  .link-arrow {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    color: var(--color-accent);
+  }
+
+  .contact-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .location-text {
+    font-family: var(--font-mono);
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .location-icon {
+    font-size: 1.25rem;
+    filter: grayscale(1) brightness(0.7);
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .social-link {
+    padding: 0.75rem;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .social-link:hover {
+    color: var(--color-accent);
+    transform: translateY(-3px) scale(1.1);
+    filter: drop-shadow(0 0 15px var(--color-glow));
+  }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: var(--color-bg);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-download::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-accent-hover), var(--color-accent));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-download:hover::before {
+    opacity: 1;
+  }
+
+  .btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--color-glow);
+  }
+
+  .btn-download > * {
+    position: relative;
+    z-index: 1;
+  }
+</style>

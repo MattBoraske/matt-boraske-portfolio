@@ -16,55 +16,68 @@ const { company, role, dateRange, description, bullets, technologies = [], isCur
 const isEducation = type === 'education';
 ---
 
-<div class="relative pl-8 pb-12 last:pb-0">
-  <!-- Timeline line -->
-  <div class="absolute left-0 top-2 bottom-0 w-px bg-border"></div>
+<div class="timeline-item relative pl-8 pb-12 last:pb-0 group">
+  <!-- Timeline line with glow -->
+  <div class="timeline-line"></div>
 
-  <!-- Timeline dot/icon -->
+  <!-- Timeline dot/icon with terminal styling -->
   {isEducation ? (
-    <div class="absolute left-0 top-2 -translate-x-1/2 w-5 h-5 flex items-center justify-center">
-      <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+    <div class="timeline-icon education-icon">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
         <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
       </svg>
     </div>
   ) : (
-    <div class="absolute left-0 top-2 -translate-x-1/2 w-5 h-5 flex items-center justify-center">
-      <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+    <div class="timeline-icon work-icon">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
         <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
         <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
       </svg>
     </div>
   )}
 
-  <div class="space-y-2">
-    <div class="flex flex-wrap items-center gap-2">
-      <span class="text-sm text-text-secondary">{dateRange}</span>
+  <div class="timeline-content">
+    <!-- Terminal-style date with bracket -->
+    <div class="date-container">
+      <span class="date-bracket">[</span>
+      <span class="date-text">{dateRange}</span>
+      <span class="date-bracket">]</span>
+      {isCurrent && <span class="current-badge">CURRENT</span>}
     </div>
 
-    <h3 class="text-xl font-semibold text-text">{role}</h3>
-    <div class="flex items-center gap-3">
+    <!-- Role title with terminal styling -->
+    <h3 class="role-title">{role}</h3>
+
+    <!-- Company with logo -->
+    <div class="company-container">
       {logo && (
-        <img src={logo} alt={`${company} logo`} class={logoSize} />
+        <img src={logo} alt={`${company} logo`} class={`company-logo ${logoSize}`} />
       )}
-      <p class="text-text-secondary font-medium text-base">{company}</p>
+      <p class="company-name">{company}</p>
     </div>
 
+    <!-- Description or bullets -->
     {bullets ? (
-      <ul class="text-text-secondary leading-relaxed pt-2 space-y-2 list-disc list-inside">
+      <ul class="experience-bullets">
         {bullets.map((bullet) => (
-          <li set:html={bullet} />
+          <li class="bullet-item">
+            <span class="bullet-chevron">&gt;</span>
+            <span set:html={bullet} />
+          </li>
         ))}
       </ul>
     ) : (
-      <p class="text-text-secondary leading-relaxed pt-2">
+      <p class="experience-description">
         {description}
       </p>
     )}
 
+    <!-- Technologies with terminal tags -->
     {technologies.length > 0 && (
-      <div class="flex flex-wrap gap-2 pt-3">
+      <div class="tech-tags">
         {technologies.map((tech) => (
-          <span class="px-3 py-1 bg-bg-secondary text-text-secondary text-sm rounded-full">
+          <span class="tech-tag">
+            <span class="tag-chevron">&gt;</span>
             {tech}
           </span>
         ))}
@@ -72,3 +85,237 @@ const isEducation = type === 'education';
     )}
   </div>
 </div>
+
+<style>
+  .timeline-item {
+    transition: all 0.3s ease;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 255, 255, 0.4),
+      rgba(0, 255, 255, 0.1)
+    );
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+
+  .timeline-item:hover .timeline-line {
+    background: linear-gradient(
+      180deg,
+      var(--color-accent),
+      rgba(0, 255, 255, 0.3)
+    );
+    box-shadow: 0 0 20px var(--color-glow);
+  }
+
+  .timeline-icon {
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    transform: translateX(-50%);
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .education-icon {
+    color: var(--color-accent-hover);
+  }
+
+  .work-icon {
+    color: var(--color-accent);
+  }
+
+  .timeline-item:hover .timeline-icon {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px var(--color-glow);
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  .timeline-content {
+    padding-left: 1rem;
+  }
+
+  .date-container {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .date-bracket {
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+
+  .date-text {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .current-badge {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+  }
+
+  .role-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .timeline-item:hover .role-title {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px var(--color-glow);
+  }
+
+  .company-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .company-logo {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .timeline-item:hover .company-logo {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  }
+
+  .company-name {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .experience-bullets {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .bullet-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid rgba(0, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .bullet-item:hover {
+    border-left-color: var(--color-accent);
+    transform: translateX(4px);
+  }
+
+  .bullet-chevron {
+    color: var(--color-accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .experience-description {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.75rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid rgba(0, 255, 255, 0.2);
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.375rem 0.75rem;
+    background: rgba(0, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .tag-chevron {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .tech-tag:hover {
+    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2);
+  }
+
+  /* Last timeline item - fade out the line */
+  .timeline-item:last-child .timeline-line {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 255, 255, 0.4),
+      transparent
+    );
+  }
+</style>
