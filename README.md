@@ -27,7 +27,7 @@ A modern, responsive portfolio website built with Astro, showcasing research pub
 /
 ├── public/
 │   ├── favicon.svg           # Site favicon
-│   └── Matthew_Boraske_Resume.pdf  # Downloadable resume
+│   └── resume.pdf  # Downloadable resume
 ├── src/
 │   ├── components/
 │   │   ├── icons/            # Icon components and brand logos (SVG/PNG)
