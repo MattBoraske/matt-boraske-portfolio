@@ -1,40 +1,18 @@
 ---
 import ProjectCard from './ProjectCard.astro';
 import ProjectFilter from './ProjectFilter.astro';
-import trnfScreenshot from '../resources/trnf-site-screenshot.png';
+import { parseProjects } from '../utils/parseProjects';
 
-interface Project {
-  title: string;
-  description: string;
-  image?: string;
-  technologies: string[];
-  category: string;
-  githubUrl?: string;
-  demoUrl?: string;
-  featured?: boolean;
-}
-
-interface Props {
-  projects?: Project[];
-}
-
-const { projects = [
-  {
-    title: 'Therapeutic Riding at Normandy Farms (TRNF) Website',
-    description: 'I designed and developed a website for Therapeutic Riding at Normandy Farm (TRNF) and configured their AWS account to host it.',
-    image: trnfScreenshot.src,
-    technologies: ['Javascript', 'HTML', 'CSS', 'React', 'AWS'],
-    category: 'Web Development',
-    githubUrl: 'https://github.com/MattBoraske/TRNF-Site',
-    demoUrl: 'https://normandyfarm.org/',
-    featured: true,
-  },
-]} = Astro.props;
+const projects = parseProjects('./src/resources/projects.md');
 ---
 
 <section id="projects" class="py-24 px-6 bg-bg-secondary">
   <div class="max-w-content mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-text mb-8 animate-on-scroll">Projects</h2>
+    <div class="section-header animate-on-scroll">
+      <span class="header-bracket">[</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text">Projects</h2>
+      <span class="header-bracket">]</span>
+    </div>
 
     <ProjectFilter />
 
@@ -45,3 +23,20 @@ const { projects = [
     </div>
   </div>
 </section>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .header-bracket {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+</style>
