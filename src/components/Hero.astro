@@ -74,7 +74,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0a0e27;
+    background: var(--color-bg);
     overflow: hidden;
     padding: 2rem;
     padding-top: 8rem; /* Account for fixed header (80px) + spacing */
@@ -85,9 +85,9 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
     animation: gridMove 20s linear infinite;
     opacity: 0.4;
   }
@@ -103,7 +103,7 @@
     inset: 0;
     background: linear-gradient(
       transparent 50%,
-      rgba(0, 255, 255, 0.02) 50%
+      var(--grid-color) 50%
     );
     background-size: 100% 4px;
     pointer-events: none;
@@ -127,7 +127,7 @@
   .hero-label {
     font-family: 'Space Mono', monospace;
     font-size: clamp(0.875rem, 2vw, 1rem);
-    color: #00ff88;
+    color: var(--color-accent-hover);
     text-transform: uppercase;
     letter-spacing: 0.3em;
     margin-bottom: 2rem;
@@ -139,7 +139,7 @@
   }
 
   .label-bracket {
-    color: #00ffff;
+    color: var(--color-accent);
     font-weight: 700;
     font-size: 1.2em;
   }
@@ -148,7 +148,7 @@
     display: inline-block;
     width: 0.7em;
     height: 1em;
-    background: #00ff88;
+    background: var(--color-accent-hover);
     animation: blink 1s step-end infinite;
   }
 
@@ -163,7 +163,7 @@
     font-size: clamp(3rem, 12vw, 8rem);
     line-height: 0.9;
     margin: 0 0 3rem 0;
-    color: #fff;
+    color: var(--color-text);
     text-transform: uppercase;
   }
 
@@ -173,9 +173,9 @@
     transform: translateX(-50px);
     animation: slideInGlow 1s ease forwards;
     text-shadow:
-      0 0 20px rgba(0, 255, 255, 0.5),
-      0 0 40px rgba(0, 255, 255, 0.3),
-      0 0 60px rgba(0, 255, 255, 0.2);
+      0 0 20px var(--color-glow),
+      0 0 40px var(--color-glow),
+      0 0 60px var(--color-glow);
   }
 
   .title-line:nth-child(1) {
@@ -185,7 +185,7 @@
   .title-line-offset {
     margin-left: 10%;
     animation-delay: 0.4s;
-    background: linear-gradient(135deg, #00ffff, #00ff88, #ff00ff);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover), var(--color-accent-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -210,13 +210,13 @@
     font-family: 'Space Mono', monospace;
     font-size: clamp(1rem, 2vw, 1.25rem);
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-secondary);
     margin: 0;
   }
 
   .highlight {
     position: relative;
-    color: #00ffff;
+    color: var(--color-accent);
     font-weight: 700;
     white-space: nowrap;
   }
@@ -228,7 +228,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #00ffff, #00ff88);
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
     transform: scaleX(0);
     transform-origin: left;
     animation: underlineGrow 0.6s ease forwards;
@@ -256,33 +256,33 @@
   .metric {
     position: relative;
     padding: 1.5rem;
-    background: rgba(0, 255, 255, 0.05);
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
     border-radius: 4px;
     transition: all 0.3s ease;
   }
 
   .metric:hover {
-    border-color: rgba(0, 255, 255, 0.6);
-    background: rgba(0, 255, 255, 0.1);
+    border-color: var(--color-border-hover);
+    background: var(--color-border);
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+    box-shadow: 0 10px 30px var(--color-glow);
   }
 
   .metric-value {
     font-family: 'Orbitron', sans-serif;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #00ffff;
+    color: var(--color-accent);
     line-height: 1;
     margin-bottom: 0.5rem;
-    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    text-shadow: 0 0 20px var(--color-glow);
   }
 
   .metric-label {
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
@@ -315,8 +315,8 @@
   }
 
   .cta-primary {
-    background: linear-gradient(135deg, #00ffff, #00ff88);
-    color: #0a0e27;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: var(--color-bg);
     border: 2px solid transparent;
   }
 
@@ -324,7 +324,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #00ff88, #00ffff);
+    background: linear-gradient(135deg, var(--color-accent-hover), var(--color-accent));
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -335,19 +335,19 @@
 
   .cta-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 10px 30px var(--color-glow);
   }
 
   .cta-secondary {
     background: transparent;
-    color: #00ffff;
-    border: 2px solid #00ffff;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
   }
 
   .cta-secondary:hover {
-    background: rgba(0, 255, 255, 0.1);
-    border-color: #00ff88;
-    color: #00ff88;
+    background: var(--color-border);
+    border-color: var(--color-accent-hover);
+    color: var(--color-accent-hover);
     transform: translateY(-2px);
   }
 
@@ -378,12 +378,12 @@
     position: absolute;
     font-family: 'Space Mono', monospace;
     font-size: 1.5rem;
-    color: rgba(0, 255, 255, 0.3);
+    color: var(--color-border);
     animation: float var(--duration, 10s) ease-in-out infinite;
     animation-delay: var(--delay, 0s);
     left: var(--x, 50%);
     top: var(--y, 50%);
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    text-shadow: 0 0 10px var(--color-glow);
   }
 
   @keyframes float {

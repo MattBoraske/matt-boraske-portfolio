@@ -5,17 +5,17 @@
 @tailwind utilities;
 
 :root {
-  /* Retro-futuristic terminal theme */
-  --color-bg: #0a0e27;
-  --color-bg-secondary: #0f1435;
-  --color-text: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.7);
-  --color-accent: #00ffff;
-  --color-accent-hover: #00ff88;
-  --color-accent-secondary: #ff00ff;
-  --color-border: rgba(0, 255, 255, 0.2);
-  --color-border-hover: rgba(0, 255, 255, 0.6);
-  --color-glow: rgba(0, 255, 255, 0.5);
+  /* Light theme - Tech/Terminal aesthetic */
+  --color-bg: #f8fafc;
+  --color-bg-secondary: #e2e8f0;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-accent: #0284c7;
+  --color-accent-hover: #0369a1;
+  --color-accent-secondary: #7c3aed;
+  --color-border: rgba(2, 132, 199, 0.2);
+  --color-border-hover: rgba(2, 132, 199, 0.6);
+  --color-glow: rgba(2, 132, 199, 0.3);
 
   /* Typography */
   --font-display: 'Orbitron', sans-serif;
@@ -27,11 +27,11 @@
   --header-height: 80px;
 
   /* Grid effect */
-  --grid-color: rgba(0, 255, 255, 0.03);
+  --grid-color: rgba(2, 132, 199, 0.08);
   --grid-size: 50px;
 }
 
-/* Dark theme override (keeping same values for consistency) */
+/* Dark theme - Retro-futuristic terminal */
 [data-theme='dark'] {
   --color-bg: #0a0e27;
   --color-bg-secondary: #0f1435;
@@ -39,7 +39,11 @@
   --color-text-secondary: rgba(255, 255, 255, 0.7);
   --color-accent: #00ffff;
   --color-accent-hover: #00ff88;
+  --color-accent-secondary: #ff00ff;
   --color-border: rgba(0, 255, 255, 0.2);
+  --color-border-hover: rgba(0, 255, 255, 0.6);
+  --color-glow: rgba(0, 255, 255, 0.5);
+  --grid-color: rgba(0, 255, 255, 0.03);
 }
 
 * {

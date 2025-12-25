@@ -18,12 +18,13 @@ import Moon from './icons/Moon.astro';
   const sunIcon = toggle?.querySelector('.sun-icon');
   const moonIcon = toggle?.querySelector('.moon-icon');
 
-  // Check for saved preference or system preference
+  // Check for saved preference, default to dark theme
   const getThemePreference = (): string => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme') || 'light';
+      return localStorage.getItem('theme') || 'dark';
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default to dark theme (the original terminal aesthetic)
+    return 'dark';
   };
 
   const updateIcons = (theme: string) => {
