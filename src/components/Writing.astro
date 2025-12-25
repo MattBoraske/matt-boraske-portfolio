@@ -7,16 +7,9 @@ interface Props {
   mediumUsername?: string;
 }
 
-const { mediumUsername = 'your-medium-username' } = Astro.props;
+const { mediumUsername = 'mattboraske' } = Astro.props;
 
-// Fetch articles at build time
-let articles = await fetchMediumArticles(mediumUsername, 4);
-
-// Fallback placeholder articles if fetch fails
-if (articles.length === 0) {
-  articles = [
-  ];
-}
+const { articles, error } = await fetchMediumArticles(mediumUsername, 4);
 ---
 
 <section id="writing" class="py-24 px-6">
@@ -27,21 +20,40 @@ if (articles.length === 0) {
       <span class="header-bracket">]</span>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      {articles.map((article) => (
-        <ArticleCard {...article} />
-      ))}
-    </div>
+    {error ? (
+      <div class="error-card terminal-card">
+        <p class="error-message">
+          <span class="terminal-prompt">&gt;</span> {error}
+        </p>
+        <a
+          href={`https://medium.com/@${mediumUsername}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="medium-link"
+        >
+          <span>Visit Medium Profile</span>
+          <span class="link-arrow">→</span>
+        </a>
+      </div>
+    ) : (
+      <>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {articles.map((article) => (
+            <ArticleCard {...article} />
+          ))}
+        </div>
 
-    <a
-      href={`https://medium.com/@${mediumUsername}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="inline-flex items-center gap-2 text-accent hover:text-accent-hover transition-colors"
-    >
-      Read more on Medium
-      <ExternalLink class="w-4 h-4" />
-    </a>
+        <a
+          href={`https://medium.com/@${mediumUsername}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-accent hover:text-accent-hover transition-colors"
+        >
+          Read more on Medium
+          <ExternalLink class="w-4 h-4" />
+        </a>
+      </>
+    )}
   </div>
 </section>
 
@@ -59,5 +71,61 @@ if (articles.length === 0) {
     font-size: 3rem;
     color: var(--color-accent);
     font-weight: 900;
+  }
+
+  .error-card {
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .error-message {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-prompt {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .medium-link {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .medium-link:hover {
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 20px var(--color-glow);
+  }
+
+  .link-arrow {
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+
+  .medium-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
 </style>
