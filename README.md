@@ -114,11 +114,30 @@ All commands are run from the root of the project:
 
 ## Deployment
 
-The site is configured for deployment on:
-- **AWS Amplify**: Uses `amplify.yml` for build configuration
-- **Netlify**: Uses `netlify.toml` for build configuration
+This site is deployed on AWS Amplify with automatic deployments on commits to main branch.
 
-Both platforms will automatically build and deploy when pushing to the main branch.
+See [Deployment Guide](docs/DEPLOYMENT.md) for details on:
+- Environment variables
+- Custom domain setup
+- Build configuration
+- Troubleshooting
+
+## Monitoring
+
+Analytics tracked with Plausible Analytics (privacy-friendly).
+
+See [Monitoring Guide](docs/MONITORING.md) for:
+- Regular maintenance schedule
+- Performance monitoring
+- Link checking
+- Content update workflow
+
+## Analytics
+
+**Platform:** Plausible Analytics
+**Access:** https://plausible.io/mattboraske.com
+
+Tracks page views, traffic sources, and popular content without cookies or personal data collection.
 
 ## Key Sections
 
@@ -163,26 +182,20 @@ Professional contact form with:
 
 ## Content Updates
 
-Content can be updated in two ways:
+All content is managed through markdown files in `src/resources/`. See [Content Management Guide](docs/CONTENT_GUIDE.md) for detailed instructions.
 
-### 1. Component Files (Direct)
-- Research: `src/components/Research.astro`
-- Projects: `src/components/Projects.astro`
-- Timeline: `src/components/Timeline.astro`
-- Skills: `src/components/Skills.astro`
-- Hero: `src/components/Hero.astro`
-- Role Spotlight: `src/components/RoleSpotlight.astro`
+**Quick updates:**
+- Projects: Edit `src/resources/projects.md`
+- Publications: Edit `src/resources/research.md`
+- Experience: Edit `src/resources/timeline.md`
+- Skills: Edit `src/resources/skills.md`
+- Current role: Edit `src/resources/spotlight.md`
 
-### 2. Resource Documentation (Reference)
-The `/src/resources/` folder contains markdown files documenting the content:
-- `hero.md` - Name and title
-- `spotlight.md` - Current role description
-- `timeline.md` - Career milestones
-- `certifications.md` - Professional certifications with URLs
-- `projects.md` - Project details
-- `research.md` - Research publications
-- `skills.md` - Technical skills
-- `contact.md` - Contact information
+Changes automatically deploy when pushed to main branch.
+
+**Documentation:**
+- [Content Management Guide](docs/CONTENT_GUIDE.md) - How to update content
+- [Adding Projects Guide](docs/ADDING_PROJECTS.md) - Replace placeholder projects
 
 ## Configuration
 
