@@ -74,18 +74,20 @@ export function parseTimeline(filePath: string): Experience[] {
       const technologies = getTechnologies();
       const dateRange = getField('Date Range');
       const type = getField('Type').toLowerCase();
+      const location = getField('Location');
 
       return {
         company,
         role,
         dateRange,
+        location: location || undefined,
         description: bullets.length === 0 && description ? description : undefined,
         bullets: bullets.length > 0 ? bullets : undefined,
         technologies,
         isCurrent: dateRange.toLowerCase().includes('present') || getField('Current').toLowerCase() === 'yes',
         type: (type === 'education' ? 'education' : 'work') as 'work' | 'education',
         logo: undefined, // Will be mapped in Timeline component
-        logoSize: type === 'education' ? 'w-14 h-14' : 'w-8 h-8'
+        logoSize: 'w-12 h-12'
       };
     });
   } catch (error) {

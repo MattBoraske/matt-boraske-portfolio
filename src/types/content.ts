@@ -27,6 +27,7 @@ export interface Experience {
   company: string;
   role: string;
   dateRange: string;
+  location?: string;
   description?: string;
   bullets?: string[];
   technologies?: string[];

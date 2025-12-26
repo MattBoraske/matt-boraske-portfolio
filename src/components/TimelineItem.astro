@@ -3,6 +3,7 @@ interface Props {
   company: string;
   role: string;
   dateRange: string;
+  location?: string;
   description?: string;
   bullets?: string[];
   technologies?: string[];
@@ -12,7 +13,7 @@ interface Props {
   logoSize?: string;
 }
 
-const { company, role, dateRange, description, bullets, technologies = [], isCurrent = false, type = 'work', logo, logoSize = 'w-8 h-8' } = Astro.props;
+const { company, role, dateRange, location, description, bullets, technologies = [], isCurrent = false, type = 'work', logo, logoSize = 'w-12 h-12' } = Astro.props;
 const isEducation = type === 'education';
 ---
 
@@ -53,7 +54,11 @@ const isEducation = type === 'education';
       {logo && (
         <img src={logo} alt={`${company} logo`} class={`company-logo ${logoSize}`} />
       )}
-      <p class="company-name">{company}</p>
+      <p class="company-name">
+        {company}
+        {location && <span class="location-separator"> • </span>}
+        {location && <span class="location-text">{location}</span>}
+      </p>
     </div>
 
     <!-- Description or bullets -->
@@ -229,6 +234,15 @@ const isEducation = type === 'education';
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text-secondary);
+  }
+
+  .location-separator {
+    color: var(--color-border);
+  }
+
+  .location-text {
+    color: var(--color-text-secondary);
+    opacity: 0.7;
   }
 
   .experience-bullets {

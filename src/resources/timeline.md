@@ -4,6 +4,7 @@
 **Date Range:** August 2023 - Present
 **Type:** Work
 **Current:** Yes
+**Location:** King of Prussia, PA
 
 ### Description
 Serving as a functional expert in natural language processing, machine learning, and generative AI. Creating AI data retrieval tools using retrieval augmented generation with fine-tuned embedding models. Led the development of a conversational AI tool leveraging plasma donor reviews to provide insights for donation center managers, driving approximately a 15% improvement in average review scores. Deployed an internal chatbot to facilitate private and secure conversations with GPT and Llama 3 models.
@@ -22,6 +23,7 @@ Serving as a functional expert in natural language processing, machine learning,
 ## West Chester University of Pennsylvania - M.S. Computer Science
 **Date Range:** January 2023 - May 2024
 **Type:** Education
+**Location:** West Chester, PA
 
 ### Highlights
 - Graduated Summa Cum Laude with a 4.0 GPA.
@@ -43,6 +45,7 @@ Serving as a functional expert in natural language processing, machine learning,
 ## CSL Behring - Data Scientist Intern
 **Date Range:** June 2023 - August 2023
 **Type:** Work
+**Location:** King of Prussia, PA
 
 ### Description
 Developed a generative AI application that addressed technical barriers to data-driven decision-making by translating English queries into SQL code for execution on connected databases. This was achieved by fine-tuning Flan-T5-XL for English-to-SQL translation using a mixture of SQL instruction and preference data.
@@ -59,6 +62,7 @@ Developed a generative AI application that addressed technical barriers to data-
 ## Epic Systems - Technical Solutions Engineer
 **Date Range:** June 2021 - October 2022
 **Type:** Work
+**Location:** Verona, WI
 
 ### Description
 Provided expert support on MyChart patient portal integration for U.S. healthcare systems using Epic EMR by troubleshooting critical issues, optimizing system compatibility, and improving end-user performance. Led the MyChart Mobile expert support group in building CI/CD pipelines to automate updates, saving up to five hours per week, and redesigning the login workflow to include single sign-on authentication.
@@ -75,6 +79,7 @@ Provided expert support on MyChart patient portal integration for U.S. healthcar
 ## The Ohio State University - B.S. Industrial and Systems Engineering
 **Date Range:** August 2017 - May 2021
 **Type:** Education
+**Location:** Columbus, OH
 
 ### Highlights
 - Graduated Cum Laude with a 3.53 GPA and a minor in computer science.
@@ -92,6 +97,7 @@ Provided expert support on MyChart patient portal integration for U.S. healthcar
 ## Honda of America Manufacturing, Inc. - Machine Learning Engineering Co-Op
 **Date Range:** May 2020 - August 2020
 **Type:** Work
+**Location:** Marysville, OH
 
 ### Description
 Trained a deep neural network that predicted optimal times for preventative maintenance of production plant assets with 88% accuracy, thereby improving equipment longevity and reducing disruptive downtimes.
