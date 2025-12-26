@@ -1,0 +1,208 @@
+---
+interface Props {
+  title: string;
+  location: string;
+  date: string;
+  duration: string;
+  distance: string;
+  elevationGain: string;
+  difficulty: string;
+  highlights?: string[];
+  photos?: string[];
+}
+
+const { title, location, date, duration, distance, elevationGain, difficulty, highlights = [], photos = [] } = Astro.props;
+---
+
+<article class="adventure-card terminal-card group">
+  {photos && photos.length > 0 && (
+    <div class="aspect-video bg-bg-secondary overflow-hidden relative">
+      <div class="placeholder-container">
+        <span class="text-6xl">🏔️</span>
+      </div>
+    </div>
+  )}
+
+  <div class="p-6">
+    <h3 class="text-xl font-semibold text-text font-display card-title mb-2">{title}</h3>
+
+    <div class="location mb-4">
+      <span class="text-accent">📍</span>
+      <span class="text-text-secondary font-mono text-sm">{location}</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-label">Date</span>
+        <span class="stat-value">{date}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Duration</span>
+        <span class="stat-value">{duration}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Distance</span>
+        <span class="stat-value">{distance}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Elevation</span>
+        <span class="stat-value">{elevationGain}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Difficulty</span>
+        <span class={`difficulty-badge difficulty-${difficulty.toLowerCase()}`}>{difficulty}</span>
+      </div>
+    </div>
+
+    {highlights && highlights.length > 0 && (
+      <div class="highlights">
+        <h4 class="highlights-title">Highlights</h4>
+        <ul class="highlights-list">
+          {highlights.map((highlight) => (
+            <li class="highlight-item">
+              <span class="highlight-chevron">&gt;</span>
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .adventure-card {
+    transition: all 0.3s ease;
+  }
+
+  .placeholder-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-border));
+  }
+
+  .location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .difficulty-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+
+  .difficulty-easy {
+    background: #10b98120;
+    color: #10b981;
+    border: 1px solid #10b981;
+  }
+
+  .difficulty-moderate {
+    background: #f59e0b20;
+    color: #f59e0b;
+    border: 1px solid #f59e0b;
+  }
+
+  .difficulty-strenuous {
+    background: #ef444420;
+    color: #ef4444;
+    border: 1px solid #ef4444;
+  }
+
+  .highlights {
+    margin-top: 1.5rem;
+  }
+
+  .highlights-title {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .highlights-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlight-item {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .highlight-item:hover {
+    border-left-color: var(--color-accent);
+    transform: translateX(4px);
+  }
+
+  .highlight-chevron {
+    color: var(--color-accent);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    transition: all 0.3s ease;
+  }
+
+  .adventure-card:hover .card-title {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px var(--color-glow);
+  }
+</style>
