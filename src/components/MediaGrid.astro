@@ -1,0 +1,249 @@
+---
+// Will add API integration later - for now just structure
+---
+
+<div class="media-grid">
+  <!-- Toggle -->
+  <div class="view-toggle">
+    <button class="toggle-button active" data-view="current">
+      <span class="bracket">[</span>
+      Currently
+      <span class="bracket">]</span>
+    </button>
+    <button class="toggle-button" data-view="history">
+      <span class="bracket">[</span>
+      History
+      <span class="bracket">]</span>
+    </button>
+  </div>
+
+  <!-- Media Categories -->
+  <div class="media-sections">
+    <!-- Books -->
+    <div class="media-section">
+      <h4 class="media-title">
+        <span class="icon">📚</span>
+        Books
+      </h4>
+      <div class="media-items current-items active">
+        <p class="placeholder-text">Loading books...</p>
+      </div>
+      <div class="media-items history-items">
+        <p class="placeholder-text">Book history...</p>
+      </div>
+    </div>
+
+    <!-- Movies -->
+    <div class="media-section">
+      <h4 class="media-title">
+        <span class="icon">🎬</span>
+        Movies
+      </h4>
+      <div class="media-items current-items active">
+        <p class="placeholder-text">Loading movies...</p>
+      </div>
+      <div class="media-items history-items">
+        <p class="placeholder-text">Movie history...</p>
+      </div>
+    </div>
+
+    <!-- Shows -->
+    <div class="media-section">
+      <h4 class="media-title">
+        <span class="icon">📺</span>
+        Shows
+      </h4>
+      <div class="media-items current-items active">
+        <p class="placeholder-text">Loading shows...</p>
+      </div>
+      <div class="media-items history-items">
+        <p class="placeholder-text">Show history...</p>
+      </div>
+    </div>
+
+    <!-- Games -->
+    <div class="media-section">
+      <h4 class="media-title">
+        <span class="icon">🎮</span>
+        Games
+      </h4>
+      <div class="media-items current-items active">
+        <p class="placeholder-text">Loading games...</p>
+      </div>
+      <div class="media-items history-items">
+        <p class="placeholder-text">Game history...</p>
+      </div>
+    </div>
+
+    <!-- Music -->
+    <div class="media-section">
+      <h4 class="media-title">
+        <span class="icon">🎵</span>
+        Music
+      </h4>
+      <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-card">
+        <span class="spotify-icon">🎧</span>
+        <span class="spotify-text">Listen on Spotify</span>
+        <span class="external-icon">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .media-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .view-toggle {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .toggle-button {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .bracket {
+    color: var(--color-border);
+    font-weight: 900;
+  }
+
+  .toggle-button:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .toggle-button:hover .bracket {
+    color: var(--color-accent);
+  }
+
+  .toggle-button.active {
+    background: var(--color-accent-bg-hover);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .toggle-button.active .bracket {
+    color: var(--color-accent);
+  }
+
+  .media-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .media-section {
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .media-section:hover {
+    border-color: var(--color-accent);
+  }
+
+  .media-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+  }
+
+  .media-items {
+    display: none;
+    min-height: 100px;
+  }
+
+  .media-items.active {
+    display: block;
+  }
+
+  .placeholder-text {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .spotify-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: linear-gradient(135deg, #1db954, #1ed760);
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .spotify-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(29, 185, 84, 0.4);
+  }
+
+  .spotify-icon {
+    font-size: 1.5rem;
+  }
+
+  .external-icon {
+    font-size: 1.5rem;
+  }
+</style>
+
+<script>
+  // Toggle between current and history views
+  const toggleButtons = document.querySelectorAll('.toggle-button');
+  const currentItems = document.querySelectorAll('.current-items');
+  const historyItems = document.querySelectorAll('.history-items');
+
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const view = button.getAttribute('data-view');
+
+      // Update button states
+      toggleButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Update visible items
+      if (view === 'current') {
+        currentItems.forEach(items => items.classList.add('active'));
+        historyItems.forEach(items => items.classList.remove('active'));
+      } else {
+        currentItems.forEach(items => items.classList.remove('active'));
+        historyItems.forEach(items => items.classList.add('active'));
+      }
+    });
+  });
+</script>
