@@ -1,5 +1,5 @@
 ---
-// Will add API integration later - for now just structure
+const spotifyUrl = import.meta.env.PUBLIC_SPOTIFY_PROFILE_URL || 'https://spotify.com';
 ---
 
 <div class="media-grid">
@@ -81,7 +81,7 @@
         <span class="icon">🎵</span>
         Music
       </h4>
-      <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="spotify-card">
+      <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" class="spotify-card">
         <span class="spotify-icon">🎧</span>
         <span class="spotify-text">Listen on Spotify</span>
         <span class="external-icon">→</span>
