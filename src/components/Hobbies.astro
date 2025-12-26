@@ -1,8 +1,11 @@
 ---
 import AdventureCard from './AdventureCard.astro';
 import { parseAdventures } from '../utils/parseAdventures';
+import FitnessTracker from './FitnessTracker.astro';
+import { parseFitness } from '../utils/parseFitness';
 
 const adventures = parseAdventures('./src/resources/hobbies.md');
+const fitnessData = parseFitness('./src/resources/fitness.md');
 ---
 
 <section id="hobbies" class="py-24 px-6 bg-bg">
@@ -49,7 +52,11 @@ const adventures = parseAdventures('./src/resources/hobbies.md');
       <p class="text-text-secondary">Media content coming soon...</p>
     </div>
     <div class="tab-content" data-content="fitness">
-      <p class="text-text-secondary">Fitness content coming soon...</p>
+      {fitnessData ? (
+        <FitnessTracker {...fitnessData} />
+      ) : (
+        <p class="text-text-secondary">No fitness data available.</p>
+      )}
     </div>
     <div class="tab-content" data-content="bella">
       <p class="text-text-secondary">Bella profile coming soon...</p>
