@@ -3,9 +3,12 @@ import AdventureCard from './AdventureCard.astro';
 import { parseAdventures } from '../utils/parseAdventures';
 import FitnessTracker from './FitnessTracker.astro';
 import { parseFitness } from '../utils/parseFitness';
+import BellaProfile from './BellaProfile.astro';
+import { parseBellaProfile } from '../utils/parseBellaProfile';
 
 const adventures = parseAdventures('./src/resources/hobbies.md');
 const fitnessData = parseFitness('./src/resources/fitness.md');
+const bellaData = parseBellaProfile('./src/resources/hobbies.md');
 ---
 
 <section id="hobbies" class="py-24 px-6 bg-bg">
@@ -59,7 +62,11 @@ const fitnessData = parseFitness('./src/resources/fitness.md');
       )}
     </div>
     <div class="tab-content" data-content="bella">
-      <p class="text-text-secondary">Bella profile coming soon...</p>
+      {bellaData ? (
+        <BellaProfile {...bellaData} />
+      ) : (
+        <p class="text-text-secondary">No Bella profile data available.</p>
+      )}
     </div>
   </div>
 </section>
