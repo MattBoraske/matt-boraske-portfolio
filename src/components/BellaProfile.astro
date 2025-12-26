@@ -1,0 +1,205 @@
+---
+interface Props {
+  about: string;
+  age: string;
+  breed: string;
+  favoriteThings: string;
+  story: string;
+  photos?: string[];
+}
+
+const { about, age, breed, favoriteThings, story, photos = [] } = Astro.props;
+---
+
+<div class="bella-profile">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-image">
+      <span class="text-8xl">🐕</span>
+    </div>
+    <div class="hero-content">
+      <h3 class="bella-title">
+        <span class="title-bracket">[</span>
+        Meet Bella
+        <span class="title-bracket">]</span>
+      </h3>
+      <p class="about-text">{about}</p>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <div class="stat-card">
+      <div class="stat-label">Age</div>
+      <div class="stat-value">{age}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Breed</div>
+      <div class="stat-value">{breed}</div>
+    </div>
+    <div class="stat-card full-width">
+      <div class="stat-label">Favorite Things</div>
+      <div class="stat-value">{favoriteThings}</div>
+    </div>
+  </div>
+
+  <!-- Story Section -->
+  <div class="story-section">
+    <h4 class="section-title">
+      <span class="title-bracket">[</span>
+      Our Story
+      <span class="title-bracket">]</span>
+    </h4>
+    <p class="story-text">{story}</p>
+
+    {photos && photos.length > 0 && (
+      <div class="photo-grid">
+        {photos.map((photo) => (
+          <div class="photo-placeholder">
+            <span class="text-4xl">📸</span>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .bella-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .hero-section {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+  }
+
+  .hero-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-accent-bg), var(--color-accent-bg-hover));
+    border: 4px solid var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px var(--color-glow);
+  }
+
+  .bella-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title-bracket {
+    color: var(--color-accent);
+  }
+
+  .about-text {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  .stats-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .stat-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-glow);
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .story-text {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    padding: 1.5rem;
+    background: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .photo-placeholder {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-border));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .photo-placeholder:hover {
+    border-color: var(--color-accent);
+    transform: scale(1.05);
+  }
+</style>
