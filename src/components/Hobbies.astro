@@ -1,0 +1,164 @@
+---
+// Empty for now - will add imports and data later
+---
+
+<section id="hobbies" class="py-24 px-6 bg-bg">
+  <div class="max-w-content mx-auto">
+    <div class="section-header animate-on-scroll">
+      <span class="header-bracket">[</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text">Hobbies</h2>
+      <span class="header-bracket">]</span>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-button active" data-tab="trail-log">
+        <span class="tab-bracket">[</span>
+        Trail Log
+        <span class="tab-bracket">]</span>
+      </button>
+      <button class="tab-button" data-tab="media">
+        <span class="tab-bracket">[</span>
+        Currently Enjoying
+        <span class="tab-bracket">]</span>
+      </button>
+      <button class="tab-button" data-tab="fitness">
+        <span class="tab-bracket">[</span>
+        Fitness
+        <span class="tab-bracket">]</span>
+      </button>
+      <button class="tab-button" data-tab="bella">
+        <span class="tab-bracket">[</span>
+        Meet Bella
+        <span class="tab-bracket">]</span>
+      </button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content active" data-content="trail-log">
+      <p class="text-text-secondary">Trail Log content coming soon...</p>
+    </div>
+    <div class="tab-content" data-content="media">
+      <p class="text-text-secondary">Media content coming soon...</p>
+    </div>
+    <div class="tab-content" data-content="fitness">
+      <p class="text-text-secondary">Fitness content coming soon...</p>
+    </div>
+    <div class="tab-content" data-content="bella">
+      <p class="text-text-secondary">Bella profile coming soon...</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .header-bracket {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+
+  .tab-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tab-button {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tab-bracket {
+    color: var(--color-border);
+    font-weight: 900;
+    transition: color 0.3s ease;
+  }
+
+  .tab-button:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-glow);
+  }
+
+  .tab-button:hover .tab-bracket {
+    color: var(--color-accent);
+  }
+
+  .tab-button.active {
+    background: var(--color-accent-bg-hover);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0 0 20px var(--color-glow);
+  }
+
+  .tab-button.active .tab-bracket {
+    color: var(--color-accent);
+  }
+
+  .tab-content {
+    display: none;
+    min-height: 400px;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  // Tab switching logic
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabName = button.getAttribute('data-tab');
+
+      // Remove active class from all buttons and contents
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      // Add active class to clicked button and corresponding content
+      button.classList.add('active');
+      const activeContent = document.querySelector(`[data-content="${tabName}"]`);
+      if (activeContent) {
+        activeContent.classList.add('active');
+      }
+    });
+  });
+</script>
