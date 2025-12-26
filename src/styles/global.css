@@ -38,6 +38,9 @@
   /* Grid effect */
   --grid-color: rgba(2, 132, 199, 0.08);
   --grid-size: 50px;
+
+  /* Scanlines effect */
+  --scanline-color: rgba(2, 132, 199, 0.02);
 }
 
 /* Dark theme - Retro-futuristic terminal */
@@ -62,6 +65,7 @@
   --color-accent-bg-hover: rgba(0, 255, 255, 0.1);
   --color-subtle-bg: rgba(255, 255, 255, 0.02);
   --grid-color: rgba(0, 255, 255, 0.03);
+  --scanline-color: rgba(0, 255, 255, 0.02);
 }
 
 * {
@@ -110,7 +114,7 @@ body::after {
   inset: 0;
   background: linear-gradient(
     transparent 50%,
-    rgba(0, 255, 255, 0.02) 50%
+    var(--scanline-color) 50%
   );
   background-size: 100% 4px;
   pointer-events: none;
@@ -197,12 +201,12 @@ section {
   border-color: var(--color-border-hover);
   box-shadow:
     0 0 10px var(--color-glow),
-    inset 0 0 10px rgba(0, 255, 255, 0.1);
+    inset 0 0 10px var(--color-glow);
 }
 
 /* Card styling with terminal aesthetic */
 .terminal-card {
-  background: rgba(15, 20, 53, 0.6);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 2rem;
@@ -212,9 +216,9 @@ section {
 
 .terminal-card:hover {
   border-color: var(--color-border-hover);
-  background: rgba(15, 20, 53, 0.8);
+  background: var(--color-bg-card-hover);
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+  box-shadow: 0 10px 30px var(--color-glow);
 }
 
 /* Button styling */
@@ -254,7 +258,7 @@ section {
 }
 
 .btn-secondary:hover {
-  background: rgba(0, 255, 255, 0.1);
+  background: var(--color-accent-bg-hover);
   border-color: var(--color-accent-hover);
   color: var(--color-accent-hover);
   transform: translateY(-2px);

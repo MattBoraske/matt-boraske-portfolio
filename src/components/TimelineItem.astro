@@ -99,17 +99,17 @@ const isEducation = type === 'education';
     width: 2px;
     background: linear-gradient(
       180deg,
-      rgba(0, 255, 255, 0.4),
-      rgba(0, 255, 255, 0.1)
+      var(--color-border-hover),
+      var(--color-border)
     );
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 10px var(--color-glow);
   }
 
   .timeline-item:hover .timeline-line {
     background: linear-gradient(
       180deg,
       var(--color-accent),
-      rgba(0, 255, 255, 0.3)
+      var(--color-border)
     );
     box-shadow: 0 0 20px var(--color-glow);
   }
@@ -126,7 +126,7 @@ const isEducation = type === 'education';
     justify-content: center;
     border-radius: 50%;
     background: var(--color-bg);
-    border: 2px solid rgba(0, 255, 255, 0.3);
+    border: 2px solid var(--color-border);
     transition: all 0.3s ease;
     z-index: 10;
   }
@@ -314,7 +314,7 @@ const isEducation = type === 'education';
   .timeline-item:last-child .timeline-line {
     background: linear-gradient(
       180deg,
-      rgba(0, 255, 255, 0.4),
+      var(--color-border-hover),
       transparent
     );
   }

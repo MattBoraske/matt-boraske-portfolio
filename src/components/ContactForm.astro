@@ -191,10 +191,10 @@ const { formspreeId = 'your-formspree-id' } = Astro.props;
   .success-message {
     display: none;
     padding: 1.5rem;
-    background: rgba(0, 255, 136, 0.1);
+    background: var(--color-accent-bg-hover);
     border: 2px solid var(--color-accent-hover);
     border-radius: 4px;
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    box-shadow: 0 0 20px var(--color-glow);
   }
 
   .success-message.active {

@@ -40,13 +40,6 @@ const socialLinks = [
         ))}
       </div>
     </div>
-
-    <!-- Terminal footer message -->
-    <div class="footer-message">
-      <span class="message-bracket">[</span>
-      <span class="message-text">Built with Astro • Deployed on the edge</span>
-      <span class="message-bracket">]</span>
-    </div>
   </div>
 </footer>
 
@@ -144,28 +137,5 @@ const socialLinks = [
   .social-link:hover::before {
     border-color: var(--color-border);
     box-shadow: 0 0 15px var(--color-glow);
-  }
-
-  .footer-message {
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .message-bracket {
-    color: var(--color-accent);
-    font-weight: 700;
-  }
-
-  .message-text {
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
   }
 </style>
