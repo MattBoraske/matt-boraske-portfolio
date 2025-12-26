@@ -48,6 +48,72 @@
     - Debugging & Profiling
     - Documentation
 
+## Systems Design
+### Architecture Patterns
+    - Microservices Architecture
+    - Monolithic Architecture
+    - Event-Driven Architecture
+    - Service-Oriented Architecture (SOA)
+    - Layered Architecture
+    - Hexagonal Architecture
+### Scalability & Performance
+    - Horizontal vs Vertical Scaling
+    - Load Balancing
+    - Caching Strategies (Redis, Memcached)
+    - CDN Implementation
+    - Database Sharding & Partitioning
+    - Read Replicas & Write Masters
+    - Connection Pooling
+### Distributed Systems
+    - Consensus Algorithms (Raft, Paxos)
+    - CAP Theorem Trade-offs
+    - Eventual Consistency
+    - Distributed Transactions
+    - Message Queues (Kafka, RabbitMQ, SQS)
+    - Service Mesh (Istio, Linkerd)
+### Data Storage & Management
+    - SQL vs NoSQL Selection
+    - Data Modeling & Schema Design
+    - Indexing Strategies
+    - Data Replication
+    - Backup & Disaster Recovery
+    - Data Migration Patterns
+### API Design & Integration
+    - REST API Design Principles
+    - GraphQL Schema Design
+    - gRPC & Protocol Buffers
+    - API Versioning Strategies
+    - Rate Limiting & Throttling
+    - API Gateway Patterns
+### Reliability & Resilience
+    - Circuit Breaker Pattern
+    - Retry & Backoff Strategies
+    - Bulkhead Pattern
+    - Graceful Degradation
+    - Health Checks & Monitoring
+    - Chaos Engineering
+### Security & Compliance
+    - Authentication & Authorization (OAuth, JWT)
+    - Encryption (At Rest & In Transit)
+    - Security Best Practices
+    - DDOS Protection
+    - HTTPS/TLS Configuration
+    - Compliance Requirements (SOC2, HIPAA, GDPR)
+### System Components
+    - Load Balancers (NGINX, HAProxy, ALB)
+    - Reverse Proxies
+    - Message Brokers
+    - Search Engines (Elasticsearch, Solr)
+    - In-Memory Databases
+    - Object Storage (S3, GCS)
+### Monitoring & Observability
+    - Metrics Collection (Prometheus, Datadog)
+    - Logging Aggregation (ELK Stack, Splunk)
+    - Distributed Tracing (Jaeger, Zipkin)
+    - APM Tools
+    - Alerting & Incident Response
+    - SLI/SLO/SLA Definition
+
 ## Generative AI
 ### Foundation
     - Prompt Engineering
@@ -127,26 +193,6 @@
     - Message Queues (Kafka, RabbitMQ, Pub/Sub)
     - File Formats (Parquet, Avro, ORC)
 
-## Domain-Specific Tools & Technologies
-### Business Intelligence & Visualization
-    - Tableau
-    - Power BI
-    - Looker
-    - Plotly Dash
-### Scientific Computing & Data Analysis
-    - NumPy
-    - SciPy
-    - Pandas
-### Machine Learning Libraries
-    - scikit-learn
-    - XGBoost
-    - TensorFlow
-    - PyTorch
-### Time Series & Forecasting
-    - Prophet
-    - statsmodels
-    - ARIMA/SARIMA
-
 ## Project Management
 ### Planning & Strategy
     - Project Planning & Scoping
@@ -223,15 +269,3 @@
     - Donor/Patient Lifecycle Management
     - Healthcare Resource Optimization
     - Capacity Planning for Healthcare Facilities
-
-## Data Strategy & Governance
-### Strategic Planning
-    - Data Strategy Development
-    - Analytics Strategy & Roadmapping
-    - Data-Driven Decision Making
-    - Business Value Assessment
-### Enablement & Culture
-    - Data Democratization
-    - Analytics Training & Enablement
-    - Self-Service Analytics Strategy
-    - Data Literacy Programs

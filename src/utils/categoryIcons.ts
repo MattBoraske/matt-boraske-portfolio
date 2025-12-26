@@ -4,6 +4,7 @@
  */
 export const categoryIcons: Record<string, string> = {
   'Software Development': 'code-2',
+  'Systems Design': 'network',
   'Generative AI': 'sparkles',
   'Data Science & Machine Learning': 'bar-chart-3',
   'Analytics Engineering': 'database',
