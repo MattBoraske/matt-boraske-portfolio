@@ -1,0 +1,144 @@
+---
+interface Props {
+  prs: { exercise: string; weight: string }[];
+  journey: string;
+  photos?: string[];
+}
+
+const { prs, journey, photos = [] } = Astro.props;
+---
+
+<div class="fitness-tracker">
+  <!-- PRs Section -->
+  <div class="prs-section">
+    <h3 class="section-title">
+      <span class="title-bracket">[</span>
+      Personal Records
+      <span class="title-bracket">]</span>
+    </h3>
+    <div class="prs-grid">
+      {prs.map((pr) => (
+        <div class="pr-card">
+          <div class="pr-exercise">{pr.exercise}</div>
+          <div class="pr-weight">{pr.weight}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Journey Section -->
+  <div class="journey-section">
+    <h3 class="section-title">
+      <span class="title-bracket">[</span>
+      My Journey
+      <span class="title-bracket">]</span>
+    </h3>
+    <p class="journey-text">{journey}</p>
+
+    {photos && photos.length > 0 && (
+      <div class="photo-grid">
+        {photos.map((photo) => (
+          <div class="photo-placeholder">
+            <span class="text-4xl">💪</span>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .fitness-tracker {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title-bracket {
+    color: var(--color-accent);
+    font-weight: 900;
+  }
+
+  .prs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .pr-card {
+    background: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .pr-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px var(--color-glow);
+  }
+
+  .pr-exercise {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .pr-weight {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    text-shadow: 0 0 10px var(--color-glow);
+  }
+
+  .journey-text {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    padding: 1.5rem;
+    background: var(--color-bg-secondary);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .photo-placeholder {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-border));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .photo-placeholder:hover {
+    border-color: var(--color-accent);
+    transform: scale(1.05);
+  }
+</style>
