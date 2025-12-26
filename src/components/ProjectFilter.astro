@@ -35,8 +35,8 @@ const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = As
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 0.75rem 1.5rem;
-    background: rgba(15, 20, 53, 0.6);
-    color: rgba(255, 255, 255, 0.6);
+    background: var(--color-bg-card);
+    color: var(--color-text-secondary);
     border: 1px solid var(--color-border);
     border-radius: 4px;
     cursor: pointer;
@@ -48,7 +48,7 @@ const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = As
 
   .filter-bracket {
     font-weight: 900;
-    color: rgba(0, 255, 255, 0.3);
+    color: var(--color-border);
     transition: all 0.3s ease;
   }
 
@@ -57,9 +57,9 @@ const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = As
   }
 
   .filter-btn:hover {
-    background: rgba(15, 20, 53, 0.8);
+    background: var(--color-bg-card-hover);
     border-color: var(--color-accent);
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--color-text);
     transform: translateY(-2px);
   }
 
@@ -71,7 +71,7 @@ const { categories = ['All', 'ML/AI', 'Data Engineering', 'Web', 'Other'] } = As
     background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
     color: var(--color-bg);
     border-color: var(--color-accent);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 20px var(--color-glow);
   }
 
   .filter-btn.active .filter-bracket {

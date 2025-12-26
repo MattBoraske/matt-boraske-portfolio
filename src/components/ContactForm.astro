@@ -92,7 +92,7 @@ const { formspreeId = 'your-formspree-id' } = Astro.props;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -107,7 +107,7 @@ const { formspreeId = 'your-formspree-id' } = Astro.props;
     font-family: var(--font-mono);
     font-size: 0.875rem;
     padding: 1rem 1.25rem;
-    background: rgba(15, 20, 53, 0.6);
+    background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 4px;
     color: var(--color-text);
@@ -116,15 +116,15 @@ const { formspreeId = 'your-formspree-id' } = Astro.props;
   }
 
   .form-input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--color-text-placeholder);
   }
 
   .form-input:focus {
     border-color: var(--color-accent);
-    background: rgba(15, 20, 53, 0.8);
+    background: var(--color-bg-card-hover);
     box-shadow:
       0 0 0 1px var(--color-accent),
-      0 0 20px rgba(0, 255, 255, 0.2);
+      0 0 20px var(--color-glow);
   }
 
   .form-textarea {

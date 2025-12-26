@@ -8,14 +8,23 @@
   /* Light theme - Tech/Terminal aesthetic */
   --color-bg: #f8fafc;
   --color-bg-secondary: #e2e8f0;
+  --color-bg-card: rgba(226, 232, 240, 0.6);
+  --color-bg-card-hover: rgba(226, 232, 240, 0.8);
+  --color-bg-header: rgba(248, 250, 252, 0.9);
+  --color-bg-footer: rgba(248, 250, 252, 0.95);
+  --color-bg-mobile-menu: rgba(226, 232, 240, 0.95);
   --color-text: #0f172a;
   --color-text-secondary: #475569;
+  --color-text-placeholder: #94a3b8;
   --color-accent: #0284c7;
   --color-accent-hover: #0369a1;
   --color-accent-secondary: #7c3aed;
   --color-border: rgba(2, 132, 199, 0.2);
   --color-border-hover: rgba(2, 132, 199, 0.6);
   --color-glow: rgba(2, 132, 199, 0.3);
+  --color-accent-bg: rgba(2, 132, 199, 0.05);
+  --color-accent-bg-hover: rgba(2, 132, 199, 0.1);
+  --color-subtle-bg: rgba(2, 132, 199, 0.02);
 
   /* Typography */
   --font-display: 'Orbitron', sans-serif;
@@ -35,14 +44,23 @@
 [data-theme='dark'] {
   --color-bg: #0a0e27;
   --color-bg-secondary: #0f1435;
+  --color-bg-card: rgba(15, 20, 53, 0.6);
+  --color-bg-card-hover: rgba(15, 20, 53, 0.8);
+  --color-bg-header: rgba(10, 14, 39, 0.9);
+  --color-bg-footer: rgba(10, 14, 39, 0.95);
+  --color-bg-mobile-menu: rgba(15, 20, 53, 0.95);
   --color-text: #ffffff;
   --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-placeholder: rgba(255, 255, 255, 0.3);
   --color-accent: #00ffff;
   --color-accent-hover: #00ff88;
   --color-accent-secondary: #ff00ff;
   --color-border: rgba(0, 255, 255, 0.2);
   --color-border-hover: rgba(0, 255, 255, 0.6);
   --color-glow: rgba(0, 255, 255, 0.5);
+  --color-accent-bg: rgba(0, 255, 255, 0.05);
+  --color-accent-bg-hover: rgba(0, 255, 255, 0.1);
+  --color-subtle-bg: rgba(255, 255, 255, 0.02);
   --grid-color: rgba(0, 255, 255, 0.03);
 }
 
