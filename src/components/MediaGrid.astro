@@ -1,5 +1,4 @@
 ---
-const spotifyUrl = import.meta.env.PUBLIC_SPOTIFY_PROFILE_URL || 'https://spotify.com';
 ---
 
 <div class="media-grid">
@@ -59,33 +58,6 @@ const spotifyUrl = import.meta.env.PUBLIC_SPOTIFY_PROFILE_URL || 'https://spotif
       <div class="media-items history-items">
         <p class="placeholder-text">Show history...</p>
       </div>
-    </div>
-
-    <!-- Games -->
-    <div class="media-section">
-      <h4 class="media-title">
-        <span class="icon">🎮</span>
-        Games
-      </h4>
-      <div class="media-items current-items active">
-        <p class="placeholder-text">Loading games...</p>
-      </div>
-      <div class="media-items history-items">
-        <p class="placeholder-text">Game history...</p>
-      </div>
-    </div>
-
-    <!-- Music -->
-    <div class="media-section">
-      <h4 class="media-title">
-        <span class="icon">🎵</span>
-        Music
-      </h4>
-      <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" class="spotify-card">
-        <span class="spotify-icon">🎧</span>
-        <span class="spotify-text">Listen on Spotify</span>
-        <span class="external-icon">→</span>
-      </a>
     </div>
   </div>
 </div>
@@ -192,33 +164,6 @@ const spotifyUrl = import.meta.env.PUBLIC_SPOTIFY_PROFILE_URL || 'https://spotif
     color: var(--color-text-secondary);
     text-align: center;
     padding: 2rem;
-  }
-
-  .spotify-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    background: linear-gradient(135deg, #1db954, #1ed760);
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
-    font-family: var(--font-mono);
-    font-weight: 700;
-    transition: all 0.3s ease;
-  }
-
-  .spotify-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(29, 185, 84, 0.4);
-  }
-
-  .spotify-icon {
-    font-size: 1.5rem;
-  }
-
-  .external-icon {
-    font-size: 1.5rem;
   }
 </style>
 

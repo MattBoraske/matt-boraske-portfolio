@@ -22,10 +22,8 @@ Open `src/resources/hobbies.md` and add a new entry under the `# Trail Log` sect
 ## Your Trail Name
 **Location:** Starting Point to End Point, State
 **Date:** Month Year
-**Duration:** X days, Y nights
 **Distance:** XX.X miles
-**Elevation Gain:** X,XXX ft
-**Difficulty:** Easy | Moderate | Strenuous
+**Max Elevation:** X,XXX ft @ Location Name
 
 ### Highlights
 - First notable experience or achievement
@@ -53,23 +51,16 @@ Open `src/resources/hobbies.md` and add a new entry under the `# Trail Log` sect
 - Format: `Month Year`
 - Example: `March 2024`
 
-**Duration**
-- Format: `X days, Y nights`
-- Example: `4 days, 3 nights`
-
 **Distance**
 - Format: `XX.X miles`
 - Include decimal for precision
 - Example: `31.2 miles`
 
-**Elevation Gain**
-- Format: `X,XXX ft`
-- Total elevation gain, not net
-- Example: `6,800 ft`
-
-**Difficulty**
-- Choose one: `Easy`, `Moderate`, or `Strenuous`
-- Determines badge color (green, orange, red)
+**Max Elevation**
+- Format: `X,XXX ft @ Location Name`
+- Highest point reached on the trail
+- Include the location name for context
+- Example: `13,000 ft @ Surprise Lake`
 
 #### Optional Fields
 
@@ -89,16 +80,14 @@ Open `src/resources/hobbies.md` and add a new entry under the `# Trail Log` sect
 ## Pacific Crest Trail - Oregon Section
 **Location:** Crater Lake to McKenzie Pass, OR
 **Date:** July 2024
-**Duration:** 7 days, 6 nights
 **Distance:** 78.3 miles
-**Elevation Gain:** 12,400 ft
-**Difficulty:** Strenuous
+**Max Elevation:** 10,358 ft @ South Sister
 
 ### Highlights
 - Hiked around Crater Lake's rim at sunrise
 - Encountered a black bear family near Three Sisters
 - Crossed fields of wildflowers in full bloom
-- Summited South Sister (10,358 ft)
+- Summited South Sister at peak elevation
 
 ### Photos
 - pct-crater-lake.jpg
@@ -181,10 +170,10 @@ Open `src/resources/hobbies.md` and find the `# Bella Profile` section:
 ## Meet Bella
 
 ### About
-Bella is a 5-year-old Staffordshire Pitbull rescue with more energy than sense.
+Bella is a Staffordshire Pitbull rescue with more energy than sense.
 She loves hiking, belly rubs, and stealing socks.
 
-**Age:** 5 years
+**Birthday:** 2018-05-15
 **Breed:** Staffordshire Pitbull
 **Favorite Things:** Hiking trails, squeaky toys, napping in sunbeams
 
@@ -205,9 +194,11 @@ and the best decision I ever made.
 - Include personality traits
 - Keep it fun and personal
 
-**Age**
-- Format: `X years` or `X months`
-- Update annually
+**Birthday**
+- Format: `YYYY-MM-DD` (ISO 8601 date format)
+- Age is automatically calculated from this date
+- Example: `2018-05-15` for May 15, 2018
+- If you don't know the exact date, use January 1st or an estimated date
 
 **Breed**
 - Full breed name or mix description
@@ -238,10 +229,10 @@ If you have a different pet or want to feature someone else:
 ## Meet Max
 
 ### About
-Max is a 3-year-old Golden Retriever who thinks he's a lap dog despite weighing
+Max is a Golden Retriever who thinks he's a lap dog despite weighing
 75 pounds. Champion stick-fetcher and professional food enthusiast.
 
-**Age:** 3 years
+**Birthday:** 2022-03-20
 **Breed:** Golden Retriever
 **Favorite Things:** Swimming, tennis balls, car rides, snacks
 
@@ -259,7 +250,7 @@ running companion.
 
 ### Configuring API Keys
 
-The "Currently Enjoying" tab supports integration with various media tracking services.
+The "Currently Enjoying" tab supports integration with various media tracking services for books, movies, and TV shows.
 
 #### Step 1: Copy Environment Template
 
@@ -276,19 +267,9 @@ Edit `.env` and add your credentials:
 PUBLIC_TRAKT_API_KEY=your-trakt-api-key-here
 PUBLIC_GOODREADS_USER_ID=your-goodreads-user-id
 PUBLIC_LETTERBOXD_USERNAME=your-letterboxd-username
-PUBLIC_BACKLOGGD_USERNAME=your-backloggd-username
-PUBLIC_SPOTIFY_PROFILE_URL=https://open.spotify.com/user/your-username
 ```
 
 ### Supported Services
-
-#### Spotify (Music)
-**Current Status:** Configured
-**What it does:** Links to your Spotify profile
-
-1. Visit your Spotify profile
-2. Click "Share" → "Copy link to profile"
-3. Add to `.env`: `PUBLIC_SPOTIFY_PROFILE_URL=https://open.spotify.com/user/...`
 
 #### Trakt (Movies & TV)
 **Current Status:** Placeholder for future integration
@@ -311,13 +292,6 @@ PUBLIC_SPOTIFY_PROFILE_URL=https://open.spotify.com/user/your-username
 
 1. Create account at [letterboxd.com](https://letterboxd.com)
 2. Add to `.env`: `PUBLIC_LETTERBOXD_USERNAME=yourusername`
-
-#### Backloggd (Games)
-**Current Status:** Placeholder for future integration
-**What it will do:** Display gaming activity
-
-1. Create account at [backloggd.com](https://www.backloggd.com)
-2. Add to `.env`: `PUBLIC_BACKLOGGD_USERNAME=yourusername`
 
 ### Future API Integration
 

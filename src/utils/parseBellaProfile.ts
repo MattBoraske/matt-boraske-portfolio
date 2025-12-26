@@ -15,7 +15,7 @@ export function parseBellaProfile(filePath: string): BellaProfile | null {
     // Get About section
     const aboutStart = lines.findIndex(l => l.trim() === '### About');
     let about = '';
-    let age = '';
+    let birthday = '';
     let breed = '';
     let favoriteThings = '';
 
@@ -29,8 +29,8 @@ export function parseBellaProfile(filePath: string): BellaProfile | null {
       }
 
       // Parse stats
-      const ageMatch = bellaContent.match(/\*\*Age:\*\* (.+)/);
-      if (ageMatch) age = ageMatch[1];
+      const birthdayMatch = bellaContent.match(/\*\*Birthday:\*\* (.+)/);
+      if (birthdayMatch) birthday = birthdayMatch[1];
 
       const breedMatch = bellaContent.match(/\*\*Breed:\*\* (.+)/);
       if (breedMatch) breed = breedMatch[1];
@@ -69,7 +69,7 @@ export function parseBellaProfile(filePath: string): BellaProfile | null {
 
     return {
       about,
-      age,
+      birthday,
       breed,
       favoriteThings,
       story,

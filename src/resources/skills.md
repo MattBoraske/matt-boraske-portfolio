@@ -1,5 +1,42 @@
 # Skills
 
+## Data Science & Machine Learning
+### Core Modeling
+    - Predictive Modeling
+    - Forecasting & Time Series Analysis
+    - Statistical Analysis
+    - Classification & Clustering
+    - Computer Vision
+### Process Optimization
+    - Labor Scheduling
+    - Workforce Planning
+### Visualization & Communication
+    - Dashboard Development
+    - Data Visualization
+    - Business Reporting
+### Business & Operational Analytics
+    - Business Intelligence
+    - Operational Analytics
+    - Impact Analysis
+    - KPI Development
+### Quality & Process
+    - Quality Analytics
+    - Statistical Process Control (SPC)
+    - Root Cause Analysis
+    - Process Mining
+### Experimentation & Statistical Methods
+    - A/B Testing & Experimental Design
+    - Hypothesis Testing
+    - Causal Inference
+    - Statistical Significance & Power Analysis
+    - Multi-Armed Bandit Testing
+### Data Modeling & Metrics
+    - dbt (data build tool)
+    - Metrics Layer Development
+    - Analytics Data Modeling
+    - Business Logic Implementation
+    - Self-Service Analytics Enablement
+
 ## Software Development
 ### Programming Languages
     - Python
@@ -114,59 +151,6 @@
     - Alerting & Incident Response
     - SLI/SLO/SLA Definition
 
-## Generative AI
-### Foundation
-    - Prompt Engineering
-    - Fine-tuning & Model Adaptation
-    - LLM Evaluation & Testing
-### Advanced Techniques
-    - Retrieval-Augmented Generation (RAG)
-    - Chain-of-Thought Prompting
-    - Few-Shot Learning
-    - Agent Development
-### Implementation
-    - API Integration (OpenAI, Anthropic, etc.)
-    - Vector Databases
-    - LLM Frameworks (LangChain, LlamaIndex)
- 
-
-## Data Science & Machine Learning
-### Core Modeling
-    - Predictive Modeling
-    - Forecasting & Time Series Analysis
-    - Statistical Analysis
-    - Classification & Clustering
-    - Computer Vision
-### Process Optimization
-    - Labor Scheduling
-    - Workforce Planning
-### Visualization & Communication
-    - Dashboard Development
-    - Data Visualization
-    - Business Reporting
-### Business & Operational Analytics
-    - Business Intelligence
-    - Operational Analytics
-    - Impact Analysis
-    - KPI Development
-### Quality & Process
-    - Quality Analytics
-    - Statistical Process Control (SPC)
-    - Root Cause Analysis
-    - Process Mining
-### Experimentation & Statistical Methods
-    - A/B Testing & Experimental Design
-    - Hypothesis Testing
-    - Causal Inference
-    - Statistical Significance & Power Analysis
-    - Multi-Armed Bandit Testing
-### Data Modeling & Metrics
-    - dbt (data build tool)
-    - Metrics Layer Development
-    - Analytics Data Modeling
-    - Business Logic Implementation
-    - Self-Service Analytics Enablement
-
 ## Data Engineering
 ### Pipeline Development
     - ETL/ELT Pipeline Development
@@ -192,6 +176,29 @@
     - Data Processing (Spark, Dask)
     - Message Queues (Kafka, RabbitMQ, Pub/Sub)
     - File Formats (Parquet, Avro, ORC)
+
+## Generative AI
+### Foundation
+    - Prompt Engineering
+    - Fine-tuning & Model Adaptation
+    - LLM Evaluation & Testing
+### Advanced Techniques
+    - Retrieval-Augmented Generation (RAG)
+    - Chain-of-Thought Prompting
+    - Few-Shot Learning
+    - Agent Development
+### Implementation
+    - API Integration (OpenAI, Anthropic, etc.)
+    - Vector Databases
+    - LLM Frameworks (LangChain, LlamaIndex)
+ 
+
+
+
+
+
+
+
 
 ## Project Management
 ### Planning & Strategy

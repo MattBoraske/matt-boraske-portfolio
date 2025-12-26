@@ -63,10 +63,8 @@ export function parseAdventures(filePath: string): Adventure[] {
         title,
         location: getField('Location'),
         date: getField('Date'),
-        duration: getField('Duration'),
         distance: getField('Distance'),
-        elevationGain: getField('Elevation Gain'),
-        difficulty: getField('Difficulty'),
+        maxElevation: getField('Max Elevation'),
         highlights: getHighlights(),
         photos: getPhotos()
       };

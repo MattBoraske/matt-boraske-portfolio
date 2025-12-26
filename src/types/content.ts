@@ -41,10 +41,8 @@ export interface Adventure {
   title: string;
   location: string;
   date: string;
-  duration: string;
   distance: string;
-  elevationGain: string;
-  difficulty: string;
+  maxElevation: string;
   highlights?: string[];
   photos?: string[];
 }
@@ -57,7 +55,7 @@ export interface FitnessData {
 
 export interface BellaProfile {
   about: string;
-  age: string;
+  birthday: string;
   breed: string;
   favoriteThings: string;
   story: string;
@@ -68,11 +66,10 @@ export interface MediaItem {
   title: string;
   coverUrl?: string;
   author?: string; // For books
-  platform?: string; // For games
   rating?: string;
   date?: string;
   status: 'current' | 'completed';
-  type: 'book' | 'movie' | 'show' | 'game';
+  type: 'book' | 'movie' | 'show';
 }
 
 export interface RoleSpotlight {

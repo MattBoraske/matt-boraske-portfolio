@@ -1,21 +1,46 @@
 ---
 interface Props {
   about: string;
-  age: string;
+  birthday: string;
   breed: string;
   favoriteThings: string;
   story: string;
   photos?: string[];
 }
 
-const { about, age, breed, favoriteThings, story, photos = [] } = Astro.props;
+const { about, birthday, breed, favoriteThings, story, photos = [] } = Astro.props;
+
+// Calculate age from birthday
+function calculateAge(birthdayStr: string): string {
+  const birthday = new Date(birthdayStr);
+  const today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  const monthDiff = today.getMonth() - birthday.getMonth();
+
+  // Adjust if birthday hasn't occurred yet this year
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+  }
+
+  return age > 1 ? `${age} years` : `${age} year`;
+}
+
+const age = calculateAge(birthday);
 ---
 
 <div class="bella-profile">
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-image">
-      <span class="text-8xl">🐕</span>
+      {photos && photos.length > 0 ? (
+        <img
+          src={`/images/${photos[0]}`}
+          alt="Bella"
+          class="hero-photo"
+        />
+      ) : (
+        <span class="text-8xl">🐕</span>
+      )}
     </div>
     <div class="hero-content">
       <h3 class="bella-title">
@@ -55,8 +80,13 @@ const { about, age, breed, favoriteThings, story, photos = [] } = Astro.props;
     {photos && photos.length > 0 && (
       <div class="photo-grid">
         {photos.map((photo) => (
-          <div class="photo-placeholder">
-            <span class="text-4xl">📸</span>
+          <div class="photo-container">
+            <img
+              src={`/images/${photo}`}
+              alt="Bella"
+              class="bella-photo"
+              loading="lazy"
+            />
           </div>
         ))}
       </div>
@@ -94,6 +124,13 @@ const { about, age, breed, favoriteThings, story, photos = [] } = Astro.props;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 30px var(--color-glow);
+    overflow: hidden;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .bella-title {
@@ -187,19 +224,29 @@ const { about, age, breed, favoriteThings, story, photos = [] } = Astro.props;
     gap: 1rem;
   }
 
-  .photo-placeholder {
+  .photo-container {
     aspect-ratio: 1;
-    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-border));
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
     border: 2px solid var(--color-border);
     transition: all 0.3s ease;
+    background: var(--color-bg-secondary);
   }
 
-  .photo-placeholder:hover {
+  .photo-container:hover {
     border-color: var(--color-accent);
     transform: scale(1.05);
+    box-shadow: 0 0 20px var(--color-glow);
+  }
+
+  .bella-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .photo-container:hover .bella-photo {
+    transform: scale(1.1);
   }
 </style>
