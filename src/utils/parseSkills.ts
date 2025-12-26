@@ -3,6 +3,7 @@ import { getCategoryIcon } from './categoryIcons';
 
 export interface SkillSubsection {
   name: string;
+  skills: string[];
 }
 
 export interface SkillCategory {
@@ -28,12 +29,42 @@ export function parseSkillsMarkdown(filePath: string): SkillCategory[] {
         const lines = section.split('\n');
         const categoryName = lines[0].trim();
 
-        // Extract subsections (### headers)
-        const subsections: SkillSubsection[] = lines
-          .filter(line => line.startsWith('###'))
-          .map(line => ({
-            name: line.replace(/^###\s*/, '').trim()
-          }));
+        // Extract subsections (### headers) with their skills
+        const subsections: SkillSubsection[] = [];
+        let currentSubsection: string | null = null;
+        let currentSkills: string[] = [];
+
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+
+          if (line.startsWith('###')) {
+            // Save previous subsection if exists
+            if (currentSubsection) {
+              subsections.push({
+                name: currentSubsection,
+                skills: currentSkills
+              });
+            }
+
+            // Start new subsection
+            currentSubsection = line.replace(/^###\s*/, '').trim();
+            currentSkills = [];
+          } else if (line.startsWith('-') && currentSubsection) {
+            // Add skill to current subsection
+            const skill = line.replace(/^-\s*/, '').trim();
+            if (skill) {
+              currentSkills.push(skill);
+            }
+          }
+        }
+
+        // Don't forget the last subsection
+        if (currentSubsection) {
+          subsections.push({
+            name: currentSubsection,
+            skills: currentSkills
+          });
+        }
 
         return {
           name: categoryName,

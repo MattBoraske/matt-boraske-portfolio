@@ -1,34 +1,15 @@
 ---
 import { parseSkillsMarkdown } from '../utils/parseSkills';
+import { parseCertifications } from '../utils/parseCertifications';
 import { resolve } from 'path';
-
-interface CertificationInfo {
-  url: string;
-  issueDate: string;
-  expirationDate: string;
-}
-
-const certifications: Record<string, CertificationInfo> = {
-  'AWS Certified Cloud Practitioner': {
-    url: 'https://www.credly.com/badges/46e41619-24db-44ac-a934-179ee232f007',
-    issueDate: 'September 2025',
-    expirationDate: 'September 2028',
-  },
-  'AWS Certified Solutions Architect – Associate': {
-    url: 'https://www.credly.com/badges/bb1da288-2923-4797-8560-4d26a12f6033/linked_in_profile',
-    issueDate: 'September 2025',
-    expirationDate: 'September 2028',
-  },
-  'Databricks Certified Machine Learning Associate': {
-    url: 'https://credentials.databricks.com/c07a1146-9cc1-48b4-b9e2-d25c94c699c1',
-    issueDate: 'September 2024',
-    expirationDate: 'September 2026',
-  },
-};
 
 // Parse skills.md at build time
 const skillsPath = resolve('./src/resources/skills.md');
 const categories = parseSkillsMarkdown(skillsPath);
+
+// Parse certifications.md at build time
+const certificationsPath = resolve('./src/resources/certifications.md');
+const certifications = parseCertifications(certificationsPath);
 ---
 
 <section id="skills" class="skills-section py-24 px-6 bg-bg-secondary">
@@ -40,7 +21,7 @@ const categories = parseSkillsMarkdown(skillsPath);
     </div>
 
     <div class="skills-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {categories.filter(({ name }) => name !== 'Certifications').map(({ name, icon, subsections }) => (
+      {categories.map(({ name, icon, subsections }) => (
         <div
           class="skill-card-wrapper"
           role="button"
@@ -59,22 +40,99 @@ const categories = parseSkillsMarkdown(skillsPath);
               </p>
             </div>
 
-            <!-- Dropdown panel -->
+            <!-- Dropdown panel with subsections -->
             {subsections.length > 0 && (
               <div class="skill-panel absolute top-full left-0 right-0 mt-2 p-4 bg-bg-secondary rounded border border-accent/30 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-lg">
-                <ul class="space-y-2 max-h-80 overflow-y-auto">
-                  {subsections.map(({ name }) => (
-                    <li class="text-sm text-text-secondary flex items-start gap-2 font-mono panel-item">
-                      <span class="text-accent-hover mt-0.5">&gt;</span>
-                      <span>{name}</span>
-                    </li>
+                <div class="space-y-2 max-h-96 overflow-y-auto">
+                  {subsections.map(({ name: subsectionName, skills }) => (
+                    <div class="subsection-item">
+                      <button
+                        class="subsection-toggle w-full text-left flex items-center justify-between gap-2 p-2 rounded hover:bg-bg transition-colors"
+                        aria-expanded="false"
+                      >
+                        <span class="text-sm font-semibold text-accent flex items-start gap-2">
+                          <span class="mt-0.5">&gt;</span>
+                          <span>{subsectionName}</span>
+                        </span>
+                        <svg
+                          class="chevron w-4 h-4 text-accent transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      <div class="subsection-skills hidden pl-6 pr-2 py-2 space-y-1">
+                        {skills.map((skill) => (
+                          <div class="text-xs text-text-secondary font-mono flex items-start gap-2">
+                            <span class="text-accent-hover mt-0.5">•</span>
+                            <span>{skill}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             )}
           </div>
         </div>
       ))}
+
+      <!-- Certifications Card -->
+      {certifications.length > 0 && (
+        <div
+          class="skill-card-wrapper"
+          role="button"
+          tabindex="0"
+          aria-expanded="false"
+          aria-label="Certifications"
+        >
+          <div class="skill-card terminal-card group cursor-pointer h-full">
+            <!-- Card header -->
+            <div class="p-6 flex flex-col items-center gap-3">
+              <i data-lucide="award" class="w-10 h-10 text-accent skill-icon"></i>
+              <h3 class="text-lg font-semibold text-text text-center font-display">Certifications</h3>
+              <p class="text-xs text-text-secondary opacity-70 font-mono terminal-hint">
+                <span class="hint-bracket">&gt;</span> Hover to expand
+              </p>
+            </div>
+
+            <!-- Dropdown panel with certifications -->
+            <div class="skill-panel absolute top-full left-0 right-0 mt-2 p-4 bg-bg-secondary rounded border border-accent/30 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 backdrop-blur-lg">
+              <ul class="space-y-3 max-h-96 overflow-y-auto">
+                {certifications.map((cert) => (
+                  <li class="cert-item">
+                    <a
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="block p-3 rounded border border-border hover:border-accent transition-colors"
+                    >
+                      <div class="flex items-start justify-between gap-2 mb-2">
+                        <span class="text-sm font-semibold text-text flex-1">{cert.name}</span>
+                        <svg
+                          class="w-4 h-4 text-accent flex-shrink-0 mt-0.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </div>
+                      <div class="flex items-center gap-4 text-xs text-text-secondary font-mono">
+                        <span>Issued: {cert.issueDate}</span>
+                        <span>Expires: {cert.expirationDate}</span>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -140,13 +198,39 @@ const categories = parseSkillsMarkdown(skillsPath);
     z-index: 9999; /* Ensure panels appear above all content */
   }
 
-  .panel-item {
-    transition: all 0.2s ease;
+  .subsection-item {
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .panel-item:hover {
-    color: var(--color-accent);
-    padding-left: 0.5rem;
+  .subsection-item:last-child {
+    border-bottom: none;
+  }
+
+  .subsection-toggle {
+    user-select: none;
+  }
+
+  .subsection-toggle[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+  }
+
+  .subsection-skills {
+    animation: slideDown 0.2s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+    }
+    to {
+      opacity: 1;
+      max-height: 500px;
+    }
+  }
+
+  .cert-item a:hover {
+    background: var(--color-bg);
   }
 
   .skill-card-wrapper {
@@ -220,8 +304,10 @@ const categories = parseSkillsMarkdown(skillsPath);
   @media (prefers-reduced-motion: reduce) {
     .skill-panel,
     .skill-card,
-    .skill-icon {
+    .skill-icon,
+    .subsection-skills {
       transition: none;
+      animation: none;
     }
   }
 
@@ -235,6 +321,22 @@ const categories = parseSkillsMarkdown(skillsPath);
 <script src="https://unpkg.com/lucide@latest" is:inline></script>
 <script is:inline>
   lucide.createIcons();
+</script>
+
+<!-- Subsection toggle functionality -->
+<script>
+  document.querySelectorAll('.subsection-toggle').forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent card from closing
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      const skillsDiv = toggle.nextElementSibling;
+
+      if (skillsDiv) {
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
+        skillsDiv.classList.toggle('hidden');
+      }
+    });
+  });
 </script>
 
 <!-- Mobile touch support -->
@@ -316,89 +418,3 @@ const categories = parseSkillsMarkdown(skillsPath);
     });
   });
 </script>
-
-<style>
-  .skill-card-wrapper {
-    position: relative;
-  }
-
-  .skill-card {
-    position: relative;
-    min-height: 180px;
-  }
-
-  .skill-panel {
-    max-height: 300px;
-  }
-
-  /* Desktop: hover shows panel */
-  @media (hover: hover) {
-    .skill-card:hover {
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    }
-  }
-
-  /* Mobile: click toggles .is-active class */
-  @media (hover: none) {
-    .skill-panel {
-      opacity: 0 !important;
-      visibility: hidden !important;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-
-    .skill-card.is-active .skill-panel {
-      opacity: 1 !important;
-      visibility: visible !important;
-    }
-  }
-
-  /* Focus states for accessibility */
-  .skill-card-wrapper:focus-within {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-    border-radius: 0.75rem;
-  }
-
-  /* Ensure hovered/active cards appear above others and next section */
-  .skill-card-wrapper:hover,
-  .skill-card-wrapper:focus-within,
-  .skill-card-wrapper:has(.is-active) {
-    z-index: 9998; /* Just below panel (z-9999) but above everything else */
-  }
-
-  /* Custom scrollbar for dropdown panels */
-  .skill-panel {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-border) transparent;
-  }
-
-  .skill-panel::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .skill-panel::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .skill-panel::-webkit-scrollbar-thumb {
-    background-color: var(--color-border);
-    border-radius: 3px;
-  }
-
-  .skill-panel::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-accent);
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .skill-panel,
-    .skill-card {
-      transition: none;
-    }
-  }
-
-  /* Hide data-lucide elements until Lucide initializes them */
-  [data-lucide]:not(.lucide) {
-    opacity: 0.3;
-  }
-</style>
