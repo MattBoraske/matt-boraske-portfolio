@@ -5,6 +5,7 @@ import FitnessTracker from './FitnessTracker.astro';
 import { parseFitness } from '../utils/parseFitness';
 import BellaProfile from './BellaProfile.astro';
 import { parseBellaProfile } from '../utils/parseBellaProfile';
+import MediaGrid from './MediaGrid.astro';
 
 const adventures = parseAdventures('./src/resources/hobbies.md');
 const fitnessData = parseFitness('./src/resources/fitness.md');
@@ -52,7 +53,7 @@ const bellaData = parseBellaProfile('./src/resources/hobbies.md');
       </div>
     </div>
     <div class="tab-content" data-content="media">
-      <p class="text-text-secondary">Media content coming soon...</p>
+      <MediaGrid />
     </div>
     <div class="tab-content" data-content="fitness">
       {fitnessData ? (
