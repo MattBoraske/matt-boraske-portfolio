@@ -1,5 +1,8 @@
 ---
-// Empty for now - will add imports and data later
+import AdventureCard from './AdventureCard.astro';
+import { parseAdventures } from '../utils/parseAdventures';
+
+const adventures = parseAdventures('./src/resources/hobbies.md');
 ---
 
 <section id="hobbies" class="py-24 px-6 bg-bg">
@@ -36,7 +39,11 @@
 
     <!-- Tab Content -->
     <div class="tab-content active" data-content="trail-log">
-      <p class="text-text-secondary">Trail Log content coming soon...</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {adventures.map((adventure) => (
+          <AdventureCard {...adventure} />
+        ))}
+      </div>
     </div>
     <div class="tab-content" data-content="media">
       <p class="text-text-secondary">Media content coming soon...</p>

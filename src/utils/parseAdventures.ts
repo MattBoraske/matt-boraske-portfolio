@@ -6,13 +6,15 @@ export function parseAdventures(filePath: string): Adventure[] {
     const content = fs.readFileSync(filePath, 'utf-8');
 
     // Extract only the Trail Log section
-    const trailLogMatch = content.match(/# Trail Log\n([\s\S]*?)(?=\n# |\n---\n\n# |$)/);
+    const trailLogMatch = content.match(/# Trail Log\n([\s\S]*?)(?=\n+# [A-Z]|$)/);
     if (!trailLogMatch) return [];
 
     const trailLogContent = trailLogMatch[1];
 
-    // Split by ## headers
-    const sections = trailLogContent.split(/^## /gm).filter(Boolean);
+    // Split by ## headers and filter out empty sections
+    const sections = trailLogContent
+      .split(/^## /gm)
+      .filter(s => s && s.trim().length > 0);
 
     return sections.map(section => {
       const lines = section.split('\n').filter(l => l.trim());
