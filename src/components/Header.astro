@@ -45,13 +45,27 @@ const socialLinks = [
     </a>
 
     <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center gap-8 justify-center nav-center">
-      {navLinks.map(({ href, label }) => (
-        <a href={href} class="nav-link">
-          <span class="nav-bracket">&gt;</span>
-          <span class="nav-text">{label}</span>
-        </a>
-      ))}
+    <div class="nav-center-wrapper">
+      <button class="nav-scroll-btn nav-scroll-left" aria-label="Scroll navigation left">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      <div class="hidden md:flex items-center gap-8 justify-center nav-center" id="nav-scroll-container">
+        {navLinks.map(({ href, label }) => (
+          <a href={href} class="nav-link">
+            <span class="nav-bracket">&gt;</span>
+            <span class="nav-text">{label}</span>
+          </a>
+        ))}
+      </div>
+
+      <button class="nav-scroll-btn nav-scroll-right" aria-label="Scroll navigation right">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
     </div>
 
     <!-- Social Icons & Theme Toggle -->
@@ -130,16 +144,67 @@ const socialLinks = [
 
   .nav-grid {
     display: grid;
-    grid-template-columns: minmax(auto, 1fr) minmax(auto, max-content) minmax(auto, 1fr);
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 2rem;
   }
 
-  .nav-center {
+  .nav-center-wrapper {
     grid-column: 2;
-    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    position: relative;
     max-width: 100%;
     overflow: hidden;
+  }
+
+  .nav-scroll-btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 3;
+  }
+
+  .nav-scroll-btn:hover {
+    background: var(--color-accent-bg);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--color-glow);
+  }
+
+  .nav-scroll-btn:active {
+    transform: scale(0.95);
+  }
+
+  .nav-center {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    padding: 0.5rem 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbar for Chrome/Safari */
+  .nav-center::-webkit-scrollbar {
+    display: none;
   }
 
   .logo-container {
@@ -152,37 +217,13 @@ const socialLinks = [
     justify-self: end;
   }
 
-  @media (max-width: 1400px) {
-    .nav-grid {
-      gap: 1.5rem;
-    }
-
-    .nav-center {
-      gap: 1.5rem;
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .nav-grid {
-      gap: 1rem;
-    }
-
-    .nav-center {
-      gap: 1rem;
-    }
-
-    .nav-link {
-      font-size: 0.8125rem;
-    }
-  }
-
   @media (max-width: 1024px) {
     .nav-grid {
       grid-template-columns: auto 1fr;
       gap: 1rem;
     }
 
-    .nav-center {
+    .nav-center-wrapper {
       display: none;
     }
 
@@ -406,4 +447,25 @@ const socialLinks = [
   window.addEventListener('scroll', updateProgress);
   // Initial call to set progress on page load
   updateProgress();
+
+  // Navigation scroll buttons
+  const navContainer = document.getElementById('nav-scroll-container');
+  const scrollLeftBtn = document.querySelector('.nav-scroll-left');
+  const scrollRightBtn = document.querySelector('.nav-scroll-right');
+
+  if (navContainer && scrollLeftBtn && scrollRightBtn) {
+    scrollLeftBtn.addEventListener('click', () => {
+      navContainer.scrollBy({
+        left: -200,
+        behavior: 'smooth'
+      });
+    });
+
+    scrollRightBtn.addEventListener('click', () => {
+      navContainer.scrollBy({
+        left: 200,
+        behavior: 'smooth'
+      });
+    });
+  }
 </script>
