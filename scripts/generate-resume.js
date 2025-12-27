@@ -243,6 +243,76 @@ async function optimizeWithClaude(personalInfo, education, experience, skills, c
     return optimizedContent;
 }
 
+/**
+ * Render HTML template with optimized content
+ */
+async function renderTemplate(personalInfo, optimizedContent) {
+    console.log('Rendering HTML template...');
+
+    let template = await fs.readFile(TEMPLATE_PATH, 'utf-8');
+
+    // Render contact info
+    const contactHtml = `
+        ☎ ${personalInfo.phone || '484-796-1788'}<br>
+        ✉ <a href="mailto:${personalInfo.email}">${personalInfo.email}</a><br>
+        🔗 <a href="${personalInfo.linkedin}">linked.com/in/matt-boraske</a><br>
+        🐙 <a href="${personalInfo.github}">github.com/MattBoraske</a>
+    `.trim();
+
+    // Render education
+    const educationHtml = optimizedContent.education.map(entry => `
+        <div class="entry">
+            <div class="entry-header">
+                <span class="institution">${entry.institution} | ${entry.degree}</span>
+                <span class="dates">${entry.dates}</span>
+            </div>
+            <ul>
+                ${entry.bullets.map(b => `<li>${b}</li>`).join('\n                ')}
+            </ul>
+        </div>
+    `).join('\n');
+
+    // Render experience
+    const experienceHtml = optimizedContent.experience.map(entry => `
+        <div class="entry">
+            <div class="entry-header">
+                <span class="company">${entry.company} | ${entry.title}</span>
+                <span class="dates">${entry.dates}</span>
+            </div>
+            <ul>
+                ${entry.bullets.map(b => `<li>${b}</li>`).join('\n                ')}
+            </ul>
+        </div>
+    `).join('\n');
+
+    // Render technical skills
+    const skillsHtml = optimizedContent.technicalSkills.map(category => `
+        <div class="skills-category">
+            <strong>${category.category}:</strong> ${category.items}
+        </div>
+    `).join('\n');
+
+    // Render certifications
+    const certificationsHtml = optimizedContent.certifications.map(cert => `
+        <div class="skills-category">
+            <strong>${cert.name}</strong> ${cert.details}
+        </div>
+    `).join('\n');
+
+    // Replace placeholders
+    template = template
+        .replace('{{name}}', personalInfo.name)
+        .replace('{{title}}', personalInfo.title)
+        .replace('{{contact}}', contactHtml)
+        .replace('{{education}}', educationHtml)
+        .replace('{{experience}}', experienceHtml)
+        .replace('{{technicalSkills}}', skillsHtml)
+        .replace('{{certifications}}', certificationsHtml);
+
+    console.log('✓ Template rendered\n');
+    return template;
+}
+
 async function main() {
     try {
         // Read files
@@ -276,6 +346,13 @@ async function main() {
         console.log(`- Experience entries: ${optimizedContent.experience.length}`);
         console.log(`- Skill categories: ${optimizedContent.technicalSkills.length}`);
         console.log(`- Certifications: ${optimizedContent.certifications.length}\n`);
+
+        // Render HTML template
+        const html = await renderTemplate(personalInfo, optimizedContent);
+
+        // For testing, save HTML to file
+        await fs.writeFile(path.join(__dirname, 'test-resume.html'), html);
+        console.log('✓ Test HTML saved to scripts/test-resume.html\n');
 
     } catch (error) {
         console.error('Error:', error.message);
