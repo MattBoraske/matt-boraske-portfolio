@@ -27,8 +27,8 @@ Serving as a functional expert in natural language processing, machine learning,
 
 ### Highlights
 - Graduated Summa Cum Laude with a 4.0 GPA.
-- Completed thesis <a href="#thesis" class="text-accent hover:underline">"The Efficacy of Finetuning Large Language Models for Interpersonal Conflict Resolution"</a> under the advisement of Dr. Richard Burns.
-- As a Graduate Researcher, worked with Dr. Ashik Ahmed Bhuiyan to design a reinforcement learning environment for a counter-service, real-time restaurant, then trained PPO and A2C agents to allocate human labor that minimized wait times.
+- Completed thesis <a href="https://digitalcommons.wcupa.edu/all_theses/333/">"The Efficacy of Finetuning Large Language Models for Interpersonal Conflict Resolution"</a> under the advisement of Dr. Richard Burns.
+- Published research at the 37th International FLAIRS Conference on AI: worked with Dr. Ashik Ahmed Bhuiyan to design a reinforcement learning environment for a counter-service, real-time restaurant, then trained PPO and A2C agents to allocate human labor that minimized wait times.
 
 ### Technologies
 - Software Engineering
@@ -82,7 +82,8 @@ Provided expert support on MyChart patient portal integration for U.S. healthcar
 **Location:** Columbus, OH
 
 ### Highlights
-- Graduated Cum Laude with a 3.53 GPA and a minor in computer science.
+- Graduated Cum Laude with a 3.53 GPA.
+- Minor in Computer Science.
 - Worked as an Undergraduate Teaching Assistant for Fundamentals of Engineering Honors course series, mentoring students through labs that taught fundamentals for various engineering disciplines, coding projects in C/C++, and a semester-long robotics competition.
 
 ### Technologies
