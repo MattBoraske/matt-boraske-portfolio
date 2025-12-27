@@ -31,27 +31,30 @@ export async function fetchGoodreadsBooks(): Promise<MediaItem[]> {
     for (const match of itemMatches) {
       const itemXml = match[1];
 
-      // Extract title
-      const titleMatch = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/);
+      // Extract title (may or may not be CDATA wrapped)
+      let titleMatch = itemXml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/);
+      if (!titleMatch) {
+        titleMatch = itemXml.match(/<title>(.*?)<\/title>/);
+      }
       const title = titleMatch ? titleMatch[1] : 'Unknown Title';
 
-      // Extract author from title (format: "Title by Author")
-      const authorMatch = title.match(/\s+by\s+(.+)$/);
-      const bookTitle = authorMatch ? title.replace(/\s+by\s+.+$/, '') : title;
+      // Extract author (separate field, not in title)
+      const authorMatch = itemXml.match(/<author_name>(.*?)<\/author_name>/);
       const author = authorMatch ? authorMatch[1] : undefined;
 
-      // Extract book URL
-      const linkMatch = itemXml.match(/<link>(.*?)<\/link>/);
+      // Extract book URL (may or may not be CDATA wrapped)
+      let linkMatch = itemXml.match(/<link><!\[CDATA\[(.*?)\]\]><\/link>/);
+      if (!linkMatch) {
+        linkMatch = itemXml.match(/<link>(.*?)<\/link>/);
+      }
       const bookUrl = linkMatch ? linkMatch[1] : undefined;
 
-      // Extract cover image from description
-      const descMatch = itemXml.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/);
-      const description = descMatch ? descMatch[1] : '';
-      const imgMatch = description.match(/<img[^>]+src="([^"]+)"/);
+      // Extract cover image from book_large_image_url field
+      const imgMatch = itemXml.match(/<book_large_image_url><!\[CDATA\[(.*?)\]\]><\/book_large_image_url>/);
       const coverUrl = imgMatch ? imgMatch[1] : undefined;
 
       items.push({
-        title: bookTitle,
+        title,
         author,
         coverUrl,
         type: 'book',
