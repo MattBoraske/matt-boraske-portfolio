@@ -1,0 +1,19 @@
+name: Daily Media Update
+
+on:
+  schedule:
+    # Run daily at 6am UTC (2am EST / 11pm PST)
+    - cron: '0 6 * * *'
+
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Amplify Rebuild
+        run: |
+          curl -X POST -d {} "${{ secrets.AMPLIFY_WEBHOOK_URL }}"
+          echo "Amplify rebuild triggered successfully"
