@@ -362,9 +362,9 @@ async function generatePDF(html) {
     // Calculate page count based on content height
     const { bodyHeight, pageCount } = await page.evaluate(() => {
         const bodyHeight = document.body.scrollHeight;
-        // Letter page with margins: aim for ~1150px or less for a comfortably fitting single page
-        // This accounts for PDF rendering differences and ensures content doesn't overflow
-        const pageHeight = 1150;
+        // Letter page with margins: conservative threshold to ensure no overflow
+        // Account for PDF rendering differences - use 1050px to be safe
+        const pageHeight = 1050;
         const pages = Math.ceil(bodyHeight / pageHeight);
         return { bodyHeight, pageCount: pages };
     });
@@ -435,11 +435,13 @@ Return the same JSON structure with more concise content.`;
 function reduceBullets(optimizedContent) {
     console.log('Reducing bullets from oldest jobs...');
 
-    // Work backwards through experience (oldest jobs are at the end)
+    // Work backwards through experience
+    // Assume first entry is current/most recent job - preserve it with at least 3 bullets
     const experience = [...optimizedContent.experience];
 
     for (let i = experience.length - 1; i >= 0; i--) {
-        if (experience[i].bullets.length > 2) {
+        const minBullets = (i === 0) ? 3 : 2; // Keep at least 3 bullets for current job
+        if (experience[i].bullets.length > minBullets) {
             // Remove the last bullet from this job
             experience[i].bullets.pop();
             console.log(`  Removed 1 bullet from: ${experience[i].company}`);
@@ -492,7 +494,7 @@ async function main() {
         let pageCount = 0;
         let attemptedConcise = false;
         let iteration = 0;
-        const MAX_ITERATIONS = 10; // Prevent infinite loops
+        const MAX_ITERATIONS = 15; // Prevent infinite loops
 
         do {
             iteration++;
