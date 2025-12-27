@@ -116,8 +116,15 @@ const letterboxdUrl = `https://letterboxd.com/${import.meta.env.PUBLIC_LETTERBOX
 <style>
   .media-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .media-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
   }
 
   .media-section {
@@ -194,6 +201,8 @@ const letterboxdUrl = `https://letterboxd.com/${import.meta.env.PUBLIC_LETTERBOX
     color: var(--color-text);
     margin: 0;
     line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .media-author {
@@ -201,6 +210,8 @@ const letterboxdUrl = `https://letterboxd.com/${import.meta.env.PUBLIC_LETTERBOX
     font-size: 0.75rem;
     color: var(--color-text-secondary);
     margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .media-badge {
