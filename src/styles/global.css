@@ -108,7 +108,9 @@ main {
 html,
 body,
 #__next,
-#__layout {
+#__layout,
+svg,
+img {
   max-width: none;
 }
 

@@ -1,15 +1,5 @@
 ---
-import GitHub from './icons/GitHub.astro';
-import LinkedIn from './icons/LinkedIn.astro';
-import Medium from './icons/Medium.astro';
-
 const currentYear = new Date().getFullYear();
-
-const socialLinks = [
-  { href: 'https://github.com/MattBoraske', icon: GitHub, label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/matt-boraske/', icon: LinkedIn, label: 'LinkedIn' },
-  { href: 'https://medium.com/@mattboraske', icon: Medium, label: 'Medium' },
-];
 ---
 
 <footer class="footer-terminal">
@@ -23,21 +13,6 @@ const socialLinks = [
         <span class="terminal-prompt">~$</span>
         <span class="copyright-text">© {currentYear} Matthew Boraske</span>
         <span class="cursor-blink">_</span>
-      </div>
-
-      <!-- Social links with terminal styling -->
-      <div class="social-section">
-        {socialLinks.map(({ href, icon: Icon, label }) => (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            class="social-link"
-          >
-            <Icon class="w-5 h-5" />
-          </a>
-        ))}
       </div>
     </div>
   </div>
@@ -68,15 +43,8 @@ const socialLinks = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+    justify-content: center;
     margin-bottom: 2rem;
-  }
-
-  @media (min-width: 640px) {
-    .footer-content {
-      flex-direction: row;
-    }
   }
 
   .copyright-section {
@@ -103,39 +71,5 @@ const socialLinks = [
     height: 1em;
     background: var(--color-accent);
     animation: blink 1s step-end infinite;
-  }
-
-  .social-section {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .social-link {
-    color: var(--color-text-secondary);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-
-  .social-link::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-  }
-
-  .social-link:hover {
-    color: var(--color-accent);
-    transform: translateY(-3px) scale(1.1);
-    filter: drop-shadow(0 0 12px var(--color-glow));
-  }
-
-  .social-link:hover::before {
-    border-color: var(--color-border);
-    box-shadow: 0 0 15px var(--color-glow);
   }
 </style>
