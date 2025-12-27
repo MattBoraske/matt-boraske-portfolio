@@ -269,38 +269,62 @@ PUBLIC_GOODREADS_USER_ID=your-goodreads-user-id
 PUBLIC_LETTERBOXD_USERNAME=your-letterboxd-username
 ```
 
-### Supported Services
+### Current Implementation
 
-#### Trakt (Movies & TV)
-**Current Status:** Placeholder for future integration
-**What it will do:** Display currently watching and watch history
+The media tracking components now fetch live data at build time:
 
-1. Create account at [trakt.tv](https://trakt.tv)
-2. Get API key from [trakt.tv/oauth/applications](https://trakt.tv/oauth/applications)
-3. Add to `.env`: `PUBLIC_TRAKT_API_KEY=your-key`
+**Goodreads (Books):**
+- Fetches from RSS feed: `https://www.goodreads.com/review/list_rss/{user_id}?shelf=currently-reading`
+- Displays books on "currently-reading" shelf
+- No API key required
 
-#### Goodreads (Books)
-**Current Status:** Placeholder for future integration
-**What it will do:** Display currently reading and reading history
+**Trakt (Movies & TV):**
+- Fetches from API v2: `/users/{username}/history/movies` and `/history/shows`
+- Displays watch history (up to 5 unique items per category)
+- Requires client ID in `PUBLIC_TRAKT_API_KEY` and `PUBLIC_TRAKT_USERNAME`
+- Fetches poster images from TMDB API (requires `PUBLIC_TMDB_API_KEY`)
 
-1. Find your Goodreads user ID in your profile URL
-2. Add to `.env`: `PUBLIC_GOODREADS_USER_ID=12345678`
+**Letterboxd (Movies):**
+- Fetches from RSS feed: `https://letterboxd.com/{username}/rss/`
+- Displays last 5 watched movies from RSS feed
+- No API key required
 
-#### Letterboxd (Movies)
-**Current Status:** Placeholder for future integration
-**What it will do:** Display movie watching activity
+**Automatic Updates:**
+- GitHub Actions workflow runs daily at 6am UTC
+- Triggers Amplify webhook to rebuild with fresh data
+- Manual trigger available in GitHub Actions tab
 
-1. Create account at [letterboxd.com](https://letterboxd.com)
-2. Add to `.env`: `PUBLIC_LETTERBOXD_USERNAME=yourusername`
+### Adding Amplify Webhook to GitHub
 
-### Future API Integration
+1. Go to AWS Amplify Console → Your App → Build settings → Webhooks
+2. Click "Create webhook"
+3. Copy the webhook URL
+4. Go to GitHub → Your repo → Settings → Secrets and variables → Actions
+5. Click "New repository secret"
+6. Name: `AMPLIFY_WEBHOOK_URL`
+7. Value: Paste the webhook URL
+8. Click "Add secret"
 
-The media tracking components are structured for future API integration. To add API support:
+The daily workflow will now trigger automatic rebuilds.
 
-1. Create API endpoint in `src/pages/api/media/`
-2. Implement RSS/API parsing logic
-3. Update `MediaGrid.astro` to fetch from endpoint
-4. See implementation plan in `docs/plans/2025-12-26-hobbies-section.md`
+### Required Environment Variables
+
+Add these to your Amplify environment variables:
+
+```bash
+PUBLIC_TRAKT_API_KEY=your-trakt-client-id
+PUBLIC_TRAKT_USERNAME=your-trakt-username
+PUBLIC_TMDB_API_KEY=your-tmdb-api-key
+PUBLIC_GOODREADS_USER_ID=your-goodreads-user-id
+PUBLIC_LETTERBOXD_USERNAME=your-letterboxd-username
+```
+
+**Getting API Keys:**
+
+- **Trakt API Key**: Sign up at [trakt.tv](https://trakt.tv), create an app at [trakt.tv/oauth/applications](https://trakt.tv/oauth/applications)
+- **TMDB API Key**: Sign up at [themoviedb.org](https://www.themoviedb.org/), request API key at [Settings → API](https://www.themoviedb.org/settings/api)
+- **Goodreads User ID**: Found in your Goodreads profile URL (e.g., `goodreads.com/user/show/12345678`)
+- **Letterboxd Username**: Your Letterboxd profile username
 
 ## Adding Photos
 
