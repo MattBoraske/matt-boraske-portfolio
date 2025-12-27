@@ -15,5 +15,9 @@ jobs:
     steps:
       - name: Trigger Amplify Rebuild
         run: |
-          curl -X POST -d {} "${{ secrets.AMPLIFY_WEBHOOK_URL }}"
+          curl -X POST "${{ secrets.AMPLIFY_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            --fail \
+            --silent \
+            --show-error
           echo "Amplify rebuild triggered successfully"
