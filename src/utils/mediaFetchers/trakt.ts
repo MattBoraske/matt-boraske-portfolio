@@ -21,12 +21,35 @@ interface TraktShow {
 }
 
 /**
+ * Fetch poster image URL from TMDB API
+ */
+async function fetchTMDBPoster(tmdbId: number, type: 'tv' | 'movie', apiKey: string): Promise<string | undefined> {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/${type}/${tmdbId}?api_key=${apiKey}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.poster_path) {
+        return `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+      }
+    }
+  } catch (error) {
+    console.error(`[TMDB] Error fetching ${type} ${tmdbId}:`, error);
+  }
+
+  return undefined;
+}
+
+/**
  * Fetch recently watched movies and shows from Trakt history
  * API: https://api.trakt.tv/users/{username}/history/movies and /shows
  */
 export async function fetchTraktMedia(): Promise<MediaItem[]> {
   const clientId = import.meta.env.PUBLIC_TRAKT_API_KEY;
   const username = import.meta.env.PUBLIC_TRAKT_USERNAME;
+  const tmdbApiKey = import.meta.env.PUBLIC_TMDB_API_KEY;
 
   if (!clientId) {
     console.warn('[Trakt] No client ID configured');
@@ -36,6 +59,10 @@ export async function fetchTraktMedia(): Promise<MediaItem[]> {
   if (!username) {
     console.warn('[Trakt] No username configured');
     return [];
+  }
+
+  if (!tmdbApiKey) {
+    console.warn('[Trakt] No TMDB API key configured - images will not be available');
   }
 
   const headers = {
@@ -60,11 +87,15 @@ export async function fetchTraktMedia(): Promise<MediaItem[]> {
 
         // Only add if we haven't seen this show yet
         if (!uniqueShows.has(show.ids.trakt)) {
+          // Fetch poster from TMDB if available
+          let coverUrl: string | undefined;
+          if (show.ids.tmdb && tmdbApiKey) {
+            coverUrl = await fetchTMDBPoster(show.ids.tmdb, 'tv', tmdbApiKey);
+          }
+
           uniqueShows.set(show.ids.trakt, {
             title: `${show.title} (${show.year})`,
-            coverUrl: show.ids.tmdb
-              ? `https://image.tmdb.org/t/p/w500/tv/${show.ids.tmdb}.jpg`
-              : undefined,
+            coverUrl,
             type: 'show',
             status: 'current'
           });
@@ -93,11 +124,15 @@ export async function fetchTraktMedia(): Promise<MediaItem[]> {
 
         // Only add if we haven't seen this movie yet
         if (!uniqueMovies.has(movie.ids.trakt)) {
+          // Fetch poster from TMDB if available
+          let coverUrl: string | undefined;
+          if (movie.ids.tmdb && tmdbApiKey) {
+            coverUrl = await fetchTMDBPoster(movie.ids.tmdb, 'movie', tmdbApiKey);
+          }
+
           uniqueMovies.set(movie.ids.trakt, {
             title: `${movie.title} (${movie.year})`,
-            coverUrl: movie.ids.tmdb
-              ? `https://image.tmdb.org/t/p/w500/movie/${movie.ids.tmdb}.jpg`
-              : undefined,
+            coverUrl,
             type: 'movie',
             status: 'current'
           });
