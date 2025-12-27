@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # temporary Office files
 ~$*
+
+# Resume generator test files
+scripts/test-resume.html
