@@ -16,6 +16,13 @@ const OUTPUT_PATH = path.join(__dirname, '../public/Matthew_Boraske_Resume.pdf')
 console.log('PDF Resume Generator');
 console.log('===================\n');
 
+// Check for API key
+if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('Error: ANTHROPIC_API_KEY environment variable not set');
+    console.error('Please set it in your .env file or environment');
+    process.exit(1);
+}
+
 /**
  * Read and parse markdown files
  */
@@ -137,6 +144,105 @@ function parseCertifications(content) {
     });
 }
 
+/**
+ * Create prompt for Claude to optimize resume content
+ */
+function createClaudePrompt(personalInfo, education, experience, skills, certifications) {
+    return `You are an expert resume writer specializing in technical resumes for data scientists and software engineers.
+
+Your task is to optimize the following resume content for a professional 1-page PDF resume. Follow these guidelines:
+
+1. **Education**: Condense into 2-3 concise bullet points per entry, highlighting GPA, thesis, key coursework, and honors
+2. **Experience**: Create 3-4 impactful bullet points per role using action verbs and quantifiable results (STAR method)
+3. **Skills**: Organize into clear categories matching the provided structure
+4. **Tone**: Professional, achievement-focused, concise
+5. **Format**: Return valid JSON matching the schema below
+
+**Input Data:**
+
+Personal Info: ${JSON.stringify(personalInfo, null, 2)}
+
+Education Entries: ${JSON.stringify(education, null, 2)}
+
+Experience Entries: ${JSON.stringify(experience, null, 2)}
+
+Skills Categories: ${JSON.stringify(skills, null, 2)}
+
+Certifications: ${JSON.stringify(certifications, null, 2)}
+
+**Required Output Format (JSON):**
+
+{
+  "education": [
+    {
+      "institution": "Full institution name",
+      "degree": "Degree title",
+      "dates": "Date range",
+      "bullets": ["Bullet 1", "Bullet 2", "Bullet 3"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Company name",
+      "title": "Job title",
+      "dates": "Date range",
+      "bullets": ["Impact bullet 1", "Impact bullet 2", "Impact bullet 3", "Impact bullet 4"]
+    }
+  ],
+  "technicalSkills": [
+    {
+      "category": "Category name",
+      "items": "Comma-separated skills"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certification name",
+      "details": "Issue and expiration info"
+    }
+  ]
+}
+
+Return ONLY the JSON, no other text.`;
+}
+
+/**
+ * Call Claude API to optimize resume content
+ */
+async function optimizeWithClaude(personalInfo, education, experience, skills, certifications) {
+    console.log('Calling Claude API to optimize content...');
+
+    const anthropic = new Anthropic({
+        apiKey: process.env.ANTHROPIC_API_KEY
+    });
+
+    const prompt = createClaudePrompt(personalInfo, education, experience, skills, certifications);
+
+    const message = await anthropic.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 4000,
+        messages: [{
+            role: 'user',
+            content: prompt
+        }]
+    });
+
+    const responseText = message.content[0].text;
+
+    // Extract JSON from response (handle code blocks if present)
+    let jsonText = responseText;
+    if (responseText.includes('```json')) {
+        jsonText = responseText.match(/```json\n([\s\S]+?)\n```/)[1];
+    } else if (responseText.includes('```')) {
+        jsonText = responseText.match(/```\n([\s\S]+?)\n```/)[1];
+    }
+
+    const optimizedContent = JSON.parse(jsonText);
+    console.log('✓ Content optimized by Claude\n');
+
+    return optimizedContent;
+}
+
 async function main() {
     try {
         // Read files
@@ -155,6 +261,21 @@ async function main() {
         console.log('✓ Content parsed successfully\n');
         console.log(`Found: ${education.length} education entries, ${experience.length} experience entries`);
         console.log(`Found: ${skills.length} skill categories, ${certifications.length} certifications\n`);
+
+        // Optimize content with Claude
+        const optimizedContent = await optimizeWithClaude(
+            personalInfo,
+            education,
+            experience,
+            skills,
+            certifications
+        );
+
+        console.log('Optimized content preview:');
+        console.log(`- Education entries: ${optimizedContent.education.length}`);
+        console.log(`- Experience entries: ${optimizedContent.experience.length}`);
+        console.log(`- Skill categories: ${optimizedContent.technicalSkills.length}`);
+        console.log(`- Certifications: ${optimizedContent.certifications.length}\n`);
 
     } catch (error) {
         console.error('Error:', error.message);
