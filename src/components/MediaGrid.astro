@@ -96,14 +96,14 @@ const letterboxdUrl = `https://letterboxd.com/${import.meta.env.PUBLIC_LETTERBOX
             )}
             <div class="media-info">
               <h5 class="media-item-title">{show.title}</h5>
-              <span class="media-badge">Watching</span>
+              <span class="media-badge">Recently Watched</span>
             </div>
           </div>
         ))}
       </div>
     ) : (
       <div class="empty-state">
-        <p class="empty-text">No shows in watchlist</p>
+        <p class="empty-text">No recently watched shows</p>
       </div>
     )}
 
