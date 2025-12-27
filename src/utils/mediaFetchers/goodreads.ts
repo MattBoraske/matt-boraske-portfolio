@@ -16,7 +16,12 @@ export async function fetchGoodreadsBooks(): Promise<MediaItem[]> {
     const url = `https://www.goodreads.com/review/list_rss/${userId}?shelf=currently-reading`;
     console.log(`[Goodreads] Fetching from: ${url}`);
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    });
     if (!response.ok) {
       console.error(`[Goodreads] HTTP ${response.status}: ${response.statusText}`);
       return [];
