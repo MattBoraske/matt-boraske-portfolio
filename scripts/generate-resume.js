@@ -4,9 +4,13 @@ import { fileURLToPath } from 'url';
 import { marked } from 'marked';
 import Anthropic from '@anthropic-ai/sdk';
 import puppeteer from 'puppeteer';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables
+dotenv.config();
 
 // Paths
 const RESOURCES_DIR = path.join(__dirname, '../src/resources');
@@ -313,6 +317,44 @@ async function renderTemplate(personalInfo, optimizedContent) {
     return template;
 }
 
+/**
+ * Generate PDF from HTML using Puppeteer
+ */
+async function generatePDF(html) {
+    console.log('Generating PDF with Puppeteer...');
+
+    const browser = await puppeteer.launch({
+        headless: 'new'
+    });
+
+    const page = await browser.newPage();
+
+    // Set content
+    await page.setContent(html, {
+        waitUntil: 'networkidle0'
+    });
+
+    // Ensure output directory exists
+    await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
+
+    // Generate PDF
+    await page.pdf({
+        path: OUTPUT_PATH,
+        format: 'Letter',
+        margin: {
+            top: '0.5in',
+            right: '0.65in',
+            bottom: '0.5in',
+            left: '0.65in'
+        },
+        printBackground: true
+    });
+
+    await browser.close();
+
+    console.log(`✓ PDF generated: ${OUTPUT_PATH}\n`);
+}
+
 async function main() {
     try {
         // Read files
@@ -350,9 +392,11 @@ async function main() {
         // Render HTML template
         const html = await renderTemplate(personalInfo, optimizedContent);
 
-        // For testing, save HTML to file
-        await fs.writeFile(path.join(__dirname, 'test-resume.html'), html);
-        console.log('✓ Test HTML saved to scripts/test-resume.html\n');
+        // Generate PDF
+        await generatePDF(html);
+
+        console.log('✅ Resume generation complete!');
+        console.log(`Output: ${OUTPUT_PATH}`);
 
     } catch (error) {
         console.error('Error:', error.message);
