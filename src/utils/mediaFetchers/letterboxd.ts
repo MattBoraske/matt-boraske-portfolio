@@ -1,7 +1,7 @@
 import type { MediaItem } from '../../types/content';
 
 /**
- * Fetch recent movie activity from Letterboxd RSS feed
+ * Fetch last watched movies from Letterboxd RSS feed
  * RSS endpoint: https://letterboxd.com/{username}/rss/
  */
 export async function fetchLetterboxdMovies(): Promise<MediaItem[]> {
@@ -28,21 +28,10 @@ export async function fetchLetterboxdMovies(): Promise<MediaItem[]> {
     const items: MediaItem[] = [];
     const itemMatches = xmlText.matchAll(/<item>([\s\S]*?)<\/item>/g);
 
-    // Get current date for filtering recent entries (last 7 days)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
     for (const match of itemMatches) {
       const itemXml = match[1];
 
-      // Extract published date
-      const pubDateMatch = itemXml.match(/<pubDate>(.*?)<\/pubDate>/);
-      if (pubDateMatch) {
-        const pubDate = new Date(pubDateMatch[1]);
-        if (pubDate < sevenDaysAgo) continue; // Skip old entries
-      }
-
-      // Extract title (format: "Movie Title, Year")
+      // Extract title
       const titleMatch = itemXml.match(/<letterboxd:filmTitle>(.*?)<\/letterboxd:filmTitle>/);
       const filmTitle = titleMatch ? titleMatch[1] : null;
 
@@ -68,11 +57,11 @@ export async function fetchLetterboxdMovies(): Promise<MediaItem[]> {
         status: 'current'
       });
 
-      // Limit to 3 recent movies
-      if (items.length >= 3) break;
+      // Limit to 5 most recent watched movies
+      if (items.length >= 5) break;
     }
 
-    console.log(`[Letterboxd] Fetched ${items.length} recent movies`);
+    console.log(`[Letterboxd] Fetched ${items.length} watched movies`);
     return items;
 
   } catch (error) {
