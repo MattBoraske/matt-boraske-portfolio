@@ -310,15 +310,15 @@ async function renderTemplate(personalInfo, optimizedContent) {
         </div>
     `).join('\n');
 
-    // Replace placeholders
+    // Replace placeholders (use global regex to replace all occurrences)
     template = template
-        .replace('{{name}}', personalInfo.name)
-        .replace('{{title}}', personalInfo.title)
-        .replace('{{contact}}', contactHtml)
-        .replace('{{education}}', educationHtml)
-        .replace('{{experience}}', experienceHtml)
-        .replace('{{technicalSkills}}', skillsHtml)
-        .replace('{{certifications}}', certificationsHtml);
+        .replace(/\{\{name\}\}/g, personalInfo.name)
+        .replace(/\{\{title\}\}/g, personalInfo.title)
+        .replace(/\{\{contact\}\}/g, contactHtml)
+        .replace(/\{\{education\}\}/g, educationHtml)
+        .replace(/\{\{experience\}\}/g, experienceHtml)
+        .replace(/\{\{technicalSkills\}\}/g, skillsHtml)
+        .replace(/\{\{certifications\}\}/g, certificationsHtml);
 
     console.log('✓ Template rendered\n');
     return template;
