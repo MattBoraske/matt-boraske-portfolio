@@ -168,6 +168,7 @@ Your task is to optimize the following resume content for a professional 1-page 
 3. **Skills**: Organize into clear categories matching the provided structure
 4. **Tone**: Professional, achievement-focused, concise
 5. **Format**: Return valid JSON matching the schema below
+6. **CRITICAL - Hyperlinks**: If any content contains HTML anchor tags like <a href="URL">text</a>, you MUST preserve them EXACTLY in your output. Do not remove or modify hyperlinks. Include the full HTML <a> tag in your bullet point text.
 
 **Input Data:**
 
@@ -189,7 +190,7 @@ Certifications: ${JSON.stringify(certifications, null, 2)}
       "institution": "Full institution name",
       "degree": "Degree title",
       "dates": "Date range",
-      "bullets": ["Bullet 1", "Bullet 2", "Bullet 3"]
+      "bullets": ["Bullet 1", "Bullet 2 with <a href=\"https://example.com\">hyperlink</a> preserved", "Bullet 3"]
     }
   ],
   "experience": [
