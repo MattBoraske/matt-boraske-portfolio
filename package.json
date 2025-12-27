@@ -9,8 +9,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.16.6"
+    "astro": "^5.16.6",
+    "marked": "^17.0.1",
+    "puppeteer": "^24.34.0"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^5.1.5",
