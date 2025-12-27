@@ -1,122 +1,120 @@
 ---
+import type { MediaItem } from '../types/content';
+
+interface Props {
+  books: MediaItem[];
+  movies: MediaItem[];
+  shows: MediaItem[];
+}
+
+const { books, movies, shows } = Astro.props;
+
+const goodreadsUrl = `https://www.goodreads.com/user/show/${import.meta.env.PUBLIC_GOODREADS_USER_ID}`;
+const traktUrl = 'https://trakt.tv';
+const letterboxdUrl = `https://letterboxd.com/${import.meta.env.PUBLIC_LETTERBOXD_USERNAME}/`;
 ---
 
 <div class="media-grid">
-  <!-- Toggle -->
-  <div class="view-toggle">
-    <button class="toggle-button active" data-view="current">
-      <span class="bracket">[</span>
-      Currently
-      <span class="bracket">]</span>
-    </button>
-    <button class="toggle-button" data-view="history">
-      <span class="bracket">[</span>
-      History
-      <span class="bracket">]</span>
-    </button>
+  <!-- Books -->
+  <div class="media-section">
+    <h4 class="media-title">
+      <span class="icon">📚</span>
+      Books
+    </h4>
+
+    {books.length > 0 ? (
+      <div class="media-items">
+        {books.map((book) => (
+          <div class="media-card">
+            {book.coverUrl && (
+              <img src={book.coverUrl} alt={book.title} class="media-cover" />
+            )}
+            <div class="media-info">
+              <h5 class="media-item-title">{book.title}</h5>
+              {book.author && <p class="media-author">{book.author}</p>}
+              <span class="media-badge">Currently Reading</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <p class="empty-text">Not currently reading anything</p>
+      </div>
+    )}
+
+    <a href={goodreadsUrl} target="_blank" rel="noopener noreferrer" class="profile-link">
+      View my Goodreads library →
+    </a>
   </div>
 
-  <!-- Media Categories -->
-  <div class="media-sections">
-    <!-- Books -->
-    <div class="media-section">
-      <h4 class="media-title">
-        <span class="icon">📚</span>
-        Books
-      </h4>
-      <div class="media-items current-items active">
-        <p class="placeholder-text">Loading books...</p>
-      </div>
-      <div class="media-items history-items">
-        <p class="placeholder-text">Book history...</p>
-      </div>
-    </div>
+  <!-- Movies -->
+  <div class="media-section">
+    <h4 class="media-title">
+      <span class="icon">🎬</span>
+      Movies
+    </h4>
 
-    <!-- Movies -->
-    <div class="media-section">
-      <h4 class="media-title">
-        <span class="icon">🎬</span>
-        Movies
-      </h4>
-      <div class="media-items current-items active">
-        <p class="placeholder-text">Loading movies...</p>
+    {movies.length > 0 ? (
+      <div class="media-items">
+        {movies.map((movie) => (
+          <div class="media-card">
+            {movie.coverUrl && (
+              <img src={movie.coverUrl} alt={movie.title} class="media-cover" />
+            )}
+            <div class="media-info">
+              <h5 class="media-item-title">{movie.title}</h5>
+              <span class="media-badge">Watching</span>
+            </div>
+          </div>
+        ))}
       </div>
-      <div class="media-items history-items">
-        <p class="placeholder-text">Movie history...</p>
+    ) : (
+      <div class="empty-state">
+        <p class="empty-text">No movies in watchlist</p>
       </div>
-    </div>
+    )}
 
-    <!-- Shows -->
-    <div class="media-section">
-      <h4 class="media-title">
-        <span class="icon">📺</span>
-        Shows
-      </h4>
-      <div class="media-items current-items active">
-        <p class="placeholder-text">Loading shows...</p>
+    <a href={letterboxdUrl} target="_blank" rel="noopener noreferrer" class="profile-link">
+      View my Letterboxd →
+    </a>
+  </div>
+
+  <!-- Shows -->
+  <div class="media-section">
+    <h4 class="media-title">
+      <span class="icon">📺</span>
+      Shows
+    </h4>
+
+    {shows.length > 0 ? (
+      <div class="media-items">
+        {shows.map((show) => (
+          <div class="media-card">
+            {show.coverUrl && (
+              <img src={show.coverUrl} alt={show.title} class="media-cover" />
+            )}
+            <div class="media-info">
+              <h5 class="media-item-title">{show.title}</h5>
+              <span class="media-badge">Watching</span>
+            </div>
+          </div>
+        ))}
       </div>
-      <div class="media-items history-items">
-        <p class="placeholder-text">Show history...</p>
+    ) : (
+      <div class="empty-state">
+        <p class="empty-text">No shows in watchlist</p>
       </div>
-    </div>
+    )}
+
+    <a href={traktUrl} target="_blank" rel="noopener noreferrer" class="profile-link">
+      View my Trakt →
+    </a>
   </div>
 </div>
 
 <style>
   .media-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .view-toggle {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-
-  .toggle-button {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    font-weight: 700;
-    padding: 0.75rem 1.5rem;
-    background: var(--color-bg-secondary);
-    color: var(--color-text-secondary);
-    border: 2px solid var(--color-border);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .bracket {
-    color: var(--color-border);
-    font-weight: 900;
-  }
-
-  .toggle-button:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
-  .toggle-button:hover .bracket {
-    color: var(--color-accent);
-  }
-
-  .toggle-button.active {
-    background: var(--color-accent-bg-hover);
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
-  .toggle-button.active .bracket {
-    color: var(--color-accent);
-  }
-
-  .media-sections {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
@@ -128,6 +126,9 @@
     border-radius: 8px;
     padding: 1.5rem;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .media-section:hover {
@@ -139,10 +140,10 @@
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin: 0;
   }
 
   .icon {
@@ -150,45 +151,96 @@
   }
 
   .media-items {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     min-height: 100px;
   }
 
-  .media-items.active {
-    display: block;
+  .media-card {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    transition: all 0.3s ease;
   }
 
-  .placeholder-text {
+  .media-card:hover {
+    border-color: var(--color-accent);
+    transform: translateX(2px);
+  }
+
+  .media-cover {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .media-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    justify-content: center;
+  }
+
+  .media-item-title {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .media-author {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .media-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .empty-state {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-text {
     font-family: var(--font-mono);
     font-size: 0.875rem;
     color: var(--color-text-secondary);
     text-align: center;
-    padding: 2rem;
+  }
+
+  .profile-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 0.5rem;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+
+  .profile-link:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-bg);
   }
 </style>
-
-<script>
-  // Toggle between current and history views
-  const toggleButtons = document.querySelectorAll('.toggle-button');
-  const currentItems = document.querySelectorAll('.current-items');
-  const historyItems = document.querySelectorAll('.history-items');
-
-  toggleButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const view = button.getAttribute('data-view');
-
-      // Update button states
-      toggleButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-
-      // Update visible items
-      if (view === 'current') {
-        currentItems.forEach(items => items.classList.add('active'));
-        historyItems.forEach(items => items.classList.remove('active'));
-      } else {
-        currentItems.forEach(items => items.classList.remove('active'));
-        historyItems.forEach(items => items.classList.add('active'));
-      }
-    });
-  });
-</script>
