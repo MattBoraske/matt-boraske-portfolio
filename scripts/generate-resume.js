@@ -50,12 +50,19 @@ async function readMarkdownFiles() {
  */
 function parseHero(content) {
     const lines = content.split('\n').filter(line => line.trim() && !line.startsWith('#'));
-    const nameMatch = lines.find(l => l.includes('Matthew Boraske'));
-    const titleMatch = lines.find(l => l.includes('Data Scientist'));
+    const dataRow = lines.find(l => l.includes('Matthew Boraske'));
+
+    if (dataRow) {
+        const parts = dataRow.split('|').map(p => p.trim()).filter(Boolean);
+        return {
+            name: parts[0] || 'Matthew Boraske',
+            title: parts[1] || 'Data Scientist'
+        };
+    }
 
     return {
-        name: nameMatch ? nameMatch.split('|')[1].trim() : 'Matthew Boraske',
-        title: titleMatch ? titleMatch.split('|')[1].trim() : 'Data Scientist'
+        name: 'Matthew Boraske',
+        title: 'Data Scientist'
     };
 }
 
