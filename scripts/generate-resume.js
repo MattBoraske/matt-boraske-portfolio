@@ -327,7 +327,7 @@ async function renderTemplate(personalInfo, optimizedContent) {
 }
 
 /**
- * Generate PDF from HTML using Puppeteer
+ * Generate PDF from HTML using Puppeteer and return page count
  */
 async function generatePDF(html) {
     console.log('Generating PDF with Puppeteer...');
@@ -346,8 +346,8 @@ async function generatePDF(html) {
     // Ensure output directory exists
     await fs.mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
 
-    // Generate PDF
-    await page.pdf({
+    // Generate PDF and get page count
+    const pdfBuffer = await page.pdf({
         path: OUTPUT_PATH,
         format: 'Letter',
         margin: {
@@ -359,9 +359,98 @@ async function generatePDF(html) {
         printBackground: true
     });
 
+    // Calculate page count based on content height
+    const { bodyHeight, pageCount } = await page.evaluate(() => {
+        const bodyHeight = document.body.scrollHeight;
+        // Letter page with margins: aim for ~1150px or less for a comfortably fitting single page
+        // This accounts for PDF rendering differences and ensures content doesn't overflow
+        const pageHeight = 1150;
+        const pages = Math.ceil(bodyHeight / pageHeight);
+        return { bodyHeight, pageCount: pages };
+    });
+
+    console.log(`  Content height: ${bodyHeight}px`);
+
     await browser.close();
 
-    console.log(`✓ PDF generated: ${OUTPUT_PATH}\n`);
+    console.log(`✓ PDF generated: ${OUTPUT_PATH} (${pageCount} page${pageCount > 1 ? 's' : ''})\n`);
+
+    return pageCount;
+}
+
+/**
+ * Ask Claude to make content more concise
+ */
+async function makeConcise(optimizedContent) {
+    console.log('Asking Claude to make content more concise...');
+
+    const anthropic = new Anthropic({
+        apiKey: process.env.ANTHROPIC_API_KEY
+    });
+
+    const prompt = `You are optimizing a resume that is slightly too long. Make the content MORE CONCISE while preserving all key information and hyperlinks.
+
+CRITICAL: Preserve ALL HTML anchor tags (<a href="...">...</a>) EXACTLY as they appear.
+
+Current content:
+${JSON.stringify(optimizedContent, null, 2)}
+
+Instructions:
+1. Shorten bullets that are slightly too long - remove unnecessary words, use more concise phrasing
+2. Combine information where possible without losing meaning
+3. Keep the same number of bullets, just make them shorter
+4. PRESERVE all hyperlinks exactly
+5. Ensure all bullets end with periods
+
+Return the same JSON structure with more concise content.`;
+
+    const message = await anthropic.messages.create({
+        model: 'claude-sonnet-4-5-20250929',
+        max_tokens: 4000,
+        messages: [{
+            role: 'user',
+            content: prompt
+        }]
+    });
+
+    const responseText = message.content[0].text;
+
+    // Extract JSON from response
+    let jsonText = responseText;
+    if (responseText.includes('```json')) {
+        jsonText = responseText.match(/```json\n([\s\S]+?)\n```/)[1];
+    } else if (responseText.includes('```')) {
+        jsonText = responseText.match(/```\n([\s\S]+?)\n```/)[1];
+    }
+
+    const conciseContent = JSON.parse(jsonText);
+    console.log('✓ Content made more concise\n');
+
+    return conciseContent;
+}
+
+/**
+ * Reduce bullets from oldest jobs
+ */
+function reduceBullets(optimizedContent) {
+    console.log('Reducing bullets from oldest jobs...');
+
+    // Work backwards through experience (oldest jobs are at the end)
+    const experience = [...optimizedContent.experience];
+
+    for (let i = experience.length - 1; i >= 0; i--) {
+        if (experience[i].bullets.length > 2) {
+            // Remove the last bullet from this job
+            experience[i].bullets.pop();
+            console.log(`  Removed 1 bullet from: ${experience[i].company}`);
+            break; // Only remove one bullet at a time
+        }
+    }
+
+    return {
+        ...optimizedContent,
+        experience
+    };
 }
 
 async function main() {
@@ -398,11 +487,43 @@ async function main() {
         console.log(`- Skill categories: ${optimizedContent.technicalSkills.length}`);
         console.log(`- Certifications: ${optimizedContent.certifications.length}\n`);
 
-        // Render HTML template
-        const html = await renderTemplate(personalInfo, optimizedContent);
+        // Iteratively adjust content to fit on one page
+        let currentContent = optimizedContent;
+        let pageCount = 0;
+        let attemptedConcise = false;
+        let iteration = 0;
+        const MAX_ITERATIONS = 10; // Prevent infinite loops
 
-        // Generate PDF
-        await generatePDF(html);
+        do {
+            iteration++;
+
+            // Render HTML template
+            const html = await renderTemplate(personalInfo, currentContent);
+
+            // Generate PDF and get page count
+            pageCount = await generatePDF(html);
+
+            // If more than 1 page, adjust content
+            if (pageCount > 1 && iteration < MAX_ITERATIONS) {
+                if (!attemptedConcise) {
+                    // First attempt: make content more concise
+                    console.log('⚠️  Resume is too long. Attempting to make content more concise...\n');
+                    currentContent = await makeConcise(currentContent);
+                    attemptedConcise = true;
+                } else {
+                    // Subsequent attempts: reduce bullets from oldest jobs
+                    console.log('⚠️  Resume is still too long. Reducing bullets from oldest jobs...\n');
+                    currentContent = reduceBullets(currentContent);
+                }
+            }
+
+        } while (pageCount > 1 && iteration < MAX_ITERATIONS);
+
+        if (pageCount > 1) {
+            console.log('⚠️  Warning: Could not fit resume on one page after maximum iterations\n');
+        } else if (iteration > 1) {
+            console.log(`✓ Successfully fit resume on one page after ${iteration} attempts\n`);
+        }
 
         console.log('✅ Resume generation complete!');
         console.log(`Output: ${OUTPUT_PATH}`);
