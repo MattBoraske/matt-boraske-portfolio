@@ -29,9 +29,11 @@
     </div>
 
     <div class="hero-cta">
-      <a href="#projects" class="cta-primary">
-        <span class="cta-text">View Projects</span>
-        <span class="cta-arrow">→</span>
+      <a href="/Matthew_Boraske_Resume.pdf" download class="cta-primary">
+        <svg class="cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <span class="cta-text">Download Resume</span>
       </a>
       <a href="#contact" class="cta-secondary">
         <span class="cta-text">Get in Touch</span>
@@ -48,6 +50,18 @@
     <div class="particle" style="--delay: 1.5s; --duration: 11s; --x: 50%; --y: 40%;">Δ</div>
     <div class="particle" style="--delay: 2.5s; --duration: 13s; --x: 30%; --y: 80%;">∞</div>
   </div>
+
+  <!-- Scroll Down Indicator -->
+  <a href="#about" id="scroll-indicator" class="scroll-indicator">
+    <span class="scroll-text">
+      <span class="scroll-bracket">[</span>
+      <span>SCROLL TO EXPLORE</span>
+      <span class="scroll-bracket">]</span>
+    </span>
+    <svg class="scroll-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+    </svg>
+  </a>
 </section>
 
 <style>
@@ -280,6 +294,7 @@
     flex-wrap: wrap;
     opacity: 0;
     animation: fadeInUp 0.8s ease 1s forwards;
+    margin-bottom: 6rem;
   }
 
   .cta-primary,
@@ -338,9 +353,16 @@
   }
 
   .cta-text,
-  .cta-arrow {
+  .cta-arrow,
+  .cta-icon {
     position: relative;
     z-index: 1;
+  }
+
+  .cta-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.3s ease;
   }
 
   .cta-arrow {
@@ -350,6 +372,10 @@
 
   .cta-primary:hover .cta-arrow {
     transform: translateX(4px);
+  }
+
+  .cta-primary:hover .cta-icon {
+    transform: translateY(2px);
   }
 
   /* Floating data particles */
@@ -418,6 +444,7 @@
     .hero-cta {
       flex-direction: column;
       gap: 1rem;
+      margin-bottom: 5rem;
     }
 
     .cta-primary,
@@ -428,6 +455,100 @@
 
     .particle {
       font-size: 1rem;
+    }
+
+    .scroll-indicator {
+      bottom: 1.5rem;
+    }
+
+    .scroll-text {
+      font-size: 0.625rem;
+    }
+  }
+
+  /* Scroll Down Indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    animation: fadeInBounce 1s ease 1.5s forwards;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .scroll-indicator.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .scroll-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .scroll-bracket {
+    color: var(--color-accent);
+    font-size: 0.875rem;
+  }
+
+  .scroll-arrow {
+    color: var(--color-accent);
+    animation: bounce 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px var(--color-glow));
+  }
+
+  .scroll-indicator:hover {
+    transform: translateX(-50%) translateY(-5px);
+  }
+
+  .scroll-indicator:hover .scroll-text {
+    color: var(--color-accent);
+  }
+
+  .scroll-indicator:hover .scroll-arrow {
+    animation: bounceHover 0.6s ease-in-out infinite;
+  }
+
+  @keyframes fadeInBounce {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes bounceHover {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
     }
   }
 
@@ -448,5 +569,32 @@
       transform: none;
       animation: none;
     }
+
+    .scroll-indicator {
+      animation: none;
+      opacity: 1;
+    }
+
+    .scroll-arrow {
+      animation: none;
+    }
   }
+
 </style>
+
+<script>
+  // Hide scroll indicator after user starts scrolling
+  const scrollIndicator = document.getElementById('scroll-indicator');
+  let hasScrolled = false;
+
+  function handleScroll() {
+    if (!hasScrolled && window.pageYOffset > 100) {
+      hasScrolled = true;
+      scrollIndicator?.classList.add('hide');
+      // Remove listener after hiding to improve performance
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
+</script>

@@ -163,7 +163,7 @@ function createClaudePrompt(personalInfo, education, experience, skills, certifi
 
 Your task is to optimize the following resume content for a professional 1-page PDF resume. Follow these guidelines:
 
-1. **Education**: Condense into 2-3 concise bullet points per entry, highlighting GPA, thesis, key coursework, and honors. Each bullet MUST end with a period.
+1. **Education**: Condense into 2-3 concise bullet points per entry, highlighting GPA, thesis, key coursework, and honors. Each bullet MUST end with a period. For West Chester University, COMBINE the thesis and FLAIRS publication bullets into ONE bullet that mentions both accomplishments.
 2. **Experience**: Create 3-4 impactful bullet points per role using action verbs and quantifiable results (STAR method). Each bullet MUST end with a period.
 3. **Skills**: Organize into clear categories matching the provided structure
 4. **Tone**: Professional, achievement-focused, concise
@@ -359,121 +359,23 @@ async function generatePDF(html) {
         printBackground: true
     });
 
-    // Calculate page count and detect wrapped bullets
-    const { bodyHeight, pageCount, wrappedBullets } = await page.evaluate(() => {
+    // Calculate page count
+    const { bodyHeight, pageCount } = await page.evaluate(() => {
         const bodyHeight = document.body.scrollHeight;
         // Letter page with margins: conservative threshold to ensure no overflow
-        // Account for PDF rendering differences - use 1050px to be safe
-        const pageHeight = 1050;
+        // Account for PDF rendering differences - adjusted for 10pt minimum font and less aggressive brevity
+        const pageHeight = 1100;
         const pages = Math.ceil(bodyHeight / pageHeight);
-
-        // Find bullets with "hanging" lines (last line has only a few words)
-        const allBullets = Array.from(document.querySelectorAll('li'));
-        const hanging = [];
-
-        allBullets.forEach((li, index) => {
-            // Create a range to measure the last line
-            const range = document.createRange();
-            range.selectNodeContents(li);
-
-            const text = li.textContent.trim();
-            const words = text.split(/\s+/);
-
-            // Check if bullet wraps to multiple lines
-            const computedStyle = window.getComputedStyle(li);
-            const lineHeight = parseFloat(computedStyle.lineHeight);
-            const actualHeight = li.offsetHeight;
-            const numLines = Math.round(actualHeight / lineHeight);
-
-            if (numLines > 1) {
-                // For multi-line bullets, estimate last line length
-                // If total words / lines suggests last line has < 5 words, it's likely hanging
-                const avgWordsPerLine = words.length / numLines;
-                const estimatedLastLineWords = words.length - (Math.floor(numLines - 1) * avgWordsPerLine);
-
-                // Flag if last line likely has <= 4 words
-                if (estimatedLastLineWords <= 4) {
-                    hanging.push({
-                        index,
-                        text: text,
-                        numLines: numLines,
-                        totalWords: words.length,
-                        estimatedLastLineWords: Math.round(estimatedLastLineWords)
-                    });
-                }
-            }
-        });
-
-        return { bodyHeight, pageCount: pages, wrappedBullets: hanging };
+        return { bodyHeight, pageCount: pages };
     });
 
     console.log(`  Content height: ${bodyHeight}px`);
-    if (wrappedBullets.length > 0) {
-        console.log(`  Found ${wrappedBullets.length} bullets with hanging lines (last line ≤4 words)`);
-    }
 
     await browser.close();
 
     console.log(`✓ PDF generated: ${OUTPUT_PATH} (${pageCount} page${pageCount > 1 ? 's' : ''})\n`);
 
-    return { pageCount, wrappedBullets };
-}
-
-/**
- * Ask Claude to shorten bullets with hanging lines
- */
-async function shortenWrappedBullets(optimizedContent, wrappedBullets) {
-    console.log('Asking Claude to shorten bullets with hanging lines...');
-
-    const anthropic = new Anthropic({
-        apiKey: process.env.ANTHROPIC_API_KEY
-    });
-
-    const wrappedTexts = wrappedBullets.map(b => `${b.text} [${b.numLines} lines, ~${b.estimatedLastLineWords} words on last line]`).join('\n- ');
-
-    const prompt = `You are optimizing a resume. The following bullets have "hanging lines" - their last line only has a few words (≤4). Make these bullets SLIGHTLY SHORTER to eliminate the hanging line while preserving all key information and hyperlinks.
-
-CRITICAL: Preserve ALL HTML anchor tags (<a href="...">...</a>) EXACTLY as they appear.
-
-Bullets with hanging lines that need shortening:
-- ${wrappedTexts}
-
-Current full content for context:
-${JSON.stringify(optimizedContent, null, 2)}
-
-Instructions:
-1. Identify each wrapped bullet in the content (education or experience sections)
-2. Make ONLY those bullets more concise - remove filler words, use shorter phrasing
-3. Keep all other bullets unchanged
-4. PRESERVE all hyperlinks exactly
-5. Ensure all bullets still end with periods
-6. Keep the same meaning, just use fewer words
-
-Return the complete JSON structure with the shortened bullets.`;
-
-    const message = await anthropic.messages.create({
-        model: 'claude-sonnet-4-5-20250929',
-        max_tokens: 4000,
-        messages: [{
-            role: 'user',
-            content: prompt
-        }]
-    });
-
-    const responseText = message.content[0].text;
-
-    // Extract JSON from response
-    let jsonText = responseText;
-    if (responseText.includes('```json')) {
-        jsonText = responseText.match(/```json\n([\s\S]+?)\n```/)[1];
-    } else if (responseText.includes('```')) {
-        jsonText = responseText.match(/```\n([\s\S]+?)\n```/)[1];
-    }
-
-    const shortenedContent = JSON.parse(jsonText);
-    console.log(`✓ Shortened ${wrappedBullets.length} wrapped bullets\n`);
-
-    return shortenedContent;
+    return pageCount;
 }
 
 /**
@@ -486,7 +388,7 @@ async function makeConcise(optimizedContent) {
         apiKey: process.env.ANTHROPIC_API_KEY
     });
 
-    const prompt = `You are optimizing a resume that is slightly too long. Make the content MORE CONCISE while preserving all key information and hyperlinks.
+    const prompt = `You are optimizing a resume that is slightly too long. Make the content SLIGHTLY more concise while preserving all key information, detail, and hyperlinks.
 
 CRITICAL: Preserve ALL HTML anchor tags (<a href="...">...</a>) EXACTLY as they appear.
 
@@ -494,13 +396,15 @@ Current content:
 ${JSON.stringify(optimizedContent, null, 2)}
 
 Instructions:
-1. Shorten bullets that are slightly too long - remove unnecessary words, use more concise phrasing
-2. Combine information where possible without losing meaning
-3. Keep the same number of bullets, just make them shorter
-4. PRESERVE all hyperlinks exactly
-5. Ensure all bullets end with periods
+1. Make MINIMAL reductions - only shorten bullets that are notably verbose
+2. Preserve technical details, metrics, and achievements
+3. Remove only filler words and redundancies, not substantive content
+4. Keep the same number of bullets with similar depth
+5. PRESERVE all hyperlinks exactly
+6. Ensure all bullets end with periods
+7. For West Chester University education: Keep the thesis and FLAIRS publication combined in ONE bullet if they already are
 
-Return the same JSON structure with more concise content.`;
+Return the same JSON structure with slightly more concise content.`;
 
     const message = await anthropic.messages.create({
         model: 'claude-sonnet-4-5-20250929',
@@ -587,14 +491,14 @@ async function main() {
         console.log(`- Skill categories: ${optimizedContent.technicalSkills.length}`);
         console.log(`- Certifications: ${optimizedContent.certifications.length}\n`);
 
-        // Step 1: Iteratively adjust content to fit on one page
+        // Iteratively adjust content to fit on one page
         let currentContent = optimizedContent;
-        let metrics = { pageCount: 0, wrappedBullets: [] };
+        let pageCount = 0;
         let attemptedConcise = false;
         let iteration = 0;
         const MAX_PAGE_ITERATIONS = 15;
 
-        console.log('Step 1: Ensuring resume fits on one page...\n');
+        console.log('Ensuring resume fits on one page...\n');
 
         do {
             iteration++;
@@ -602,11 +506,11 @@ async function main() {
             // Render HTML template
             const html = await renderTemplate(personalInfo, currentContent);
 
-            // Generate PDF and get metrics
-            metrics = await generatePDF(html);
+            // Generate PDF and get page count
+            pageCount = await generatePDF(html);
 
             // If more than 1 page, adjust content
-            if (metrics.pageCount > 1 && iteration < MAX_PAGE_ITERATIONS) {
+            if (pageCount > 1 && iteration < MAX_PAGE_ITERATIONS) {
                 if (!attemptedConcise) {
                     // First attempt: make content more concise
                     console.log('⚠️  Resume is too long. Attempting to make content more concise...\n');
@@ -619,43 +523,12 @@ async function main() {
                 }
             }
 
-        } while (metrics.pageCount > 1 && iteration < MAX_PAGE_ITERATIONS);
+        } while (pageCount > 1 && iteration < MAX_PAGE_ITERATIONS);
 
-        if (metrics.pageCount > 1) {
+        if (pageCount > 1) {
             console.log('⚠️  Warning: Could not fit resume on one page after maximum iterations\n');
         } else if (iteration > 1) {
             console.log(`✓ Successfully fit resume on one page after ${iteration} attempts\n`);
-        }
-
-        // Step 2: Fix bullets with hanging lines
-        if (metrics.pageCount === 1 && metrics.wrappedBullets.length > 0) {
-            console.log('Step 2: Eliminating hanging lines...\n');
-
-            let wrappedIteration = 0;
-            const MAX_WRAPPED_ITERATIONS = 5;
-
-            while (metrics.wrappedBullets.length > 0 && wrappedIteration < MAX_WRAPPED_ITERATIONS) {
-                wrappedIteration++;
-
-                console.log(`⚠️  Found ${metrics.wrappedBullets.length} bullets with hanging lines. Shortening them...\n`);
-                currentContent = await shortenWrappedBullets(currentContent, metrics.wrappedBullets);
-
-                // Re-render and check
-                const html = await renderTemplate(personalInfo, currentContent);
-                metrics = await generatePDF(html);
-
-                // Make sure we didn't accidentally overflow to 2 pages
-                if (metrics.pageCount > 1) {
-                    console.log('⚠️  Shortening caused page overflow. Reverting to previous version.\n');
-                    break;
-                }
-            }
-
-            if (metrics.wrappedBullets.length === 0) {
-                console.log(`✓ All hanging lines eliminated after ${wrappedIteration} attempt${wrappedIteration > 1 ? 's' : ''}\n`);
-            } else if (wrappedIteration >= MAX_WRAPPED_ITERATIONS) {
-                console.log(`⚠️  ${metrics.wrappedBullets.length} bullets still have hanging lines after maximum iterations\n`);
-            }
         }
 
         console.log('✅ Resume generation complete!');

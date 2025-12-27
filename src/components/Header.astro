@@ -108,6 +108,11 @@ const socialLinks = [
       </div>
     </div>
   </div>
+
+  <!-- Reading Progress Bar -->
+  <div class="progress-container">
+    <div id="reading-progress" class="progress-bar"></div>
+  </div>
 </header>
 
 <style>
@@ -250,6 +255,44 @@ const socialLinks = [
     color: var(--color-accent);
     padding-left: 0.5rem;
   }
+
+  /* Reading Progress Bar */
+  .progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+    box-shadow: 0 0 10px var(--color-glow), 0 0 20px var(--color-glow);
+    transition: width 0.1s ease-out;
+    position: relative;
+  }
+
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, var(--color-accent-hover));
+    filter: blur(5px);
+    opacity: 0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
@@ -267,18 +310,36 @@ const socialLinks = [
     });
   });
 
-  // Add scroll effect to header
+  // Add scroll effect to header and update progress bar
   let lastScroll = 0;
-  window.addEventListener('scroll', () => {
+  const progressBar = document.getElementById('reading-progress');
+
+  function updateProgress() {
     const header = document.getElementById('header');
     const currentScroll = window.pageYOffset;
 
+    // Update header scrolled state
     if (currentScroll > 100) {
       header?.classList.add('scrolled');
     } else {
       header?.classList.remove('scrolled');
     }
 
+    // Calculate reading progress
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollableHeight = documentHeight - windowHeight;
+    const scrollPercentage = (currentScroll / scrollableHeight) * 100;
+
+    // Update progress bar width
+    if (progressBar) {
+      progressBar.style.width = `${Math.min(scrollPercentage, 100)}%`;
+    }
+
     lastScroll = currentScroll;
-  });
+  }
+
+  window.addEventListener('scroll', updateProgress);
+  // Initial call to set progress on page load
+  updateProgress();
 </script>
