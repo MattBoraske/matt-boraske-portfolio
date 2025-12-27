@@ -65,6 +65,9 @@ export async function fetchGoodreadsBooks(): Promise<MediaItem[]> {
         type: 'book',
         status: 'current'
       });
+
+      // Limit to 4 most recent books
+      if (items.length >= 4) break;
     }
 
     console.log(`[Goodreads] Fetched ${items.length} books`);

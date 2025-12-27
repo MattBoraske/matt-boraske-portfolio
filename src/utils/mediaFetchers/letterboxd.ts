@@ -57,8 +57,8 @@ export async function fetchLetterboxdMovies(): Promise<MediaItem[]> {
         status: 'current'
       });
 
-      // Limit to 5 most recent watched movies
-      if (items.length >= 5) break;
+      // Limit to 4 most recent watched movies
+      if (items.length >= 4) break;
     }
 
     console.log(`[Letterboxd] Fetched ${items.length} watched movies`);
