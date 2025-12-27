@@ -163,12 +163,13 @@ function createClaudePrompt(personalInfo, education, experience, skills, certifi
 
 Your task is to optimize the following resume content for a professional 1-page PDF resume. Follow these guidelines:
 
-1. **Education**: Condense into 2-3 concise bullet points per entry, highlighting GPA, thesis, key coursework, and honors
-2. **Experience**: Create 3-4 impactful bullet points per role using action verbs and quantifiable results (STAR method)
+1. **Education**: Condense into 2-3 concise bullet points per entry, highlighting GPA, thesis, key coursework, and honors. Each bullet MUST end with a period.
+2. **Experience**: Create 3-4 impactful bullet points per role using action verbs and quantifiable results (STAR method). Each bullet MUST end with a period.
 3. **Skills**: Organize into clear categories matching the provided structure
 4. **Tone**: Professional, achievement-focused, concise
 5. **Format**: Return valid JSON matching the schema below
 6. **CRITICAL - Hyperlinks**: If any content contains HTML anchor tags like <a href="URL">text</a>, you MUST preserve them EXACTLY in your output. Do not remove or modify hyperlinks. Include the full HTML <a> tag in your bullet point text.
+7. **CRITICAL - Periods**: ALL bullet points in education and experience sections MUST end with a period (.).
 
 **Input Data:**
 

@@ -28,7 +28,8 @@ Serving as a functional expert in natural language processing, machine learning,
 ### Highlights
 - Graduated Summa Cum Laude with a 4.0 GPA.
 - Completed thesis <a href="https://digitalcommons.wcupa.edu/all_theses/333/">"The Efficacy of Finetuning Large Language Models for Interpersonal Conflict Resolution"</a> under the advisement of Dr. Richard Burns.
-- Published research at the 37th International FLAIRS Conference on AI: worked with Dr. Ashik Ahmed Bhuiyan to design a reinforcement learning environment for a counter-service, real-time restaurant, then trained PPO and A2C agents to allocate human labor that minimized wait times.
+- Published <a href="https://journals.flvc.org/FLAIRS/article/download/138947/144114">"Context is Key: Aligning Large Language Models with Human Moral Judgments through Retrieval-Augmented Generation"</a> at the 37th International FLAIRS Conference on AI.
+- Graduate Researcher: worked with Dr. Ashik Ahmed Bhuiyan to design a reinforcement learning environment for a counter-service, real-time restaurant, then trained PPO and A2C agents to allocate human labor that minimized wait times.
 
 ### Technologies
 - Software Engineering
