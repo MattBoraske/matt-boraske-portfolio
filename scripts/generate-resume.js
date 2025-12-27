@@ -264,10 +264,10 @@ async function renderTemplate(personalInfo, optimizedContent) {
 
     // Render contact info
     const contactHtml = `
-        ☎ ${personalInfo.phone || '484-796-1788'}<br>
-        ✉ <a href="mailto:${personalInfo.email}">${personalInfo.email}</a><br>
-        🔗 <a href="${personalInfo.linkedin}">linked.com/in/matt-boraske</a><br>
-        🐙 <a href="${personalInfo.github}">github.com/MattBoraske</a>
+        <span class="contact-icon">✆</span> ${personalInfo.phone || '484-796-1788'}<br>
+        <span class="contact-icon email">✉</span> <a href="mailto:${personalInfo.email}">${personalInfo.email}</a><br>
+        <span class="contact-icon" style="font-weight: bold; font-family: sans-serif;">in</span> <a href="${personalInfo.linkedin}">linkedin.com/in/matt-boraske</a><br>
+        <span class="contact-icon" style="font-weight: bold;">⚉</span> <a href="${personalInfo.github}">github.com/MattBoraske</a>
     `.trim();
 
     // Render education
