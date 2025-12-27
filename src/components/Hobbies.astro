@@ -6,10 +6,24 @@ import { parseFitness } from '../utils/parseFitness';
 import BellaProfile from './BellaProfile.astro';
 import { parseBellaProfile } from '../utils/parseBellaProfile';
 import MediaGrid from './MediaGrid.astro';
+import { fetchGoodreadsBooks, fetchTraktMedia, fetchLetterboxdMovies } from '../utils/mediaFetchers';
+import type { MediaItem } from '../types/content';
 
 const adventures = parseAdventures('./src/resources/hobbies.md');
 const fitnessData = parseFitness('./src/resources/fitness.md');
 const bellaData = parseBellaProfile('./src/resources/hobbies.md');
+
+// Fetch media data at build time
+const allBooks = await fetchGoodreadsBooks();
+const allMedia = await fetchTraktMedia();
+const letterboxdMovies = await fetchLetterboxdMovies();
+
+// Separate movies and shows from Trakt
+const traktMovies = allMedia.filter(item => item.type === 'movie');
+const traktShows = allMedia.filter(item => item.type === 'show');
+
+// Combine movie sources
+const allMovies = [...traktMovies, ...letterboxdMovies];
 ---
 
 <section id="hobbies" class="py-24 px-6 bg-bg">
@@ -53,7 +67,7 @@ const bellaData = parseBellaProfile('./src/resources/hobbies.md');
       </div>
     </div>
     <div class="tab-content" data-content="media">
-      <MediaGrid />
+      <MediaGrid books={allBooks} movies={allMovies} shows={traktShows} />
     </div>
     <div class="tab-content" data-content="fitness">
       {fitnessData ? (
