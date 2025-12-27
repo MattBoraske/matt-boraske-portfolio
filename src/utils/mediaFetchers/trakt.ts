@@ -74,9 +74,9 @@ export async function fetchTraktMedia(): Promise<MediaItem[]> {
   const items: MediaItem[] = [];
 
   try {
-    // Fetch watch history for shows (get more to ensure we have 5 unique shows)
+    // Fetch watch history for shows (get entire history to find 4 most recent unique shows)
     console.log('[Trakt] Fetching shows watch history');
-    const showsResponse = await fetch(`https://api.trakt.tv/users/${username}/history/shows?limit=50`, { headers });
+    const showsResponse = await fetch(`https://api.trakt.tv/users/${username}/history/shows?limit=1000`, { headers });
 
     if (showsResponse.ok) {
       const showsData = await showsResponse.json();
@@ -101,8 +101,8 @@ export async function fetchTraktMedia(): Promise<MediaItem[]> {
           });
         }
 
-        // Stop once we have 5 unique shows
-        if (uniqueShows.size >= 5) break;
+        // Stop once we have 4 unique shows
+        if (uniqueShows.size >= 4) break;
       }
 
       items.push(...Array.from(uniqueShows.values()));
